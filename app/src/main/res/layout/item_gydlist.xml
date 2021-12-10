@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="@dimen/margin_size10"
+    android:layout_marginTop="@dimen/margin_size8"
+    android:layout_marginRight="@dimen/dp_10"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:background="@drawable/shape_ll"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/itemgyd_img"
+        android:layout_width="@dimen/margin_size80"
+        android:layout_height="@dimen/margin_size80" />
+    <LinearLayout
+        android:layout_marginLeft="@dimen/margin_size8"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/itemgyd_smimg"
+                android:layout_width="@dimen/margin_size15"
+                android:layout_height="@dimen/margin_size15" />
+            <TextView
+                android:id="@+id/itemgyd_title"
+                android:layout_marginLeft="@dimen/margin_size8"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/itemgyd_quan"
+            android:layout_marginTop="@dimen/margin_size3"
+            android:paddingLeft="@dimen/margin_size8"
+            android:paddingRight="@dimen/margin_size8"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/dp_10"
+            android:text="领券立减"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_marginTop="@dimen/margin_size3"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <cn.iwgang.countdownview.CountdownView
+                android:id="@+id/itemgyd_countdownview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:isHideTimeBackground="false"
+                app:isShowDay="false"
+                app:isShowHour="true"
+                app:isShowMinute="true"
+                app:timeBgRadius="@dimen/margin_size2"
+                app:isShowSecond="true"
+                app:timeBgColor="#000000"
+                app:isSuffixTextBold="true"
+                app:isShowMillisecond="false"
+                app:timeTextColor="#ffffff"
+                app:timeTextSize="8dp"
+                app:isTimeTextBold="true"
+                app:suffixGravity="center"
+                app:suffixTextColor="#000000"
+                app:isShowTimeBgDivisionLine="false"
+                app:suffixTextSize="8dp"
+                app:suffixHour=":"
+                app:suffixMinute=":"
+                app:suffixMillisecond="" />
+            <TextView
+                android:layout_marginLeft="@dimen/margin_size8"
+                android:textSize="@dimen/dp_10"
+                android:text="后开抢"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/itemgyd_xiaoliang"
+                android:textSize="@dimen/dp_10"
+                android:text="aad"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="@dimen/dp_10"
+                    android:textColor="@color/colorPrimary"
+                    android:text="券后"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/itemgyd_newpric"
+                        android:layout_marginLeft="@dimen/margin_size5"
+                        android:textColor="@color/colorPrimary"
+                        android:text="¥89"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/itemgyd_oldpric"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:textSize="@dimen/dp_10"
+                    android:text="¥16.9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/itemgyd_button"
+                android:textSize="@dimen/font_size12"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/tpyc9"
+                android:textColor="@color/white"
+                android:text="提前抢券"
+                android:paddingRight="@dimen/margin_size5"
+                android:paddingLeft="@dimen/margin_size5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

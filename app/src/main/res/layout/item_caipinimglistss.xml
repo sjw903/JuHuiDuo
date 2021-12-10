@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/dp_10"
+    android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/itemcaipinimg_img"
+            android:layout_width="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_height="160dp" />
+</LinearLayout>

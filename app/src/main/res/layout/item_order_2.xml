@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="@dimen/margin_size5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/margin_size5"
+        android:paddingTop="@dimen/margin_size5"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/txt_order_num"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="@color/col_333"
+            android:textSize="@dimen/font_size14" />
+
+        <TextView
+            android:id="@+id/txt_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已完成"
+            android:textColor="@color/darkgray"
+            android:textSize="@dimen/font_size12" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/col_eb"></View>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/read_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right">
+
+        <TextView
+            android:id="@+id/txt_cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size10"
+            android:background="@drawable/shape_txt_gray2"
+            android:padding="@dimen/margin_size5"
+
+            android:text="取消订单"
+            android:textColor="@color/col_333"
+            android:textSize="@dimen/font_size12"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txt_apply_cancle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size10"
+            android:background="@drawable/shape_txt_gray2"
+            android:padding="@dimen/margin_size5"
+            android:text="申请退款"
+            android:textColor="@color/col_333"
+            android:textSize="@dimen/font_size12"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/txt_wuliu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size10"
+            android:background="@drawable/shape_txt_red2"
+            android:padding="@dimen/margin_size5"
+            android:text="查看物流"
+            android:textColor="@color/red1"
+            android:textSize="@dimen/font_size12"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txt_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size10"
+            android:background="@color/red1"
+            android:padding="@dimen/margin_size5"
+
+            android:text="去支付"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size12"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txt_ok_shouhuo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size10"
+            android:background="@color/red1"
+            android:padding="@dimen/margin_size5"
+
+            android:text="确认收货"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size12"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/txt_danhao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size10"
+            android:background="@color/red1"
+            android:padding="@dimen/margin_size5"
+
+            android:text="退货快递单号"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size12"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/txt_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size10"
+            android:background="@color/red1"
+            android:padding="@dimen/margin_size5"
+            android:text="去评价"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size12"
+            android:visibility="gone" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/txt_reason"
+        android:visibility="gone"
+        android:gravity="left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/col_666"
+        android:textSize="@dimen/font_size14"
+        android:text=""/>
+</LinearLayout>

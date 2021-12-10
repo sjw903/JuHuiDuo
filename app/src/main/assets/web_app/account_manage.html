@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="css/profit.css" />
+    <link rel="stylesheet" href="css/common.css">
+    <!-- 公用APP配置 -->
+    <script src="js/crypto/crypto-js.js"></script>
+    <script src="js/app.js"></script>
+    <!-- es6 promise修复组件 -->
+    <script src="js/es6-promise.auto.min.js"></script>
+    <!-- import Vue before Element -->
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/muse-ui.js"></script>
+    <!-- import JavaScript -->
+    <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/layer/layer.js"></script>
+    <!-- 图片压缩组件 -->
+    <script src="js/lrz.bundle.js"></script>
+    <!-- 二维码 -->
+    <script src="js/qrcode.js"></script>
+    <style>
+        .a{
+            border-radius: 1rem;
+        }
+    </style>
+</head>
+<body class="demo-loadmore-wrap" style="background-color: #FFFFFF">
+<template id="app">
+    <mu-container ref="container" class="demo-loadmore-content">
+        <div class="top_refresh" ref="top_refresh">
+            <div class="reload_icon">
+                <i class="iconfont icon-shuaxin" :style="'transform:rotateZ('+deg+'deg);font-size: 1.5rem;color: #CCCCCC'"></i>
+<!--                <img src="img/reload.png" :style="'transform:rotateZ('+deg+'deg)'" />-->
+            </div>
+            <div class="reload_text" ref="reload_text" style="color: #CCCCCC">松开刷新</div>
+        </div>
+<!--        解绑上级提示框-->
+        <div class="sign_layer" @click="un_bind_superior_hint_del" v-show="un_bind_superior">
+            <mu-fade-transition>
+                <div @click.stop class="" :style="'width:'+ sign_box_width +'px; height:'+ sign_box_height +'px; margin-left:5%; margin-top: '+ sign_box_top +'px ;'">
+                    <div class="account_manage_hint" style="height: 80%;width: 100%;">
+                        <mu-row gutter>
+                            <mu-col span="4"><div class="grid-cell"></div></mu-col>
+                            <mu-col span="4" style="font-size: 1rem;text-align: center;">提示</mu-col>
+                            <mu-col span="4" style="text-align: right;"><i @click.stop="un_bind_superior_hint_del" class="iconfont icon-guanbi1"></i></mu-col>
+                        </mu-row>
+                        <div style="padding: 1rem;font-size: .9rem;">您真的要解绑被绑定状态，解绑后他的账号无法看到您的账号信息，也无法提您余额的资金哟！</div>
+                        <div class="inner_content" style="display: flex; justify-content: center; align-items: stretch; padding-bottom: 1rem;">
+                                <span>
+                                    <mu-checkbox v-model="account_agreement_74" value="eat" color="#fe8a5a" label="我已阅读并同意"></mu-checkbox>
+                                </span>
+                            <span @click="openGuiZe(74)" class="color_orange" style="height:24px; line-height: 24px;">《聚多惠账号管理协议》</span>
+                        </div>
+                        <div style="width: 100%;text-align: center;" >
+                            <mu-button @click="un_bind_superior_hint_del" style="width: 40%;border-radius: 1.5rem;background: rgb(255, 100, 33);color: #FFFFFF;">取消</mu-button>
+                            <mu-button @click="update_bind_account_state(4)" style="width: 40%;border-radius: 1.5rem;background: rgb(255, 100, 33);color: #FFFFFF;">确认</mu-button>
+                        </div>
+                    </div>
+                </div>
+            </mu-fade-transition>
+        </div>
+<!--        解绑上级提示框-->
+<!--        解绑下级确认提示-->
+        <div class="sign_layer" @click="un_bind_hint_del" v-show="un_bind">
+            <mu-fade-transition>
+                <div @click.stop class="" :style="'width:'+ sign_box_width +'px; height:'+ sign_box_height +'px; margin-left:5%; margin-top: '+ sign_box_top +'px ;'">
+                    <div class="account_manage_hint" style="height: 80%;width: 100%;">
+                        <mu-row gutter>
+                            <mu-col span="4"><div class="grid-cell"></div></mu-col>
+                            <mu-col span="4" style="font-size: 1rem;text-align: center;">提示</mu-col>
+                            <mu-col span="4" style="text-align: right;"><i @click.stop="un_bind_hint_del" class="iconfont icon-guanbi1"></i></mu-col>
+                        </mu-row>
+                        <div style="padding: 1rem;font-size: .9rem;">您真的要解绑绑定状态，解绑后您的账号无法看到他的账号信息，也无法提他余额的资金哟！</div>
+                        <div class="inner_content" style="display: flex; justify-content: center; align-items: stretch; padding-bottom: 1rem;">
+                                <span>
+                                    <mu-checkbox v-model="account_agreement_74" value="eat" color="#fe8a5a" label="我已阅读并同意"></mu-checkbox>
+                                </span>
+                            <span @click="openGuiZe(74)" class="color_orange" style="height:24px; line-height: 24px;">《聚多惠账号管理协议》</span>
+                        </div>
+                        <div style="width: 100%;text-align: center;" @click="qx_bind_user">
+                            <mu-button style="width: 80%;border-radius: 1.5rem;background: rgb(255, 100, 33);color: #FFFFFF;">确认</mu-button>
+                        </div>
+                    </div>
+                </div>
+            </mu-fade-transition>
+        </div>
+<!--        一键转惠币提示确认弹窗-->
+        <div class="sign_layer" @click="a_key_transition_hint" v-show="a_key_transition">
+            <mu-fade-transition>
+                <div @click.stop class="" :style="'width:'+ sign_box_width +'px; height:'+ sign_box_height +'px; margin-left:5%; margin-top: '+ sign_box_top +'px ;'">
+                    <div class="account_manage_hint" style="height: 70%;width: 100%;">
+                        <mu-row gutter>
+                            <mu-col span="4"><div class="grid-cell"></div></mu-col>
+                            <mu-col span="4" style="font-size: 1rem;text-align: center;">提示</mu-col>
+                            <mu-col span="4" style="text-align: right;"><i @click.stop="a_key_transition_hint" class="iconfont icon-guanbi1"></i></mu-col>
+                        </mu-row>
+                        <div style="padding: 1rem;font-size: .9rem;">此操作会将您已绑定的所有账号内的金币转换为惠币，是否确认？</div>
+                        <div class="inner_content" style="display: flex; justify-content: center; align-items: stretch; padding-bottom: 1rem;">
+                                <span>
+                                    <mu-checkbox v-model="account_agreement_74" value="eat" color="#fe8a5a" label="我已阅读并同意"></mu-checkbox>
+                                </span>
+                            <span @click="openGuiZe(74)" class="color_orange" style="height:24px; line-height: 24px;">《聚多惠账号管理协议》</span>
+                        </div>
+                        <div style="width: 100%;text-align: center;" @click="user_get_all_h_point">
+                            <mu-button style="width: 80%;border-radius: 1.5rem;background: rgb(255, 100, 33);color: #FFFFFF;">确认</mu-button>
+                        </div>
+                    </div>
+                </div>
+            </mu-fade-transition>
+        </div>
+<!--        一键提现窗口-->
+        <div class="sign_layer" @click="a_key_withdrawal_hint" v-show="a_key_withdrawal">
+            <mu-fade-transition>
+                <div @click.stop class="" :style="'width:'+ sign_box_width +'px; height:'+ sign_box_height +'px; margin-left:5%; margin-top: '+ sign_box_top +'px ;'">
+                    <div class="account_manage_hint" style="height: 110%;width: 100%;">
+                        <mu-row gutter>
+                            <mu-col span="3"><div class="grid-cell"></div></mu-col>
+                            <mu-col span="6" style="font-size: 1rem;text-align: center;">请选择提现渠道</mu-col>
+                            <mu-col span="3" style="text-align: right;"><i @click.stop="a_key_withdrawal_hint" class="iconfont icon-guanbi1"></i></mu-col>
+                        </mu-row>
+                        <div class="inner_box" style="margin-bottom: 0;">
+                            <ul class="profit_type">
+                                <li :class="current_channel === itm ? 'active':''" v-for="itm in account_type_list"
+                                    @click="changeProfitType(itm)" :ref="itm">
+								<span class="p1"><i
+                                        :class="'iconfont ' + (itm === '支付宝' ? 'icon-zhifubao color_zfb':'icon-weixin color_wx')"></i></span>
+                                    <span class="p2">{{itm}}</span>
+                                    <span class="p3">
+									<template v-if="itm === '支付宝'">
+										<template v-if="alipay_account === '' || alipay_account === null"><span
+                                                @click="jumpToBindAlipay()"> 未绑定 <i
+                                                class="iconfont icon-qianjin color_gray"></i></span></template>
+										<template v-else><span class='color_green'>已绑定</span></template>
+									</template>
+									<template v-if="itm === '微信'">
+										<template v-if="can_wx">
+											<span class='color_green'>已绑定</span>
+										</template>
+										<template v-else>
+											<span @click="jumpToBindAlipay()">未绑定 <i
+                                                    class="iconfont icon-qianjin color_gray"></i></span>
+										</template>
+									</template>
+								</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="inner_content" style="display: flex; justify-content: left; align-items: stretch;padding-left: 1rem;">
+                                <span>
+                                    <mu-checkbox v-model="account_agreement_75" value="eat" color="#fe8a5a" label="我已阅读并同意"></mu-checkbox>
+                                </span>
+                            <span @click="openGuiZe(75)" class="color_orange" style="height:24px; line-height: 24px;">《提现协议》</span>
+                        </div>
+                        <div class="inner_content" style="display: flex; justify-content: left; align-items: stretch;padding-left: 1rem;">
+                                <span>
+                                    <mu-checkbox v-model="account_agreement_74" value="eat" color="#fe8a5a" label="我已阅读并同意"></mu-checkbox>
+                                </span>
+                            <span @click="openGuiZe(74)" class="color_orange" style="height:24px; line-height: 24px;">《聚多惠账号管理协议》</span>
+                        </div>
+                        <div style="width: 100%;text-align: center;margin-top: .5rem;" @click="one_key_withdraw">
+                            <mu-button style="width: 80%;border-radius: 1.5rem;background: rgb(255, 100, 33);color: #FFFFFF;">确认</mu-button>
+                        </div>
+                    </div>
+                </div>
+            </mu-fade-transition>
+        </div>
+<!--        被绑定窗口-->
+        <div class="sign_layer" @click="add_account_superior" v-show="add_account_superior_window">
+            <mu-fade-transition>
+                <div @click.stop class="" :style="'width:'+ sign_box_width +'px; height:'+ sign_box_height +'px; margin-left:5%; margin-top: '+ sign_box_top +'px ;'">
+                    <div class="account_manage_hint" style="height: 100%;width: 100%;">
+                        <mu-row gutter>
+                            <mu-col span="3"><div class="grid-cell"></div></mu-col>
+                            <mu-col span="6" style="font-size: 1rem;text-align: center;">绑定代理账号</mu-col>
+                            <mu-col span="3" style="text-align: right;"><i @click.stop="add_account_superior" class="iconfont icon-guanbi1"></i></mu-col>
+                        </mu-row>
+                        <mu-row gutter style="height: 3.5rem;padding: .75rem 0;">
+                            <mu-col span="10" sm="6" md="4" lg="3" xl="1" style="height: 2rem;background: rgb(245, 245, 245);border-radius: 1rem;padding: 0 5%;">
+                                <i @click.stop="scan_bind_top" class="iconfont icon-saoyisao scan_qr_code_icon"></i>
+                                <input v-model="user_search_auth_code" placeholder="邀请码" type="number" class="bind_input">
+                                <i @click.stop="search_invite_user" class="iconfont icon-sousuo qr_code_icon"></i>
+                            </mu-col>
+                            <mu-col span="2" sm="6" md="4" lg="3" xl="1" style="height: 2rem;line-height: 2rem;text-align: right;">
+                                <i class="iconfont icon-erweima" style="font-size: 1.5rem;text-align: right;" @click="auth_code_img_hint_control"></i>
+                            </mu-col>
+                        </mu-row>
+                        <div style="text-align: center;" v-show="auth_code_img_hint">
+                            <img :src="auth_code_img" style="width: 55%;">
+                            <div>扫描此二维码，可对可绑定此账号为上级</div>
+                        </div>
+                        <div v-show="user_invte_data.bnickname != undefined">
+                            <mu-row gutter style="padding: .75rem 0;">
+                                <mu-col span="3" sm="6" md="4" lg="3" xl="1">
+                                    <img v-if="user_invte_data.bavatar != '' && user_invte_data.bavatar != undefined && user_invte_data.bavatar != null" :src="user_invte_data.bavatar" class="qr_code">
+                                    <img v-else :src="default_logo" class="qr_code">
+                                </mu-col>
+                                <mu-col span="8" sm="6" md="8" lg="9" xl="11" style="line-height: 2rem;">
+                                    <div class="account_manage_invite_username">{{user_invte_data.bnickname}}</div>
+                                    <div>邀请码：<span>{{user_search_auth_success_code}}</span></div>
+                                </mu-col>
+                            </mu-row>
+                            <div class="inner_content agreement">
+                                <span>
+                                    <mu-checkbox v-model="account_agreement_74" value="eat" color="#fe8a5a" label="我已阅读并同意"></mu-checkbox>
+                                </span>
+                                <span @click="openGuiZe(74)" class="color_orange" style="height:24px; line-height: 24px;">《聚多惠账号管理协议》</span>
+                            </div>
+                            <div style="width: 100%;text-align: center;" @click="bind_superior_account">
+                                <mu-button style="width: 80%;border-radius: 1.5rem;background: rgb(255, 100, 33);color: #FFFFFF;">绑定</mu-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mu-fade-transition>
+        </div>
+<!--        被绑定窗口-->
+<!--        添加窗口-->
+        <div class="sign_layer" @click="add_account" v-show="add_account_window">
+            <mu-fade-transition>
+                <div @click.stop class="" :style="'width:'+ sign_box_width +'px; height:'+ sign_box_height +'px; margin-left:5%; margin-top: '+ sign_box_top +'px ;'">
+                    <div class="account_manage_hint" style="height: 100%;width: 100%;">
+                        <mu-row gutter>
+                            <mu-col span="4"><div class="grid-cell"></div></mu-col>
+                            <mu-col span="4" style="font-size: 1rem;text-align: center;">账号管理</mu-col>
+                            <mu-col span="4" style="text-align: right;"><i @click.stop="add_account" class="iconfont icon-guanbi1"></i></mu-col>
+                        </mu-row>
+                        <mu-row gutter style="height: 3.5rem;padding: .75rem 0;">
+                            <mu-col span="10" sm="6" md="4" lg="3" xl="1" style="height: 2rem;background: rgb(245, 245, 245);border-radius: 1rem;padding: 0 5%;">
+                                <i @click.stop="scan_bind" class="iconfont icon-saoyisao scan_qr_code_icon"></i>
+                                <input v-model="user_search_auth_code" placeholder="绑定用户邀请码" type="number" class="bind_input">
+                                <i @click.stop="search_invite_user" class="iconfont icon-sousuo qr_code_icon"></i>
+                            </mu-col>
+                            <mu-col span="2" sm="6" md="4" lg="3" xl="1" style="height: 2rem;line-height: 2rem;text-align: right;">
+                                <i class="iconfont icon-erweima" style="font-size: 1.5rem;text-align: right;" @click="auth_code_img_hint_control"></i>
+                            </mu-col>
+                        </mu-row>
+                        <div style="text-align: center;" v-show="auth_code_img_hint">
+                            <img :src="auth_code_img" style="width: 55%;">
+                            <div>扫描此二维码，可对本账号发送绑定邀请</div>
+                        </div>
+                        <div v-show="user_invte_data.bnickname != undefined">
+                            <mu-row gutter style="padding: .75rem 0;">
+                                <mu-col span="3" sm="6" md="4" lg="3" xl="1">
+                                    <img v-if="user_invte_data.bavatar != '' && user_invte_data.bavatar != undefined && user_invte_data.bavatar != null" :src="user_invte_data.bavatar" style="width: 4rem;height: 4rem;border-radius: 2.5rem;border: .05rem solid #000000;">
+                                    <img v-else :src="default_logo" style="width: 4rem;height: 4rem;border-radius: 2.5rem;border: .05rem solid #000000;">
+                                </mu-col>
+                                <mu-col span="8" sm="6" md="8" lg="9" xl="11" style="line-height: 2rem;">
+                                    <div class="account_manage_invite_username">{{user_invte_data.bnickname}}</div>
+                                    <div>邀请码：<span>{{user_search_auth_success_code}}</span></div>
+                                </mu-col>
+                            </mu-row>
+                            <div class="inner_content agreement">
+                                <span>
+                                    <mu-checkbox v-model="account_agreement_74" value="eat" color="#fe8a5a" label="我已阅读并同意"></mu-checkbox>
+                                </span>
+                                    <span @click="openGuiZe(74)" class="color_orange" style="height:24px; line-height: 24px;">《聚多惠账号管理协议》</span>
+                            </div>
+                            <div style="width: 100%;text-align: center;" @click="invitation_account">
+                                <mu-button style="width: 80%;border-radius: 1.5rem;background: rgb(255, 100, 33);color: #FFFFFF;">邀请</mu-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mu-fade-transition>
+        </div>
+<!--        头部返回-->
+        <div class="my_header">
+            <div style="display: inline-block;" class="col-1 my_data_header_left" @click="backPress"><i class="iconfont icon-fanhui1" style="font-size: 1.5rem;"></i>
+            </div>
+            <div class="zuanqian_header_center col-9 zuanqian_header_center_read account_manage_head_center">
+                账号管理
+            </div>
+            <div @click="openGuiZe(76)" class="zuanqian_header_right_read zuanqian_header_right account_manage_head_right" style="width: 13%;text-align: right;">
+                规则
+            </div>
+        </div>
+        <div class="bind_head_portrait">
+            <div style="width: 100%;height: 4.5rem;text-align: center;">
+                <img v-if="bind_info.bind_avatar != '' && bind_info.bind_avatar != undefined && bind_info.bind_avatar != null" :src="bind_info.bind_avatar" class="no_bind" v-show="bind_info.bind_avatar != undefined">
+                <img v-else :src="default_logo" class="no_bind" v-show="bind_info.bind_avatar != undefined">
+                <div v-show="bind_info.length <= 0" class="no_bind" @click="add_account_superior">+</div>
+            </div>
+            <div class="bind_head_portrait_text">
+                <div class="my_data_nickname" v-show="bind_info.bind_state == true">{{bind_info.bind_nickname}}</div>
+                <div  v-show="bind_info.length <= 0" style="padding-top: .75rem;">您还未绑定代理账号</div>
+                <div style="color: red;padding-top: .5rem;" v-show="bind_info.bind_state == true">我已被此账号绑定<span @click="un_bind_superior_hint_del" style="font-size: 0.75rem;border: 1px solid #ffa050;padding: .3rem 1rem;border-radius: 2rem;margin-left: .5rem;">解绑</span></div>
+                <div v-show="bind_info.bind_state == false" class="inner_content" style="display: flex; justify-content: center; align-items: stretch;font-size: .75rem;">
+                    <span><mu-checkbox v-model="account_agreement_74" value="eat" color="#fe8a5a" label="我已阅读并同意"></mu-checkbox></span>
+                    <span @click="openGuiZe(74)" class="color_orange" style="height:24px; line-height: 24px;">《聚多惠账号管理协议》</span>
+                </div>
+                <div style="color: red;" v-show="bind_info.bind_state == false"><span @click="update_bind_account_state(3)" style="font-size: 0.75rem;border: 1px solid #ffa050;padding: .3rem 1rem;border-radius: 2rem;margin-left: .5rem;">拒绝</span><span @click="update_bind_account_state(2)" style="font-size: 0.75rem;background: rgb(59, 190, 34);padding: .3rem 1rem;border-radius: 2rem;margin-left: .5rem;color: #FFFFFF;">同意</span></div>
+            </div>
+        </div>
+        <jdh_adv idt="make_money_index" :cfg="adv_cfg" ref="jdh_adv_t" refm="jdh_adv_t" class="for_bottom" v-show="advertising_height"></jdh_adv>
+        <div class="account_manage_body">
+<!--            显示绑定账号个数-->
+            <div style="padding: .75rem 0;">我已绑定<span style="color: rgb(253, 107, 50)">{{bind_count}}</span>个账号</div>
+<!--            显示下方三个操作按钮-->
+            <div class="account_manage_body_button">
+                <div style="width: 36%;" class="account_manage_body_button_com">
+                    <div class="account_manage_body_button_little">
+                        <img class="account_manage_body_button_img" src="./img/on_key_transition.png">
+                    </div>
+                    <div style="width: 65%;" @click="a_key_transition_hint">一键转惠币</div>
+                </div>
+                <div style="width: 34%;border-left: .025rem solid rgb(222, 222, 222);" class="account_manage_body_button_com">
+                    <div class="account_manage_body_button_little">
+                        <img class="account_manage_body_button_img" src="./img/on_key_withdraw.png">
+                    </div>
+                    <div style="width: 65%;" @click="a_key_withdrawal_hint">一键提现</div>
+                </div>
+                <div style="width: 29%;border-left: .025rem solid rgb(222, 222, 222);" @click="add_account" class="account_manage_body_button_com">
+                    <div class="account_manage_body_button_little">
+                        <img class="account_manage_body_button_img" src="./img/add_account.png" style="margin-left: 45%;">
+                    </div>
+                    <div style="width: 65%;">添加</div>
+                </div>
+            </div>
+<!--            显示绑定的账号-->
+            <mu-load-more :loading="loading" @load="load" :loaded-all="loaded_all">
+            <div style="width: 100%;">
+                <div v-for="(item, i) in invitation_list">
+                    <!--                邀请失败-->
+                    <div class="account_manage_list_invite_no_success" style="display: flex;" v-show="item.state == 3">
+                        <div class="account_manage_list_invite_no_success_left">
+                            <img v-if="item.avatar != '' && item.avatar != undefined && item.avatar != null" :src="item.avatar" class="account_manage_list_invite_no_success_left_img">
+                            <img v-else :src="default_logo" class="account_manage_list_invite_no_success_left_img">
+                        </div>
+                        <div class="account_manage_list_invite_no_success_center">{{item.nickname}}</div>
+                        <div style="width: 40%;text-align: right;color: red;">
+                            <div style="height: 50%;line-height: 2.5rem;">邀请失败</div>
+                            <div style="height: 50%;line-height: 1.5rem;">倒计时：<span>{{item.count_down}}</span></div>
+                        </div>
+                    </div>
+                    <!--                未确认-->
+                    <div class="account_manage_list_invite_no_success" style="display: flex;" v-show="item.state == 1">
+                        <div class="account_manage_list_invite_no_success_left">
+                            <img v-if="item.avatar != '' && item.avatar != undefined && item.avatar != null" :src="item.avatar" class="account_manage_list_invite_no_success_left_img">
+                            <img v-else :src="default_logo" class="account_manage_list_invite_no_success_left_img">
+                        </div>
+                        <div class="account_manage_list_invite_no_success_center">{{item.nickname}}</div>
+                        <div style="width: 40%;text-align: right;color: rgb(253, 134, 91);">
+                            <div style="height: 50%;line-height: 2.5rem;">未确认</div>
+                            <div style="height: 50%;line-height: 1.5rem;">倒计时：<span>{{item.count_down}}</span></div>
+                        </div>
+                    </div>
+                </div>
+<!--                邀请成功，显示用户信息-->
+                <div v-show="bind_success" class="account_manage_list_invite_success_body" v-for="(item, i) in bind_list">
+                    <div style="display: flex;">
+                        <div class="account_manage_list_invite_success_top_left">
+                            <img v-if="item.avatar != '' && item.avatar != undefined && item.avatar != null" :src="item.avatar" class="account_manage_list_invite_success_top_left_img">
+                            <img v-else :src="default_logo" class="account_manage_list_invite_success_top_left_img">
+                        </div>
+                        <div class="account_manage_list_invite_success_top_center">
+                            <div class="account_manage_list_invite_success_top_center_text">{{item.nickname}}</div>
+                            <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">注册时间：<span>{{item.register_time}}</span></div>
+                        </div>
+                        <div class="account_manage_list_invite_success_top_right">
+                            <i class="iconfont icon-gengduo" style="font-size: 1.75rem;color: #000000;" @click.stop="open_hint(i)"></i>
+                            <mu-menu cover="false" placement="bottom-end" :open.sync="open['open_'+i]" popover-class="promipt_dialog_box">
+                                <mu-list slot="content">
+                                    <mu-list-item button @click="a_key_withdrawal_hint(item.auth_code,i)">
+                                        <mu-list-item-title>提现</mu-list-item-title>
+                                    </mu-list-item>
+                                    <mu-list-item button style="height: .05rem;background: rgb(234, 234, 234);width: 70%;margin: 0 auto;">
+                                    </mu-list-item>
+                                    <mu-list-item button @click="un_bind_hint_open(item.auth_code,i)">
+                                        <mu-list-item-title style="color: red;">解绑</mu-list-item-title>
+                                    </mu-list-item>
+                                </mu-list>
+                            </mu-menu>
+                        </div>
+                    </div>
+                    <mu-container class="demo-container account_manage_list_invite_success_buttom">
+                        <mu-row gutter>
+                            <mu-col span="4">
+                                <div style="font-size: 1rem;"><span style="font-weight: bold;">{{item.balance}}</span>&nbsp;元</div>
+                                <div style="font-size: .75rem;">购物余额</div>
+                            </mu-col>
+                            <mu-col span="4" style="border-left: .03rem solid rgb(222, 222, 222);">
+                                <div style="font-size: 1rem;"><span style="font-weight: bold;">{{item.gold}}</span>&nbsp;个</div>
+                                <div style="font-size: .75rem;">金币余额</div>
+                            </mu-col>
+                            <mu-col span="4" style="border-left: .03rem solid rgb(222, 222, 222);">
+                                <div style="font-size: 1rem;"><span style="font-weight: bold;">{{item.balance_hui_b}}</span>&nbsp;个</div>
+                                <div style="font-size: .75rem;">惠币余额</div>
+                            </mu-col>
+                        </mu-row>
+                    </mu-container>
+                </div>
+            </div>
+                <div class="common_loaded_all" v-if="loaded_all">已加载全部信息</div>
+            </mu-load-more>
+        </div>
+    </mu-container>
+</template>
+
+</body>
+
+<script src="model/isFollow.js" type="text/javascript" async="async"></script>
+<script>
+    localReadLib.require("jdh_adv.js")
+    var vue = new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                //绑定账号页面新加
+                a_key_withdrawal: false,
+                a_key_transition:false,
+                un_bind:false,
+                auth_code_img_hint: false,
+                timeouts: 0,
+                bind_account_num:4,
+                headerHeight: 0,
+                headerWidth: 320,
+                sign_box_width: 0,
+                sign_box_height: 0,
+                sign_box_top: 0,
+                auto_policy_check: false,
+                account_agreement_74: false,
+                account_agreement_76: false,
+                account_agreement_75: false,
+                add_account_window:false,
+                add_account_superior_window:false,
+                open: [],
+                //绑定账号页面显示信息
+                bind_info: [],//用户自身绑定信息
+                bind_count:  0,//已绑定用户数量
+                bind_list: [],//绑定成功用户列表
+                invitation_list: [],//发送邀请用户列表
+                user_search_auth_code : '',//用户添加页面搜索的邀请码
+                user_invte_data: [],//用户添加绑定用户时搜索出的信息
+                withdrawal_channel: 1,
+                alipay_account: '',//用户绑定的支付宝
+                can_wx: false,//用户是否绑定微信
+                account_type_list: [],//提现方式
+                current_channel: '支付宝',//提现渠道
+                auth_code: 0,//提现用户的邀请码，用于给绑定用户单独提现用
+                auth_code_img:'',//用户添加弹窗显示的二维码
+                user_search_auth_success_code: "",//能成功查询出数据的邀请码
+                un_bind_superior: false,//解绑上级提示框
+                bind_account_gold_total: 0,//下级用户的金币总和
+                bind_account_balance_hui_b_total: 0,//下级用户的惠币总和
+                bind_account_balance_total: 0,//下级用户的余额总和
+                oneself_withdraw_windows_i: undefined,//单独提现弹窗下标，用于在用户点击申请单独下级提现时获取单独下级的数据
+                touch_start_point: [],
+                deg: 0,
+                last_top: 0,
+                refresh_whether: true,//是否允许刷新，有弹窗时不允许刷新
+                // 广告配置
+                adv_cfg: [],
+                advertising_height: true,
+                monitor_close_advertising: 0,
+                on_resume_state: false,
+                default_logo: api_host+ "/static/admin/img/logo.png",
+                loading: false,
+                bind_success: false,
+                bind_page: 1,
+                invitation_page: 1,
+                loaded_all: false,
+            }
+        },
+        // 计算后的属性方法
+        computed: {
+            checkTimeout: {
+                get() {
+                    return this.timeouts;
+                },
+                set(newValue) {
+                    this.timeouts = newValue;
+                    for (let i = 0; i < this.invitation_list.length; i++){
+                        this.invitation_list[i].down_time -= 1;
+                        if (this.invitation_list[i].down_time < 1) {
+                            if (this.invitation_list[i].state == 1){
+                                this.invitation_list[i].state = 3;
+                                this.invitation_list[i].down_time = 60 * 60 * 24;
+                            }
+                            if (this.invitation_list[i].state == 3){
+                                this.invitation_list.splice(i,1)
+                            }
+                        }
+                        let h = Math.floor(this.invitation_list[i].down_time / 3600) < 10 ? '0' + Math.floor(this.invitation_list[i].down_time / 3600) : Math.floor(this.invitation_list[i].down_time / 3600);
+                        let m = Math.floor((this.invitation_list[i].down_time / 60 % 60)) < 10 ? '0' + Math.floor((this.invitation_list[i].down_time / 60 % 60)) : Math.floor((this.invitation_list[i].down_time / 60 % 60));
+                        let s = Math.floor((this.invitation_list[i].down_time % 60)) < 10 ? '0' + Math.floor((this.invitation_list[i].down_time % 60)) : Math.floor((this.invitation_list[i].down_time % 60));
+                        this.invitation_list[i].count_down = h + ":" + m + ":" + s;
+                    }
+                    let that = this;
+                    setTimeout(function() {
+                        that.checkTimeout = 1
+                    }, 1000)
+
+                }
+            },
+            defaultImg () {
+                return 'this.src="' + api_host +'/static/admin/img/logo.png' + '"';
+            }
+        },
+        watch: {
+
+        },
+        // 加载的自动执行，相当于onload = function(){}
+        mounted() {
+            this.auto_policy_check = localReadLib.load("auto_policy_check") == null ? false : true;
+            if (localReadLib.load("news_read_type_id") == null)  {localReadLib.save("news_read_type_id",0);}
+            /** 根据屏幕宽度计算偷图尺寸 */
+            let img = new Image();
+            let windowWidth = window.innerWidth;
+            let windowHeight = window.innerHeight;
+            img.src = "img/top_qd_bg.png";
+            let that = this;
+            img.onload = function(res) {
+                let imgWidth = img.naturalWidth;
+                let imgHeight = img.naturalHeight;
+                let imgRatio = imgWidth / imgHeight;
+                img.width = windowWidth;
+                img.height = img.width / imgRatio;
+                that.headerWidth = img.width
+                that.headerHeight = img.height
+            };
+            let img_sign_box = new Image();
+            img_sign_box.src = "img/sign_layer_bg.png";
+            img_sign_box.onload = function(res) {
+                let imgWidth = img_sign_box.naturalWidth;
+                let imgHeight = img_sign_box.naturalHeight;
+                let imgRatio = imgWidth / imgHeight;
+                img_sign_box.width = windowWidth * 0.9;
+                img_sign_box.height = img_sign_box.width / imgRatio;
+                that.sign_box_width = img_sign_box.width
+                that.sign_box_height = img_sign_box.height
+                that.sign_box_top = (windowHeight - that.sign_box_height) / 2;
+            }
+            this.$nextTick(() => {
+                this.$refs.top_refresh.style.top = "-" + this.$refs.top_refresh.scrollHeight + "px"
+                this.last_top = this.$refs.top_refresh.offsetTop
+            })
+            localReadLib.setAdvStation(false);
+            this.getAppSet();
+            window.addEventListener('scroll', this.bodyScroll, true);
+            window.addEventListener("touchstart", this.touchstart, true);
+            window.addEventListener("touchmove", this.touchmove, true);
+            window.addEventListener("touchend", this.touchend, true);
+            if (typeof(juduohui) !== "undefined") juduohui.addEventListen("resume", "this.vue.onResume()")
+            let account_agreement_74 = localStorage.getItem('account_agreement_74')
+            let account_agreement_76 = localStorage.getItem('account_agreement_76')
+            let account_agreement_75 = localStorage.getItem('account_agreement_75')
+            if (account_agreement_74 == 1)this.account_agreement_74 = true
+            if (account_agreement_75 == 1)this.account_agreement_75 = true
+            if (account_agreement_76 == 1)this.account_agreement_76 = true
+            that.checkTimeout = new Date().getTime();
+            this.getAdvSetting();
+
+        },
+        // 页面内方法
+        methods: {
+            async load () {
+                this.loading = true;
+                let that = this;
+                let data = {
+                    'token': getToken(),
+                };
+                if (this.bind_success === false){//非绑定成功数据还没有加载完
+                    data['in_page'] = parseInt(this.invitation_page) + 1
+                }else{
+                    data['page'] = parseInt(this.bind_page) + 1;
+                }
+                await axios.post(api_list.getAccountInfo,data).then(res=>{
+                    if (res.data.code == 0){
+                        // console.log('拿到了数据')
+                        that.bind_info = res.data.bind_info;
+                        that.bind_count = res.data.bind_count;
+                        if (this.bind_success == false){
+                            that.invitation_list = that.invitation_list.concat(res.data.invitation_list);
+                            that.invitation_page = res.data.invitation_page;
+                            if (res.data.invitation_list.length < 10){
+                                that.bind_success = true;
+                                if (that.bind_list.length < 10){
+                                    that.loaded_all = true;
+                                }
+                            }
+                        }else{
+                            that.bind_list = that.bind_list.concat(res.data.bind_list);
+                            that.auth_code_img = checkImageExt(res.data.auth_code);
+                            that.bind_page = res.data.bind_page;
+                            for (let i = 0; i< that.bind_list.length; i++){
+                                that.open['open_'+i] = false;
+                                that.bind_account_gold_total += that.bind_list[i].gold
+                                that.bind_account_balance_hui_b_total += that.bind_list[i].balance_hui_b
+                                that.bind_account_balance_total += parseFloat(that.bind_list[i].balance)
+                            }
+                            if (res.data.bind_list.length < 10){
+                                that.loaded_all = true;
+                            }
+                        }
+
+                    }else{
+                        alertMessage(res.data.msg);
+                    }
+                }).catch(err=>{
+                    // //console.log(err)
+                })
+                this.loading = false;
+            },
+            async onResume() {
+                //console.log('已进入onResume：'+this.on_resume_state)
+                if (this.on_resume_state == false){
+                    this.on_resume_state = true;
+                    //console.log('刷新页面，重新获取信息')
+                    showLoading()
+                    this.open = []
+                    if (this.un_bind_superior || this.un_bind || this.a_key_transition || this.a_key_withdrawal || this.add_account_superior_window || this.add_account_window){
+                        localReadLib.setAdvStation(false);
+                    }else{
+                        clearInterval(this.monitor_close_advertising);
+                    }
+                    this.bind_success = false;
+                    this.loaded_all = false;
+                    await this.heavyAdvertising()
+                    await this.getAppSet()
+                }
+            },
+            getAdvSetting(){
+                if (!getAdIsOpen()) return;
+                localReadLib.getAdvCfg("sign_video,make_money_index,videos_money").then(res => {
+                    this.adv_cfg = res;
+                    //console.log(this.adv_cfg)
+                })
+            },
+            async heavyAdvertising() {
+                localReadLib.removeAllAdv(); // 移除所有广告
+                localReadLib.setAdvStation(false);
+            },
+            bodyScroll(e) {
+                if (typeof(juduohui) !== "undefined") juduohui.setScrollTop(); // 触发页面滚动的广告定位
+            },
+            touchmove(e) {
+                /* 头部下拉刷新页面 */
+                if (this.touch_start_point !== [] && this.refresh_whether) {
+                    var move_length = (this.last_top + (e.changedTouches[0].screenY - this.touch_start_point[1]))
+                    var move_max_height = 0
+                    if (move_length >= move_max_height) {
+                        move_length = move_max_height
+                        this.last_status = true
+                        this.$refs.reload_text.innerText = '松开刷新'
+                    } else {
+                        this.$refs.reload_text.innerText = '下拉刷新'
+                        this.last_status = false
+                    }
+
+                    this.$refs.top_refresh.style.top = move_length + "px"
+                    this.deg = 360 - Math.abs(move_length)
+                }
+                /* 结束 */
+            },
+            touchend(e) {
+                var timeout_c = 0;
+                if (this.last_status) {
+                    this.onResume()
+                    timeout_c = 500
+                }
+                var that = this;
+                this.last_status = false;
+                setTimeout(() => {
+                    that.last_obj = setInterval(() => {
+                        if (that.$refs.top_refresh.offsetTop >= 0 - that.$refs.top_refresh
+                            .scrollHeight) {
+                            that.$refs.top_refresh.style.top = (that.$refs.top_refresh.offsetTop -
+                                35) + "px"
+                            that.deg = 360 - Math.abs(Math.abs(that.$refs.top_refresh.offsetTop -
+                                5))
+                        } else {
+                            clearInterval(that.last_obj)
+                            that.last_obj = null
+                        }
+                    }, 3);
+                }, timeout_c);
+
+            },
+            touchstart(e) {
+                this.touch_start_point = [e.touches[0].screenX, e.touches[0].screenY];
+                var find_load_more = false;
+                if (this.last_obj != null) clearInterval(this.last_obj)
+
+                for (var i = 0; i < e.path.length; i++) {
+                    if (e.path[i].className != undefined && (e.path[i].className.indexOf("mu-load-more") >= 0 || e
+                        .path[i].className.indexOf("react-pull-refresh") >= 0)) {
+                        find_load_more = true;
+                        break;
+                    }
+                }
+                if (find_load_more) {
+                    this.touch_start_point = [];
+                }
+            },
+            open_hint(i) {
+                if (this.open['open_'+i]){
+                    this.$set(this.open, 'open_'+i, false);
+                }else{
+                    this.$set(this.open, 'open_'+i, true);
+                }
+                this.$forceUpdate();//强制重新渲染
+            },
+            async invitation_account() {
+                if (!this.account_agreement_74){
+                    alertMessage('请先阅读并勾选《聚多惠账号管理协议》');
+                    return;
+                }
+                // 保存领取协议勾选状态
+                localStorage.setItem('account_agreement_74', "1");
+                let that = this;
+                let data = {
+                    'token': getToken(),
+                    'auth_code': this.user_search_auth_code
+                }
+                await axios.post(api_list.setBindbyCode,data).then(res=>{
+                    that.user_invte_data = [];
+                    if (res.data.code == 0){
+                        that.getAccountInfo();
+                    }
+                    alertMessage(res.data.msg,function () {
+                        if (res.data.code == 0){
+                            if (that.add_account_window == true){
+                                that.add_account();
+                            }
+                            that.user_search_auth_code = '';
+                        }
+                    })
+                    return ;
+                }).catch(err=>{
+                    closeLoading()
+                })
+            },
+            async bind_superior_account() {
+                if (!this.account_agreement_74){
+                    alertMessage('请先阅读并勾选《聚多惠账号管理协议》');
+                    return;
+                }
+                // 保存领取协议勾选状态
+                localStorage.setItem('account_agreement_74', "1");
+                let that = this;
+                let data = {
+                    'token': getToken(),
+                    'auth_code': this.user_search_auth_code
+                }
+                await axios.post(api_list.setAgentbyCode,data).then(res=>{
+                    that.user_invte_data = [];
+                    if (res.data.code == 0){
+                        that.getAccountInfo();
+                    }
+                    alertMessage(res.data.msg,function () {
+                        if (res.data.code == 0){
+                            if (that.add_account_superior_window == true){
+                                that.add_account_superior();
+                            }
+                            that.user_search_auth_code = '';
+                        }
+                    })
+                    return ;
+                }).catch(err=>{
+                    closeLoading()
+                })
+            },
+            add_account() {
+                if (this.add_account_window){
+                    this.refresh_whether = true
+                    this.add_account_window = false;
+                    clearInterval(this.monitor_close_advertising);
+                    localReadLib.setAdvStation(true);
+                }else{
+                    this.user_search_auth_code = ''
+                    this.auth_code_img_hint = false
+                    this.user_invte_data = []
+                    this.refresh_whether = false
+                    this.add_account_window = true;
+                    localReadLib.setAdvStation(false);
+                    this.closeAdv()
+                }
+            },
+            add_account_superior(){
+                if (this.add_account_superior_window){
+                    this.refresh_whether = true
+                    this.add_account_superior_window = false
+                    clearInterval(this.monitor_close_advertising);
+                    localReadLib.setAdvStation(true)
+                }else{
+                    this.user_search_auth_code = ''
+                    this.auth_code_img_hint = false
+                    this.user_invte_data = []
+                    this.refresh_whether = false
+                    this.add_account_superior_window = true
+                    localReadLib.setAdvStation(false)
+                    this.closeAdv()
+                }
+            },
+            closeAdv(){
+                this.monitor_close_advertising = setInterval(function(){
+                        localReadLib.setAdvStation(false)
+                },10);
+            },
+            openGuiZe(id) {
+                openNewActivite("./policy.html?id="+id);
+
+            },
+            getAppSet(){
+                axios.defaults.withCredentials = true; //开启后服务器才能拿到cookie
+                axios.defaults.crossDomain = true; //配置axios跨域
+                axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8' //配置默认请求头
+                axios.defaults.baseURL = api_host
+                axios.defaults.responseType = "json"
+                this.getAccountInfo();
+                this.getWithdrawalSet();
+            },
+            //用户账号管理页面信息获取接口
+            async getAccountInfo() {
+                //console.log('获取绑定账号信息')
+                let that = this;
+                let data = {
+                    'token': getToken()
+                };
+                await axios.post(api_list.getAccountInfo,data).then(res=>{
+                    if (res.data.code == 0){
+                        //console.log('拿到了数据')
+                        that.bind_info = res.data.bind_info;
+                        that.bind_count = res.data.bind_count;
+                        that.bind_list = res.data.bind_list;
+                        that.invitation_list = res.data.invitation_list;
+                        that.bind_page = res.data.bind_page;
+                        that.invitation_page = res.data.invitation_page;
+                        that.auth_code_img = checkImageExt(res.data.auth_code);
+                        for (let i = 0; i< that.bind_list.length; i++){
+                            that.open['open_'+i] = false;
+                            that.bind_account_gold_total += that.bind_list[i].gold
+                            that.bind_account_balance_hui_b_total += that.bind_list[i].balance_hui_b
+                            that.bind_account_balance_total += parseFloat(that.bind_list[i].balance)
+                        }
+                        if (that.invitation_list.length < 10){
+                            that.bind_success = true
+                        }
+                        if (that.invitation_list.length < 10 && that.bind_list.length < 10){
+                            that.loaded_all = true
+                        }
+                    }else{
+                        alertMessage(res.data.msg);
+                    }
+                }).catch(err=>{})
+                this.$nextTick(() => {
+                    localReadLib.removeAllAdv(); // 移除所有广告
+                    localReadLib.setAdvStation(true);
+                    this.$refs.jdh_adv_t.loadAdvs();
+                    this.advertising_height = true
+                    this.on_resume_state = false
+                    closeLoading();
+                })
+            },
+            openProfit(){
+                openNewActivite("./profit.html");
+            },
+			openHistory(toType) {
+				if (toType === 1) {
+					openNewActivite("./survey_history.html")
+				} else {
+					openNewActivite("./profit_history.html")
+				}
+			},
+			openToolsBox() {
+				openNewActivite("./toolsbox.html")
+			},
+			openKefu() {
+				openNewActivite(getKefuUrl())
+			},
+            async search_invite_user() {
+                if (this.user_search_auth_code.length <= 0){
+                    alertMessage('请先填写邀请码')
+                    return;
+                }
+                let that = this;
+                let data = {
+                    'token': getToken(),
+                    'auth_code': this.user_search_auth_code,
+                }
+                await axios.post(api_list.getInfobyAuth,data).then(res=>{
+                    if (res.data.code == 0){
+                        that.auth_code_img_hint = false;
+                        that.user_invte_data = res.data.data;
+                        that.user_search_auth_success_code = that.user_search_auth_code
+                    }else{
+                        that.user_invte_data = [];
+                        alertMessage(res.data.msg);
+                        return;
+                    }
+                }).catch(err=>{
+                    closeLoading()
+                })
+            },
+            async update_bind_account_state (state){
+                if (!this.account_agreement_74){
+                    alertMessage('请阅读并同意《聚多惠账号管理协议》')
+                    return ;
+                }
+                // 保存领取协议勾选状态
+                localStorage.setItem('account_agreement_74', "1");
+                let that = this;
+                let data = {
+                    'token': getToken(),
+                    'auth_code': this.bind_info.bind_auth_code,
+                    'state': state
+                }
+                await axios.post(api_list.returnInvitation,data).then(res=>{
+                    alertMessage(res.data.msg,function (){
+                        that.getAccountInfo();
+                        if (state == 4 && that.un_bind_superior == true){
+                            that.un_bind_superior_hint_del()
+                        }
+                    })
+                }).catch(err=>{
+                    closeLoading()
+                })
+            },
+            async user_get_all_h_point(){//一键转惠币
+                if (!this.account_agreement_74){
+                    alertMessage('请先阅读并同意《聚多惠账号管理协议》')
+                    return;
+                }
+                if (this.bind_count <= 0){
+                    alertMessage('您还没有已绑定的账号，请先绑定账号后再进行此操作！')
+                    return;
+                }
+                // 保存领取协议勾选状态
+                localStorage.setItem('account_agreement_74', '1');
+                if (this.bind_account_gold_total <= 0){
+                    this.a_key_transition_hint()//关闭弹窗
+                    return
+                }
+                let that = this;
+                let data = {
+                    'token': getToken()
+                }
+                await axios.post(api_list.userGetAllhpoint,data).then(res=>{
+                    if (res.data.code == 0){
+                        alertMessage('申请成功，惠币将在一小时内到账，请注意查收',function (){
+                            if (res.data.hpoint > 0){
+                                that.getAccountInfo();
+                            }
+                            if (that.a_key_transition == true){
+                                that.a_key_transition_hint()//关闭弹窗
+                            }
+                        })
+                    }else{
+                        alertMessage(res.data.msg)
+                    }
+                }).catch(err=>{
+                    closeLoading()
+                })
+            },
+            a_key_transition_hint(){
+                if (this.a_key_transition){
+                    this.a_key_transition = false;
+                    this.refresh_whether = true
+                    clearInterval(this.monitor_close_advertising);
+                    localReadLib.setAdvStation(true);
+                }else {
+                    this.refresh_whether = false
+                    this.a_key_transition = true;
+                    localReadLib.setAdvStation(false);
+                    this.closeAdv()
+                }
+            },
+            a_key_withdrawal_hint(auth_code = 0, i){
+                this.open_hint(i)
+                this.auth_code = auth_code;
+                this.oneself_withdraw_windows_i = i
+                if (this.a_key_withdrawal){
+                    this.refresh_whether = true
+                    this.a_key_withdrawal = false;
+                    clearInterval(this.monitor_close_advertising);
+                    localReadLib.setAdvStation(true);
+                }else{
+                    this.refresh_whether = false
+                    this.a_key_withdrawal = true;
+                    localReadLib.setAdvStation(false);
+                    this.closeAdv()
+                }
+            },
+            getWithdrawalSet() {
+                //console.log('获取提现设置信息')
+                var data = localReadLib.SignData({
+                    "type": 2,
+                });
+                axios.post(api_list.withdrawalSet, data).then(res => {
+                    if (res.data.code === 0) {
+                        //console.log('获取提现设置信息，成功')
+                        this.alipay_account = res.data.data.alipay_account
+                        this.can_wx = res.data.data.can_wx
+                        this.account_type_list = res.data.data.account_type_d
+                    } else {
+                        //console.log("失败", res)
+                    }
+                    //console.log('关闭loading')
+                    closeLoading()
+                }).catch(err => {
+                    closeLoading()
+                    //console.log("错误：" + JSON.stringify(err))
+                })
+            },
+            changeProfitType(item){
+                if (this.$refs[item][0].className.indexOf("disabled")!=-1){
+                    return
+                } else{
+                    this.current_channel = item
+                }
+            },
+            async one_key_withdraw() {//一键提现
+                if (this.account_agreement_75 == false || this.account_agreement_74 == false){
+                    alertMessage('请先阅读并同意相关协议后方可进行提现')
+                    return;
+                }
+                if (this.bind_count <= 0){
+                    alertMessage('您还没有绑定账号，请先绑定账号后再进行一键提现操作！')
+                    return;
+                }
+                // 保存领取协议勾选状态
+                localStorage.setItem('account_agreement_74', "1");
+                localStorage.setItem('account_agreement_75', "1");
+                if (this.auth_code > 0){//单独提现
+                    let bind_user_data = this.bind_list[this.oneself_withdraw_windows_i]
+                    if (bind_user_data.balance_hui_b <= 0 && parseFloat(bind_user_data.balance) <= 0){
+                        this.a_key_withdrawal_hint()
+                        return
+                    }
+                }else{//一键提现
+                    if (this.bind_account_balance_hui_b_total <= 0 && this.bind_account_balance_total <= 0){
+                        this.a_key_withdrawal_hint()
+                        return
+                    }
+                }
+                let account_type;
+                if (this.current_channel == '支付宝') {
+                    account_type = 1
+                } else {
+                    account_type = 2
+                }
+                let that = this;
+                let data = {
+                    'token':getToken(),
+                    'account_type': account_type,
+                }
+                if (this.auth_code > 0){
+                    data.auth_code = this.auth_code;
+                }
+                await axios.post(api_list.userGetDraw,data).then(res=>{
+                    alertMessage(res.data.msg,function (){
+                        if (that.a_key_withdrawal == true){
+                            that.a_key_withdrawal_hint()
+                        }
+                    });
+                }).catch(err=>{
+                    closeLoading()
+                })
+            },
+            un_bind_hint_del(auth_code,i) {
+                this.open_hint(i)
+                this.un_bind = false;
+                this.refresh_whether = true
+                this.auth_code = auth_code;
+                clearInterval(this.monitor_close_advertising);
+                localReadLib.setAdvStation(true);
+            },
+            un_bind_superior_hint_del(){
+                if (this.un_bind_superior){
+                    this.refresh_whether = true
+                    this.un_bind_superior = false
+                    localReadLib.setAdvStation(true);
+                    clearInterval(this.monitor_close_advertising);
+                }else{
+                    this.refresh_whether = false
+                    this.un_bind_superior = true
+                    localReadLib.setAdvStation(false);
+                    this.closeAdv()
+                }
+            },
+            un_bind_hint_open(auth_code,i) {
+                this.open_hint(i)
+                this.refresh_whether = false
+                this.un_bind = true;
+                this.auth_code = auth_code;
+                localReadLib.setAdvStation(false);
+                this.closeAdv()
+            },
+            async qx_bind_user() {
+                if (!this.account_agreement_74){
+                    alertMessage("请先阅读并同意协议");
+                    return ;
+                }
+                // 保存领取协议勾选状态
+                localStorage.setItem('account_agreement_74', "1");
+                let that = this;
+                let data = {
+                    'token': getToken(),
+                    'auth_code': this.auth_code
+                }
+                await axios.post(api_list.qxBindUser,data).then(res=>{
+                    if (res.data.code == 0){
+                        that.getAccountInfo()
+                    }
+                    alertMessage(res.data.msg,function (){
+                        that.un_bind_hint_del()
+                    })
+                }).catch(err=>{
+                    closeLoading()
+                })
+            },
+            auth_code_img_hint_control(){
+                this.auth_code_img_hint = !this.auth_code_img_hint;
+                this.user_invte_data = []
+            },
+            jumpToBindAlipay() {
+                openNewActivite("./profit_set_alipay.html")
+                juduohui.addEventListen("resume", "this.vue.getWithdrawalSet()")
+            },
+            scan_bind() {
+                var config = {
+                    title:"扫码绑定会员",
+                    success:function(res){
+                        localReadLib.setAdvStation(false);
+                        this.user_search_auth_code = res;
+                        this.search_invite_user()
+                    },
+                    error:function(){
+                        //console.log("扫码错误！");
+
+                    }
+                };
+                if (typeof(juduohui) != "undefined") localReadLib.scanQrCode(config);
+            },
+            scan_bind_top() {
+                var config = {
+                    title:"扫码绑定上级",
+                    success:function(res){
+                        localReadLib.setAdvStation(false);
+                        this.user_search_auth_code = res;
+                        this.search_invite_user()
+                    },
+                    error:function(){
+                        //console.log("扫码错误！");
+
+                    }
+                };
+                if (typeof(juduohui) != "undefined") localReadLib.scanQrCode(config);
+            },
+            closeBase() {
+                //console.log(this.advertising_height)
+                //console.log('调用页面内的函数')
+                localReadLib.removeAllAdv(); // 移除所有广告
+                localReadLib.setAdvStation(false);
+                this.advertising_height = false
+            },
+            refreshAdvertising() {//jdh_adv.js文件调用
+                localReadLib.removeAllAdv(); // 移除所有广告
+                this.$refs.jdh_adv_t.loadAdvs();
+            }
+        },
+
+    })
+</script>
+
+</html>

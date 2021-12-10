@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bg_head"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/margin_size50"
+    android:background="@color/white"
+    android:elevation="@dimen/margin_size1"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/tv_left"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:drawableLeft="@mipmap/icon_back"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:textSize="@dimen/font_size14"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxEms="12"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size16"
+        tools:text="标题名称" />
+
+    <TextView
+        android:id="@+id/tv_right"
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:paddingRight="15dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_16"
+        android:visibility="invisible" />
+
+    <FrameLayout
+        android:id="@+id/tv_right_icon"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingRight="@dimen/margin_size10"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true" />
+    </FrameLayout>
+
+</RelativeLayout>
+

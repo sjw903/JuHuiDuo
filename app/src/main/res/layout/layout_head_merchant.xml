@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.youth.banner.Banner
+        android:id="@+id/merchanthome_banner"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_150"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/merchanthome_typerecy"
+        android:layout_marginTop="@dimen/margin_size8"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_190"></android.support.v7.widget.RecyclerView>
+    <RadioGroup
+        android:id="@+id/page_rg"
+        android:layout_below="@id/home_grid"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"></RadioGroup>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:layout_marginTop="@dimen/margin_size5"
+        android:background="#f0f0f0"></View>
+</LinearLayout>

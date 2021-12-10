@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/include_seach_new_topbar"></include>
+    <com.android.jdhshop.widget.indicator.MagicIndicator
+        android:id="@+id/magic_indicator"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></com.android.jdhshop.widget.indicator.MagicIndicator>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/col_eb"></View>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_ll"
+    android:orientation="horizontal"
+    android:layout_marginBottom="@dimen/margin_size10"
+    android:padding="@dimen/margin_size10">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="@dimen/margin_size110"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_size10"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/shop_image"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_size2"
+                android:layout_marginTop="@dimen/margin_size2"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/home_taobao" />
+
+            <TextView
+                android:id="@+id/title_child"
+                style="@style/textTitleContent"
+                android:layout_width="match_parent"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_height="wrap_content"
+                tools:text="产品名称" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size5"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tx2"
+                style="@style/textRedContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_size14"
+                tools:text="¥20.00" />
+
+            <TextView
+                android:id="@+id/tx2_2"
+                style="@style/textHindContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_size5"
+                android:layout_toRightOf="@id/tx2"
+                tools:text="¥30.00" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="170dp"
+            android:layout_marginTop="@dimen/margin_size5"
+            android:layout_height="@dimen/margin_size20"
+            android:layout_marginRight="@dimen/margin_size75">
+            <TextView
+                android:id="@+id/tx5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已抢8件"
+                android:textSize="@dimen/font_size10"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_size10"
+                android:elevation="@dimen/margin_size5"
+                android:textColor="@color/red"
+                android:layout_marginRight="@dimen/margin_size20"/>
+            <ProgressBar
+                android:id="@+id/pb_progressbar"
+                style="@style/StyleProgressBarMini"
+                android:layout_width="160dp"
+                android:layout_centerVertical="true"
+                android:layout_height="@dimen/margin_size16"
+                android:background="@drawable/shape_progress_bg"
+                android:max="100"
+                android:progress="10"/>
+
+            <TextView
+                android:id="@+id/txt_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_size20"
+                android:text="8%"
+                android:textColor="@color/red" />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size5"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/tx3"
+                style="@style/textAppColorContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:background="@mipmap/home_couponbox"
+                android:gravity="center"
+                android:paddingLeft="@dimen/margin_size30"
+                android:paddingRight="4dp"
+                android:singleLine="true"
+                tools:text="5.0元" />
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="1dp"></View>
+            <TextView
+                android:id="@+id/tx4"
+                style="@style/textAppColorContent"
+                android:layout_gravity="right|center"
+                android:layout_width="wrap_content"
+                android:gravity="center|right"
+                android:textSize="@dimen/font_size14"
+                android:background="@drawable/shape_btn"
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="2dp"
+                tools:text="5.0元" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

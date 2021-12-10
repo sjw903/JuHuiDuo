@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css">
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+
+	</head>
+	<body style="background-color: #fead62;" class="demo-loadmore-wrap">
+		<template id="app">
+			<mu-container ref="container" class="demo-loadmore-content"
+				style="width: 100%; padding: 0; margin: 0; background: url(img/top_qd_mini_bg.png); background-repeat: no-repeat; background-size: 100%; background-position: top center; ">
+				<!-- 顶部 -->
+
+				<div class="art_header" style="padding-bottom: 0rem;">
+					<div class="art_left" @click="backPress"><i class="iconfont icon-fanhui1"></i></div>
+					<div class="art_title">参与调查记录</div>
+					<div class="art_right"></div>
+				</div>
+				<div class="survey_content">
+					<div class="inner_box">
+						<ul class="survey_list">
+							<li><span>总收益</span><span>{{total_coin}}{{coin_unit}}</span></li>
+							<li><span>待审数量</span><span>{{await_coin}}个</span></li>
+							<li><span>在途资金</span><span>{{trade_coin}}{{coin_unit}}</span></li>
+						</ul>
+					</div>
+					<jdh_adv idt="make_money_index" :cfg="adv_cfg" ref="jdh_adv_t" refm="jdh_adv_t" style="width: 92%;" class="survey_history_adv" v-show="advertising_height"></jdh_adv>
+					<div class="inner_box" style="padding: 0 1rem;">
+						<mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load"
+							:loaded-all="loading_all">
+							<mu-list v-if="record_list.length>0">
+								<template v-for="item in record_list">
+									<!-- 第一种样式 - 上边文档标题，下边一张大图 -->
+									<mu-row style="margin: .6rem auto .5rem auto;" @click="openDesc(item)" gutter>
+										<mu-col :fill="true" span="1">
+											<span class=""><img src="img/gold_coin.png" class="img_icon"></span>
+										</mu-col>
+										<mu-col :fill="true" span="7">
+											<div class="survey_line">
+												<span>{{item.title | calcTitle(12)}}</span>
+												<span>ID:{{item.record_task_id}}</span>
+											</div>
+										</mu-col>
+										<mu-col :fill="true" span="4">
+											<div class="survey_line" style="text-align: right;">
+												<span>{{item.record_status|getStatusText}}</span>
+												<span
+													style="font-size: .7rem;">{{item.record_created_at | date2time2}}</span>
+											</div>
+										</mu-col>
+									</mu-row>
+									<mu-divider></mu-divider>
+								</template>
+								<div class="common_loaded_all" v-if="loading_all">已加载全部信息</div>
+							</mu-list>
+							<div class="no_more_data" v-if="refreshing == true">
+								努力加载信息中...
+							</div>
+							<div class="no_more_data" v-if="record_list.length<1 && refreshing != true">
+								暂无更多数据
+							</div>
+						</mu-load-more>
+					</div>
+				</div>
+				<!-- <span class="survey_line"><span class=""><img src="img/gold_coin.png" class="img_icon"></span>666</span> -->
+				<!-- 正常顶部 -->
+				<div class="nospace" style="width: 100%; height: 3rem; display: block;"></div>
+				<div class="select_layer" v-if="show_select_layer">
+					<mu-expand-transition>
+					<ul>
+						<li v-for="(option,index) in record_status_text" v-text="option" :class="index==filter_select ? ' active' :'' " @click="filterResult(index)"></li>
+					</ul>
+					</mu-expand-transition>
+				</div>
+				<div class="bottom_nav">
+					<div class="survey_history_bottom">
+						<div class="survey_history_bottom_left">余额:<span class="color_orange bold"> {{balance_coin}}
+								{{coin_unit}}</span></div>
+						<div class="survey_history_bottom_right">
+							<div class="select_points" v-text="filter_select_text" @click="openSelectLayer()"></mu-icon></div>
+<!-- 							<select v-model="filter_select" >
+								<option v-for="(option,index) in record_status_text" :key="option" :label="option"
+									:value="index" :value="" v-text="option"></option>
+							</select> -->
+						</div>
+					</div>
+				</div>
+			</mu-container>
+		</template>
+	</body>
+
+	<script>
+		localReadLib.require("jdh_adv.js")
+		var vue = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					headerHeight: 0,
+					headerWidth: 320,
+					sign_box_width: 0,
+					sign_box_height: 0,
+					sign_box_top: 0,
+					auto_policy_check: false,
+					show_select_layer:false,
+					substation_id:false,
+					filter_select: 0, // 取任务记录的状态值
+					filter_select_text:"全部",
+					record_status_text: ["全部", "待审核", "审核通过", "审核未通", "等待提交", "用户申诉", "申诉合格", "商审不过", "用户取消",
+						"更新错误", "平台申诉", "平审未过", "商审未过"
+					],
+					record_list: [],
+					refreshing: false,
+					loading: false,
+					loading_all: false,
+					page: 1,
+					active: 0,
+					tabs_list: [{}],
+					next_cursor: 0, //下次取记录的游标
+					coin_unit: "惠币",
+					total_coin: 0,
+					balance_coin:0,
+					await_coin: 0,
+					trade_coin: 0,
+					// 广告配置
+					adv_cfg: [],
+					advertising_height: true
+				}
+			},
+			// 计算后的属性方法
+			computed: {
+
+			},
+			filters: {
+				getStatusText(status_value) {
+					var record_status_text = ["全部", "待审核", "审核通过", "审核未通", "等待提交", "用户申诉", "申诉合格", "商审不过", "用户取消",
+						"更新错误", "平台申诉", "平审未过", "商审未过"
+					];
+					return record_status_text[status_value];
+				},
+				calcTitle(title, title_len) {
+					if (title == null) return "";
+					if (title.length > title_len) {
+						title = title.substr(0, title_len) + "..."
+					}
+
+					return title;
+				},
+				date2time2(dateTimeString) {
+					let t = dateTimeString.split(" ");
+					let d = t[0].split("-");
+					let tt = t[1].split(":")
+					return d[1] + "-" + d[2] + " " + tt[0] + ":" + tt[1];
+				}
+			},
+			// 加载的自动执行，相当于onload = function(){}
+			mounted() {
+				localReadLib.setAdvStation(false);
+				this.getAppSet();
+				this.substation_id = getQueryVariable("substation");
+				this.earningQuantity();
+				this.getSurveyTaskRecord();
+				this.getAdvSetting()
+				window.addEventListener('scroll',this.bodyScroll,true);
+				juduohui.countViewPage();
+				if (typeof(juduohui)!=="undefined") juduohui.addEventListen("resume", "this.vue.refresh()")
+			},
+			// 页面内方法
+			methods: {
+				backPress() {
+					////console.log("点击了这里！")
+					backPress();
+				},
+				getAdvSetting(){
+					if (!getAdIsOpen()) return;
+					localReadLib.getAdvCfg("sign_video,make_money_index,videos_money").then(res => {
+						this.adv_cfg = res;
+						////console.log(JSON.stringify(this.adv_cfg.place_list[7].list))
+					})
+				},
+				async heavyAdvertising() {
+					let that = this;
+					localReadLib.removeAllAdv(); // 移除所有广告
+					localReadLib.setAdvStation(false); // 暂停广告位
+				},
+				bodyScroll(e) {
+					if (typeof(juduohui) !== "undefined") juduohui.setScrollTop(); // 触发页面滚动的广告定位
+				},
+				activeTab(tab_index) {
+					this.active = tab_index;
+					////console.log(this.active);
+				},
+				async refresh() {
+					this.refreshing = true;
+					this.record_list = [];
+					this.$refs.container.scrollTop = 0;
+					this.$data.next_cursor = 0
+					this.loading_all = false;
+					await this.heavyAdvertising()
+					await this.getSurveyTaskRecord();
+					this.refreshing = false;
+				},
+				load() {
+					this.loading = true;
+					this.getSurveyTaskRecord();
+				},
+				openSelectLayer(){
+					this.show_select_layer = true
+					let that = this
+					setTimeout(function(){
+						window.addEventListener("click",function(){
+							that.show_select_layer = false
+						},true)
+					},500)
+					
+				},
+				async filterResult(selected_index) {
+					////console.log("p jfd:" + this.filter_select);
+					this.show_select_layer = false;
+					this.filter_select = selected_index
+					this.filter_select_text = this.record_status_text[selected_index]
+					this.record_list = [];
+					this.loading_all = false;
+					this.next_cursor = 0;
+					await this.getSurveyTaskRecord();
+				},
+				getAppSet() {
+					axios.defaults.withCredentials = true; //开启后服务器才能拿到cookie
+					axios.defaults.crossDomain = true; //配置axios跨域
+					axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8' //配置默认请求头
+					axios.defaults.baseURL = api_host // 基础网址
+					axios.defaults.responseType = 'json'
+				},
+				earningQuantity() {
+					
+					var post_data = {
+							"token": getToken()
+						}
+					if (typeof(this.substation_id)!== "boolean") post_data.distrbution_id = this.substation_id
+					axios.post(api_list.earningQuantity, post_data)
+						.then((res) => {
+							if (res.data.code === 0) {
+								this.total_coin = res.data.data.total_revenue,this.balance_coin = res.data.data.balance_hui_b, this.await_coin = res.data.data
+									.audit_record, this.trade_coin = res.data.data.audit_earnings === null ? 0 : res.data.data.audit_earnings;
+							}
+						})
+						.catch((err) => {
+							////console.log(JSON.stringify(err))
+							alertMessage(err.message)
+						});
+				},
+				yxStatusConvertJdhStatus(yx_status_num){//云享任务状态（数字）对应聚多惠任务状态
+					var status = 0;
+					switch (yx_status_num){
+						case 1:
+							status = 4;//待提交
+							break;
+						case 2:
+							status = 1;//待审核
+							break;
+						case 3:
+							status = 2;//审核成功
+							break;
+						case 4:
+							status = 3;//未通过
+							break;
+						case 5:
+							status = 8;//取消
+							break;
+						default:
+							status = 0;
+					}
+					return status;
+				},
+				yxStatusTextConvertYxStatus(yx_status_text){//云享任务状态（文字）对应云享任务状态（数字）
+					var status = 0;
+					switch (yx_status_text){
+						case '进行中':
+							status = 1;
+							break;
+						case '审核中':
+							status = 2;
+							break;
+						case '审核通过':
+							status = 3;
+							break;
+						case '审核不通过':
+							status = 4;
+							break;
+						case '已取消':
+							status = 5;
+							break;
+						default:
+							status = 0;
+					}
+					return status;
+				},
+				async getSurveyTaskRecord() {
+					////console.log("取任务记录")
+					var data = {
+						"token": getToken(),
+						"cursor": this.next_cursor,
+						"status": this.filter_select
+					};
+					
+					var yx_list = [];
+					var yx_id_list = [];
+					var need_update = []; //需要更新任务ID
+					var that = this
+
+					if (typeof(this.substation_id)!== "boolean") data.distrbution_id = this.substation_id
+					await axios.post(api_list.getSurveyTaskRecord, data).then((res) => {
+						// ////console.log(res.data.list);
+						this.record_list = this.record_list.concat(res.data.list);
+
+
+
+						for (var i=0;i<res.data.list.length;i++){
+							if (res.data.list[i].resource === 6){
+								yx_list.push(res.data.list[i])
+								yx_id_list.push(res.data.list[i].other_taskid);
+							}
+						}
+						if (res.data.next_cursor === undefined) {
+							this.$data.loading_all = true
+						}
+
+						this.next_cursor = res.data.next_cursor
+						this.loading = false;
+					}).catch((err) => {
+						this.loading = false;
+						alertMessage(err.message)
+					})
+					if (localReadLib.load("yx_cookie") === null){
+						await axios.get(yx_host + yx_api.getCookie).then(res=>{
+
+						}).catch(err=>{});
+					}
+					
+					if (yx_id_list.length <= 0){
+						this.$nextTick(() => {
+							////console.log('加载广告11111')
+							localReadLib.removeAllAdv(); // 移除所有广告
+							localReadLib.setAdvStation(true);
+							this.$refs.jdh_adv_t.loadAdvs();
+							this.advertising_height = true
+						})
+						return;
+					}
+					
+					await axios.get(yx_host + yx_api.taskRecord+"&task_ids="+yx_id_list.join(",")+ "&pageindex=1&pagesize=100&state=0",{
+						responseType:"text"
+					}).then(res=>{
+						// ////console.log(res);
+						
+						for(var i=0;i<yx_list.length;i++){
+							// ////console.log(i)
+							for (var j=0;j<res.data.length;j++){
+								// ////console.log(j)
+								if (yx_list[i].other_taskid == res.data[j].f_task_id){
+									////console.log("找到了"+ res.data[j].f_task_id +"，原始状态："+yx_list[i].record_status+",云享状态："+res.data[j].f_member_task_state)
+									// 8 对应 已取消
+									// 2 审核通过
+									// 4 进行中
+									// 1 审核中
+									var need_insert = false;
+									var task_state = 0;
+									var task_jdh_state = 0;
+									switch(yx_list[i].record_status){
+										case 1:
+											task_state = this.yxStatusTextConvertYxStatus(res.data[j].f_member_task_state);
+											task_jdh_state = this.yxStatusConvertJdhStatus(this.yxStatusTextConvertYxStatus(res.data[j].f_member_task_state));
+											need_insert = res.data[j].f_member_task_state != "审核中";
+											break;
+										case 2:
+											task_state = this.yxStatusTextConvertYxStatus(res.data[j].f_member_task_state);
+											task_jdh_state = this.yxStatusConvertJdhStatus(this.yxStatusTextConvertYxStatus(res.data[j].f_member_task_state));
+											need_insert = res.data[j].f_member_task_state != "审核通过"
+											break;
+										case 4:
+											task_state = this.yxStatusTextConvertYxStatus(res.data[j].f_member_task_state);
+											task_jdh_state = this.yxStatusConvertJdhStatus(this.yxStatusTextConvertYxStatus(res.data[j].f_member_task_state));
+											need_insert = res.data[j].f_member_task_state != "进行中"
+											break;
+										case 8:
+											task_state = this.yxStatusTextConvertYxStatus(res.data[j].f_member_task_state);
+											task_jdh_state = this.yxStatusConvertJdhStatus(this.yxStatusTextConvertYxStatus(res.data[j].f_member_task_state));
+											need_insert = res.data[j].f_member_task_state != "已取消"
+											break;
+									}
+									
+									if (need_insert){
+										need_update.push({"task_id":res.data[j].f_task_id,"yx_status": task_state,"jdh_statue":task_jdh_state})
+									}
+									break;
+								}
+							}
+						}
+						
+					}).catch(err=>{
+						////console.log(res);
+					})
+					if (need_update.length>0){
+						
+						var post_data = {
+							"yx_cookie":localReadLib.load("yx_cookie"),
+							"task_status":need_update,
+							"token":getToken()
+						}
+						
+						await axios.post(api_list.updateYxTaskRecord,post_data).then(res=>{
+							if (res.data.code === 0){
+							////console.log("这里")	
+								
+								for (var i=0;i<that.record_list.length;i++){
+									
+									for (var j=0;j<need_update.length;j++){
+										if (that.record_list[i].other_taskid == need_update[j].task_id){
+											////console.log(need_update[j])
+											that.record_list[i].record_status = need_update[j].jdh_statue
+										}
+									}
+									
+								}
+							}
+						}).catch(err=>{
+							
+						})
+					}
+					this.$nextTick(() => {
+						localReadLib.removeAllAdv(); // 移除所有广告
+						localReadLib.setAdvStation(true);
+						this.$refs.jdh_adv_t.loadAdvs();
+						this.advertising_height = true
+					})
+				},
+				// 跳转详情页面
+				async openDesc(item) {
+					// ////console.log(item)
+					var target_url = "";
+					var that = this;
+					switch (item.record_status) {
+						case 4:
+							// 按正常任务逻辑走
+							target_url = "survey_task.html"
+							break;
+						case 1:
+						case 7: // 用户可操作按钮为 向平台申诉
+						case 5: // 用户申诉中..
+						case 12: // 用户可操作按钮为 向商户申诉
+							target_url = "simpleSurveyDetail.html"
+							break
+						default:
+							alertMessage("当前调查卷状态不允许进入详情页面")
+							return;
+							break
+					}
+
+					var data = {
+						"token": getToken(),
+						"record_task_id": item.record_task_id,
+						"record_type": item.record_type
+					}
+					var can_in_desc = false;
+					await axios.post(api_list.getSurveyTaskDetail, data).then(res => {
+						////console.log(res)
+						if (res.data.code === 0) {
+							can_in_desc = true
+							res.data.data = res.data.list;
+							res.data.list = null;
+							res.data.data.record_type = item.record_type;
+							if (item.record_status === 4) {
+								localStorage.setItem("current_task_result", JSON.stringify(res));
+							} else {
+								localStorage.setItem("current_task_simple_result", JSON.stringify(res));
+							}
+							
+						} else {
+							can_in_desc = false;
+							alertMessage(res.data.msg);
+							that.refresh()
+						}
+					}).catch(err => {
+						////console.log(err)
+					})
+
+					if (can_in_desc) openNewActivite(target_url);
+				},
+				closeBase() {
+					////console.log(this.advertising_height)
+					////console.log('调用页面内的函数')
+					localReadLib.removeAllAdv(); // 移除所有广告
+					localReadLib.setAdvStation(false);
+					this.advertising_height = false
+				},
+				refreshAdvertising() {//jdh_adv.js文件调用
+					localReadLib.removeAllAdv(); // 移除所有广告
+					this.$refs.jdh_adv_t.loadAdvs();
+				}
+			}
+		})
+	</script>
+
+</html>

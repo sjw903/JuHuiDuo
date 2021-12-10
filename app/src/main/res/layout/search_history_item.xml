@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/margin_size45"
+    android:background="@color/white"
+    android:padding="@dimen/margin_size5">
+
+    <TextView
+        android:id="@+id/search_content"
+        style="@style/textContent"
+        android:background="@color/col_f7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical|left"
+        android:ellipsize="end"
+        android:paddingBottom="@dimen/margin_size5"
+        android:paddingLeft="@dimen/margin_size15"
+        android:paddingRight="@dimen/margin_size15"
+        android:paddingTop="@dimen/margin_size5"
+        android:singleLine="true"
+        android:text="你好" />
+    <TextView
+        android:id="@+id/tv_delete"
+        style="@style/textContent"
+        android:background="@color/col_f7"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingRight="@dimen/margin_size6"
+        android:paddingLeft="@dimen/margin_size15"
+        android:drawableStart="@mipmap/generalsearch_cross" />
+</LinearLayout>

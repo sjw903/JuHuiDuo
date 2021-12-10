@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_size50"
+        android:id="@+id/rl_top"
+        android:background="@color/red">
+
+        <LinearLayout
+            android:layout_width="@dimen/margin_size35"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/wphhome_lyback"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/wph_fanhui"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                 />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="唯品会"
+            android:id="@+id/txt_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size16" />
+        <com.android.jdhshop.widget.AutoClearEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/et_bg"
+            android:layout_centerInParent="true"
+            android:hint="输入搜索内容"
+            android:visibility="gone"
+            android:id="@+id/et_search"
+            android:textSize="@dimen/font_size14"
+            android:textColor="@color/col_333"
+            android:padding="@dimen/margin_size5"
+            android:layout_marginRight="@dimen/margin_size50"
+            android:layout_toRightOf="@id/wphhome_lyback"></com.android.jdhshop.widget.AutoClearEditText>
+
+        <ImageView
+            android:id="@+id/wphhome_seek"
+            android:layout_width="@dimen/margin_size30"
+            android:layout_height="@dimen/margin_size30"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_size15"
+             />
+    </RelativeLayout>
+
+           <com.scwang.smartrefresh.layout.SmartRefreshLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:id="@+id/refresh_layout">
+               <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"></com.scwang.smartrefresh.layout.header.ClassicsHeader>
+               <android.support.v7.widget.RecyclerView
+                   android:id="@+id/recycler_view"
+                   android:layout_width="match_parent"
+                   android:background="@color/white"
+                   android:layout_height="match_parent">
+               </android.support.v7.widget.RecyclerView>
+           <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+           </com.scwang.smartrefresh.layout.footer.ClassicsFooter>
+           </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</LinearLayout>
+
+
+
+
+
+
+
+

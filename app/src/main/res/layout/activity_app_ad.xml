@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/lllll"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:id="@+id/ll_skip"
+            android:layout_width="@dimen/margin_size45"
+            android:layout_height="@dimen/margin_size45"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/margin_size30"
+            android:background="@drawable/shape_oval"
+            android:elevation="999dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5s"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="跳过"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size10" />
+        </LinearLayout>
+
+        <com.zhouwei.mzbanner.MZBannerView
+            android:id="@+id/banner_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:canLoop="false"
+            app:open_mz_mode="false"></com.zhouwei.mzbanner.MZBannerView>
+
+        <TextView
+            android:id="@+id/txt_detail"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="@dimen/margin_size35"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_size50"
+            android:background="@drawable/bg_tv_circle_half_appmain"
+            android:gravity="center"
+            android:padding="@dimen/margin_size5"
+            android:text="进入APP"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/lllll2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/margin_size30"
+        android:layout_marginRight="@dimen/margin_size30"
+        android:background="@drawable/shape_ll"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_orange"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="程序初始化中 .."
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/margin_size10"
+            android:text="正在下载中...."
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:textSize="@dimen/font_size16" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/pb_progressbar1"
+                style="@style/StyleProgressBarMini"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/margin_size5"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_size30"
+                android:layout_marginTop="@dimen/margin_size8"
+                android:layout_marginBottom="@dimen/margin_size15"
+
+                android:layout_weight="0.8"
+                android:background="@drawable/shape_progress_bg"
+                android:max="100"
+                android:progress="0" />
+
+            <TextView
+                android:id="@+id/jindu_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.2"
+                android:text=""
+                android:textSize="14dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lllll3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/margin_size30"
+        android:layout_marginRight="@dimen/margin_size30"
+        android:background="@drawable/shape_ll"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_tip_tishi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_orange"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="温馨提示"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size14" />
+
+        <TextView
+            android:id="@+id/ss_tishi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="3"
+            android:padding="@dimen/margin_size5"
+            android:text="您当前使用的是流量上网，进入APP时会下载十几兆资源"
+            android:textColor="@color/col_666"
+            android:textSize="@dimen/font_size14" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/col_eb"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_cancle_tishi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/font_size10"
+                android:text="不同意"
+                android:textColor="@color/col_666"
+                android:textSize="@dimen/font_size14" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/col_eb"></View>
+
+            <TextView
+                android:id="@+id/txt_ok_tishi"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/margin_size10"
+                android:text="同意"
+                android:textColor="@color/col_666" />
+        </LinearLayout>
+    </LinearLayout>
+    <!--<ImageView-->
+    <!--android:id="@+id/last"-->
+    <!--android:layout_width="@dimen/dp_40"-->
+    <!--android:layout_height="@dimen/margin_size30"-->
+    <!--android:src="@drawable/ic_keyboard_arrow_left_black_24dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_marginBottom="@dimen/dp_40"/>-->
+    <!--<ImageView-->
+    <!--android:id="@+id/next"-->
+    <!--android:layout_width="@dimen/dp_40"-->
+    <!--android:layout_height="@dimen/margin_size30"-->
+    <!--android:src="@drawable/ic_keyboard_arrow_right_black_24dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_marginBottom="@dimen/dp_40"/>-->
+</RelativeLayout>

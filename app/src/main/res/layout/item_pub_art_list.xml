@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="6dp">
+    <LinearLayout
+        android:id="@+id/art_list_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <me.panpf.sketch.SketchImageView
+            android:id="@+id/art_list_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:scaleType="fitXY" android:layout_margin="5dp"/>
+        <TextView
+            android:id="@+id/art_list_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:gravity="start"
+            android:layout_gravity="center_vertical"
+            android:singleLine="false"
+            android:maxLines="2"
+            android:textSize="16sp"
+            android:text="aefawefawef"/>
+    </LinearLayout>
+</LinearLayout>

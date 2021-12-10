@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/bg_head2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FF8E6A"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_10">
+
+        <TextView
+            android:id="@+id/txt_saoma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="扫一扫"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tv_title_content2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_weight="1"
+            android:background="@drawable/shape_zhantie"
+            android:drawableLeft="@mipmap/sousuo"
+            android:drawablePadding="@dimen/margin_size8"
+            android:padding="@dimen/margin_size8"
+            android:text="粘贴搜索优惠"
+            android:textColor="#f0f0f0"
+            android:textSize="@dimen/sp_14" />
+
+        <ImageView
+            android:id="@+id/tv_right2"
+            android:layout_width="@dimen/margin_size25"
+            android:layout_height="@dimen/margin_size25"
+            android:layout_marginRight="@dimen/margin_size5"
+            android:adjustViewBounds="true"
+            android:gravity="center" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FDAA8F">
+
+        <com.android.jdhshop.widget.indicator.MagicIndicator
+            android:id="@+id/magic_indicator"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/margin_size40"
+            android:layout_weight="1">
+
+        </com.android.jdhshop.widget.indicator.MagicIndicator>
+
+        <ImageView
+            android:id="@+id/img_more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_size5"
+            android:src="@drawable/ic_view_headline_black_24dp" />
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

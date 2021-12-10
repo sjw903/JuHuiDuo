@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="#F4B945"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_size50">
+        <LinearLayout
+            android:id="@+id/snseek_lyback"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="@dimen/margin_size35"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/seek_fanhui"
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+        </LinearLayout>
+        <EditText
+            android:id="@+id/snseek_etcont"
+            android:textSize="@dimen/font_size14"
+            android:gravity="center"
+            android:hint="搜索商品名"
+            android:background="@drawable/shape_ll"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_size80"
+            android:layout_marginLeft="@dimen/margin_size80"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size30" />
+        <TextView
+            android:id="@+id/snseek_button"
+            android:layout_marginRight="@dimen/margin_size15"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:text="确认"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</LinearLayout>

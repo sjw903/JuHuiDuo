@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_size5">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/margin_size5"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+        <ImageView
+            android:id="@+id/play_img"
+            android:visibility="gone"
+            android:layout_width="@dimen/margin_size60"
+            android:layout_centerInParent="true"
+            android:layout_height="@dimen/margin_size60"
+            android:src="@drawable/play"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title_child"
+            style="@style/textTitleContent"
+            android:layout_marginTop="@dimen/margin_size8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            tools:text="产品名称" />
+        <TextView
+            android:id="@+id/txt_desc"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/bg_txt_red"
+            android:layout_marginTop="@dimen/margin_size5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="@dimen/font_size12"
+            tools:text="产品产品名称产品名称名称" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tx2"
+                style="@style/textRedContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_size16"
+                android:textColor="#FA7522"
+                tools:text="¥20.00" />
+
+            <TextView
+                android:id="@+id/tx2_2"
+                style="@style/textHindContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_12"
+                android:layout_marginLeft="@dimen/margin_size5"
+                android:layout_toRightOf="@id/tx2"
+                tools:text="¥30.00" />
+            <TextView
+                android:id="@+id/tx5"
+                style="@style/textHindContent"
+                android:gravity="center|right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/margin_size11"
+                tools:text=":3000" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size5"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tx3"
+                style="@style/textAppColorContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/home_couponbox"
+                android:gravity="center"
+                android:paddingLeft="@dimen/margin_size30"
+                android:paddingRight="4dp"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                tools:text="5.0元" />
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="0dp"></View>
+            <TextView
+                android:id="@+id/tx4"
+                style="@style/textAppColorContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|right"
+                android:paddingTop="2dp"
+                android:background="@drawable/tx"
+                android:paddingRight="8dp"
+                android:paddingLeft="@dimen/margin_size8"
+                android:paddingBottom="2dp"
+                android:textSize="@dimen/margin_size11"
+                tools:text="5.0元" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

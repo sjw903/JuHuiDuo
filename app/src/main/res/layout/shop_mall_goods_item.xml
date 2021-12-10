@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_ll"
+    android:padding="@dimen/dp_10"
+    android:layout_margin="@dimen/margin_size5"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_150"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/margin_size5">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/shop_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size2"
+                    android:layout_marginRight="@dimen/margin_size2"
+                    android:adjustViewBounds="true"
+                    android:src="@mipmap/home_taobao"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/title_child"
+                    style="@style/textTitleContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    tools:text="产品名称" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size5"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tx2"
+                    style="@style/textRedContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_size18"
+                    tools:text="¥20.00" />
+                <TextView
+                    style="@style/textHindContent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/sp_12"
+                    android:text="元"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_size5"
+                    android:layout_toRightOf="@id/tx2"
+                    tools:text="¥30.00" />
+                <TextView
+                    android:id="@+id/tx2_2"
+                    style="@style/textHindContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_size5"
+                    android:layout_toRightOf="@id/tx2"
+                    tools:text="¥30.00" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tx5"
+                android:visibility="gone"
+                style="@style/textHindContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size5"
+                tools:text=":3000" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/txt_day"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size13"
+        android:text="she"
+        android:gravity="center"
+        android:background="@drawable/shape_btn2"
+        android:padding="@dimen/margin_size5"
+        android:layout_marginTop="@dimen/margin_size10"></TextView>
+    <TextView
+        android:id="@+id/tv_delete"
+        android:visibility="gone"
+        android:layout_width="@dimen/margin_size69"
+        android:layout_height="match_parent"
+        android:background="@color/red1"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="删除"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size14" />
+</LinearLayout>

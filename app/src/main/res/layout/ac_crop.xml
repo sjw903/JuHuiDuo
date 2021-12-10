@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/include_topbar"></include>
+    <com.edmodo.cropper.CropImageView
+        android:id="@+id/CropImageView"
+        android:layout_margin="@dimen/margin_size10"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_size20"
+        android:layout_weight="1"/>
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/margin_size50"
+        android:layout_height="wrap_content"
+        android:text="确定裁剪"
+        android:background="@drawable/bg_btn_red"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size16"/>
+</LinearLayout>

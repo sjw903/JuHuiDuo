@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css">
+	</head>
+	<body>
+		<template id="app">
+			<mu-paper :z-depth="1" class="demo-loadmore-wrap">
+			  <mu-appbar color="teal">
+				<mu-button icon slot="left">
+				  <mu-icon value="menu"></mu-icon>
+				</mu-button>
+				LoadMore
+				<mu-button icon slot="right" @click="refresh()">
+				  <mu-icon value="refresh"></mu-icon>
+				</mu-button>
+			  </mu-appbar>
+			  <mu-container ref="container" class="demo-loadmore-content">
+				<mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load">
+				  <mu-list>
+					<template v-for="i in num">
+					  <mu-list-item>
+						<mu-list-item-title>{{text}} Item {{i}}</mu-list-item-title>
+					  </mu-list-item>
+					  <mu-divider />
+					</template>
+				  </mu-list>
+				</mu-load-more>
+			  </mu-container>
+			</mu-paper>
+		</template>
+	</body>
+	<!-- import Vue before Element -->
+	<script src="js/vue.min.js"></script>
+	<script src="js/axios.min.js"></script>
+	<script src="js/muse-ui.js"></script>
+	<!-- import JavaScript -->
+	<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+	<script src="js/jquery.min.js"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					visible: false,
+					headerHeight: 30,
+					headerWidth: 320,
+					signUnit: "惠币",
+					signCoin: 0,
+					count: 0,
+					loading: false,
+					hasMore: true,
+					appKey_MaYiXingQiu: "6fab3143f92a739d",
+					goodsList: [],
+					      num: 20,
+					      refreshing: false,
+					      loading: false,
+					      text: 'List'
+				}
+			},
+			// 计算后的属性方法
+			computed: {
+				noMore() {
+					console.log("加载！");
+					return !this.hasMore
+				},
+				disabled() {
+					console.log(this.loading);
+					return this.loading
+				}
+			},
+			// 加载的自动执行，相当于onload = function(){}
+			mounted() {
+				/** 根据屏幕宽度计算偷图尺寸 */
+				const img = new Image();
+				img.src = "img/top_qd_bg.png";
+				let imgWidth = img.width;
+				let imgHeight = img.height;
+				let imgRatio = imgWidth / imgHeight;
+				img.width = window.innerWidth;
+				img.height = img.width / imgRatio;
+			
+				this.headerWidth = img.width
+				this.headerHeight = img.height
+				/** */
+				this.getAppSet();
+			
+			},
+			// 页面内方法
+			methods: {
+				refresh () {
+				  this.refreshing = true;
+				  this.$refs.container.scrollTop = 0;
+				  setTimeout(() => {
+					this.refreshing = false;
+					this.text = this.text === 'List' ? 'Menu' : 'List';
+					this.num = 10;
+				  }, 2000)
+				},
+				load () {
+					console.log(this.loading);
+				  this.loading = true;
+				  setTimeout(() => {
+					this.loading = false;
+					this.num += 10;
+				  }, 2000)
+				},
+				getAppSet() {
+					console.log("取配置！");
+					axios.defaults.withCredentials = true; //开启后服务器才能拿到cookie
+					axios.defaults.crossDomain = true; //配置axios跨域
+					axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8' //配置默认请求头
+					// get 用法
+					// axios.get("https://www.baidu.com").then(function(e){
+					// 	console.log(e);
+					// }).catch(function(e){
+					// 	console.log(e);
+					// })
+					// post 用户
+					this.loadGoodsMore(2);
+					this.goodsList.sort(function() {
+						return Math.random() - 0.5;
+					})
+				},
+				// 读取更多的商品
+				loadGoodsMore(page) {
+					this.loading = true;
+					var load_jd = false;
+					var load_pdd = false;
+
+					axios.post("https://api-gw.haojingke.com/index.php/v1/api/jd/getgoodshot", {
+						apikey: this.appKey_MaYiXingQiu,
+						pageindex: page,
+						pagesize: 10
+					}).then(res => {
+						for (item in res.data.data.data) {
+							res.data.data.data[item].source = 'jd';
+							this.goodsList.push(res.data.data.data[item]);
+						}
+						// this.goodsList.push(res.data.data);
+					}).catch(error => {
+						console.log(error);
+					}).finally(() => {
+						console.log("finally");
+						load_jd = true;
+						if (load_pdd) this.loading = false;
+					})
+
+					axios.post("https://api-gw.haojingke.com/index.php/v1/api/pdd/getthemegoods", {
+						apikey: this.appKey_MaYiXingQiu,
+						pageindex: page,
+						pagesize: 10,
+						theme_id: 7595
+					}).then(res => {
+
+						for (item in res.data.data.goods_list) {
+							res.data.data.goods_list[item].source = 'pdd';
+							this.goodsList.push(res.data.data.goods_list[item]);
+						}
+					}).catch(error => {
+						console.log(error);
+					}).finally(() => {
+						console.log("finally");
+						load_pdd = true;
+						if (load_jd) this.loading = false;
+					})
+				},
+			},
+
+		})
+	</script>
+	
+</html>

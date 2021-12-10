@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="@dimen/margin_size50">
+
+        <LinearLayout
+            android:id="@+id/xuanpink_lyback"
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/xuanpink_fanhui"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                 />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="选品库"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size18" />
+    </RelativeLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlAccentColor="@android:color/white"
+        app:srlPrimaryColor="#444444">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <com.android.jdhshop.utils.MyScrollView
+            android:id="@+id/scro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <com.android.jdhshop.widget.MyListView
+            android:id="@+id/xuanpink_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size10"
+            android:layout_marginRight="@dimen/margin_size10"
+            android:divider="@color/col_f7"
+            android:horizontalSpacing="@dimen/margin_size5"
+            android:numColumns="2"
+            android:scrollbars="none"
+            android:verticalSpacing="@dimen/margin_size5" />
+        </com.android.jdhshop.utils.MyScrollView>
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <ImageView
+        android:id="@+id/aiicon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|right"
+        android:background="@drawable/yinying"
+        android:layout_marginBottom="@dimen/margin_size110"
+        android:layout_marginRight="@dimen/margin_size30"
+        android:adjustViewBounds="true"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/qunliaoicon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/yinying"
+        android:layout_gravity="bottom|right"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/margin_size160"
+        android:layout_marginRight="@dimen/margin_size30"
+        android:adjustViewBounds="true"
+        />
+</RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/style_rootlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fragment"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_topbar" />
+
+    <WebView
+        android:id="@+id/wv"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/margin_size50"
+        android:layout_height="match_parent"
+       />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/ll_bottom"
+        android:visibility="gone"
+        android:padding="@dimen/margin_size10"
+        android:layout_height="@dimen/margin_size60">
+        <ImageView
+            android:id="@+id/btn_copy"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_marginLeft="@dimen/margin_size30"
+            android:layout_marginRight="@dimen/font_size15"
+            android:layout_height="@dimen/margin_size40"
+            android:background="@drawable/btn_one"/>
+        <ImageView
+            android:id="@+id/btn_share"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_marginLeft="@dimen/font_size15"
+            android:layout_marginRight="@dimen/margin_size30"
+            android:layout_height="@dimen/margin_size40"
+            android:background="@drawable/btn_two"/>
+    </LinearLayout>
+</FrameLayout>

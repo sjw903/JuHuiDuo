@@ -1,0 +1,63 @@
+body{
+	background-color: rgb(245,245,245);
+}
+.substation_header{
+	background-color: #fe7454;
+	display: flex;
+	flex-direction: row;
+	font-size: 1.3rem;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem 0 .5rem 0;
+	color: #FFFFFF;
+}
+.substation_header .iconfont { font-size: 1.3rem; }
+.substation_header .left{ padding: 0 1rem; }
+.substation_header .title{ flex-grow: 1; text-align: center; font-size: 1.4rem; }
+.substation_header .right{ padding: 0 1rem; display: flex; flex-direction: row; justify-content: center; align-items: center; }
+.substation_header .right .iconfont { font-size: 1.5rem; }
+
+.substation_item{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	
+	background-color: #FFFFFF;
+	margin: .5rem;
+	border-radius: 1rem;
+	font-size: 1rem;
+	padding: .3rem 0 1rem 0;
+}
+.substation_item .item_line{ padding: 1rem .5rem 0 1rem; width: 100%; display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
+.substation_item .item_line.align_end{ justify-content: flex-end; }
+.substation_item .item_line.align_start{ align-items: flex-start; }
+.substation_item .item_line .gray_line{ background-color: rgb(245,245,245); width: 100%; padding: .5rem .4rem .5rem 1rem ; border-radius: 2rem; display: flex; flex-direction: row; justify-content: space-between; color: #FE7454; }
+.substation_item .item_line .gray_line .opt_lnk{flex-grow: 1; flex-wrap: wrap; word-break: break-all; }
+.substation_item .item_line .gray_line .opt_bt{ padding: 0 .8rem 0 .8rem; align-self: center; }
+.substation_item .item_line button { margin-right: .5rem; font-size: .875rem; }
+.substation_item .item_line .line_label { flex-shrink: 0; } 
+.substation_item .item_line .line_label_c{ flex-grow: 1; margin-left: 1rem; flex-wrap: wrap; display: flex; justify-content: space-between; align-items: center; }
+.substation_item .item_line .line_label_c span { font-size: 0.875rem; padding: .2rem .2rem; margin: 0 .2rem .2rem 0; text-align: center; flex-shrink: 0; width: 30%; white-space: nowrap; }
+.has_no_data{ text-align: center; width: 100%; padding: 1rem 0; }
+
+.model_layer_mash{ background-color: rgba(0,0,0,.7); position: fixed; top: 0; left: 0; bottom: 0; right:0; z-index: 9000; display: flex; justify-content: center; align-items: center; flex-direction: column; }
+.model_layer_content{ background-color: #FFFFFF; width: 90%; border-radius: .6rem; padding: 1rem; font-size: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.model_layer_content_line { flex-grow: 1; display: flex; flex-direction: row; justify-content: center; align-items: center; width: 100%; padding: .7rem 0rem; }
+.model_layer_content_line .label { font-size: 1rem; color: #000000; width: 30%; }
+.model_layer_content_line .form { font-size: .8rem; flex-grow: 1; display: flex; flex-wrap: wrap;  }
+.model_layer_content_line .form .check_box { width: 50%; }
+.model_layer_content_line textarea { resize: none; flex-grow: 1; background-color: #EEEEEE; outline: 0; border: 0; margin: 0 .5rem; min-height: 10rem; padding: .8rem; }
+.model_layer_content_line .form input { border: 0; outline: 0; background-color: #EEEEEE; padding: .5rem; flex-grow: 1; border-radius: .3rem; font-size: 1rem;}
+.model_layer_content_line .form .baby_from { border: 0; outline: 0; background-color: #EEEEEE; flex-grow: 1; border-radius: .3rem; font-size: 1rem; display: flex; justify-content: space-between; align-items: center; padding: 0 .5rem 0 0; }
+.model_layer_content_line button { outline: 0; border: 0.0625rem solid #FFFFFF; border-radius: .3rem; padding: .7rem 0; margin: 0 .3rem; flex-grow: 1; }
+.model_layer_content_line button.normal { background-color: #FE7454; color: #FFF; }
+.model_layer_content_line button.revert { border-color: #FE7454; background-color: #FFFFFF; color: #FE7454; }
+/* 公众号文章监测 */
+.item_line span{ font-size: 0.75rem; padding: 0;}
+.item_line span .color_orange{ padding-left: .3rem; }
+.item_line .option_icon { padding-left: .5rem; align-self: flex-start; }
+.item_line .sub_flex { display: flex; flex-direction: row; justify-content: space-between; background-color: rgba(100,100,100,.1); padding: .4rem .5rem; border-radius: 3rem; flex: 0 0 31%; }
+.item_line .sub_flex span{ font-weight: bold; font-size: 0.875rem; padding-left: .4rem; }
+.item_line .sub_flex .iconfont { color: #FE7454; }
+.item_line .bigfont{ font-size: 1rem;}

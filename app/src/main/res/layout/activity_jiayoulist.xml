@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="#f7f7f7"
+    android:layout_height="match_parent">
+    <LinearLayout
+
+        android:layout_above="@+id/top"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:background="@mipmap/bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50">
+            <LinearLayout
+                android:id="@+id/jiayou_lyback"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_width="35dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@mipmap/icon_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <TextView
+                android:textSize="18dp"
+                android:textColor="@color/white"
+                android:layout_centerInParent="true"
+                android:text="全国加油优惠"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/jiayou_goorder"
+                android:textColor="@color/white"
+                android:layout_marginRight="10dp"
+                android:text="订单"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/jiayou_title"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50">
+            <LinearLayout
+                android:id="@+id/jiayou_left"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <org.angmarch.views.NiceSpinner
+                    android:id="@+id/jiayou_leftspinner"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:text="加油站"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/jiayou_center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <org.angmarch.views.NiceSpinner
+                    android:id="@+id/jiayou_centspinner"
+                    android:gravity="center_vertical"
+                    app:autoSizeMaxTextSize="@dimen/sp_12"
+                    android:layout_width="wrap_content"
+                    android:text="92号油"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/jiayou_right"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <org.angmarch.views.NiceSpinner
+                    android:id="@+id/jiayou_rightspinner"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:text="距离最近"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/jiayou_right2"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                android:layout_height="match_parent">
+                <org.angmarch.views.NiceSpinner
+                    android:id="@+id/jiayou_rightspinner2"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:text="距离最近"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            app:srlPrimaryColor="#444444"
+            app:srlAccentColor="@android:color/white"
+            android:layout_height="match_parent">
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <com.android.jdhshop.utils.MyScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.android.jdhshop.utils.MyRecyclerView
+                        android:visibility="gone"
+                        android:id="@+id/jiayou_recy2"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </com.android.jdhshop.utils.MyRecyclerView>
+
+                    <com.android.jdhshop.utils.MyRecyclerView
+                        android:id="@+id/jiayou_recy"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp">
+
+                    </com.android.jdhshop.utils.MyRecyclerView>
+                </LinearLayout>
+            </com.android.jdhshop.utils.MyScrollView>
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@id/top"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <LinearLayout
+            android:id="@+id/jiayou_ly1"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/jiayou_img1"
+
+                android:layout_width="27dp"
+                android:layout_height="25dp" />
+            <TextView
+                android:textColor="#FD7700"
+                android:id="@+id/jiayou_tv1"
+                android:layout_marginTop="3dp"
+                android:text="优惠加油"
+                android:textSize="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/jiayou_ly2"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/jiayou_img2"
+
+                android:layout_width="27dp"
+                android:layout_height="25dp" />
+            <TextView
+                android:textColor="#989898"
+                android:id="@+id/jiayou_tv2"
+                android:layout_marginTop="3dp"
+                android:text="我的订单"
+                android:textSize="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

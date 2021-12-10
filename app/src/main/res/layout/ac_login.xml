@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/back"
+        android:layout_marginTop="@dimen/margin_size30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/icon_back"
+        android:layout_marginLeft="@dimen/margin_size20"
+        android:padding="@dimen/margin_size10"/>
+    <LinearLayout
+        android:layout_below="@id/back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/margin_size20"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="手机号登录"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:textSize="@dimen/font_size25"
+            android:textColor="@color/black"
+            android:padding="@dimen/margin_size20"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size20"
+            android:layout_marginTop="@dimen/margin_size20"
+            android:layout_marginRight="@dimen/margin_size20"
+            android:background="@null"
+            android:paddingTop="@dimen/margin_size5">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_account"
+                android:layout_width="match_parent"
+                android:drawablePadding="@dimen/margin_size5"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入手机号"
+                android:drawableLeft="@mipmap/login_phone"
+                android:paddingTop="@dimen/margin_size5"
+                android:paddingBottom="@dimen/margin_size5"
+                android:textSize="@dimen/font_size16" />
+        </android.support.design.widget.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size1"
+            android:layout_marginLeft="@dimen/margin_size20"
+            android:layout_marginRight="@dimen/margin_size20"
+            android:background="@color/col_eb"></View>
+        <!--密码-->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size20"
+            android:layout_marginTop="@dimen/margin_size15"
+            android:layout_marginRight="@dimen/margin_size20"
+            android:background="@null"
+            android:paddingTop="@dimen/margin_size5">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_psd"
+                android:layout_width="match_parent"
+                android:drawablePadding="@dimen/margin_size5"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="请输入密码"
+                android:inputType="textPassword"
+                android:drawableLeft="@mipmap/login_pwd"
+                android:paddingTop="@dimen/margin_size5"
+                android:paddingBottom="@dimen/margin_size5"
+                android:textSize="@dimen/font_size16" />
+        </android.support.design.widget.TextInputLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size1"
+            android:layout_marginLeft="@dimen/margin_size20"
+            android:layout_marginRight="@dimen/margin_size20"
+            android:background="@color/col_eb"></View>
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50"
+            android:layout_marginLeft="@dimen/margin_size20"
+            android:layout_marginTop="@dimen/margin_size40"
+            android:layout_marginRight="@dimen/margin_size20"
+            android:gravity="center"
+            android:text="登录"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size14" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size10"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_forgotpsd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="@dimen/margin_size15"
+                android:layout_marginRight="@dimen/margin_size40"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:text="忘记密码或遇到问题?"
+                android:textColor="@color/col_999"
+                android:textSize="@dimen/font_size14" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

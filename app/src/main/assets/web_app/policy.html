@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css">
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- es6 promise修复组件 -->
+		<script src="js/es6-promise.auto.min.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<!-- 图片压缩组件 -->
+		<script src="js/lrz.bundle.js"></script>
+	</head>
+	<body>
+		<template id="app">
+			<div>
+				<div class="common_header" ref="header">
+					<div class="common_back" @click="backPress()"><i class="iconfont icon-fanhui1"></i></div>
+					<div class="common_title">{{common_title}}</div>
+					<div class="common_right"></div>
+				</div>
+				<div class="spaceline" ref="space_line" style="background-color: #0000FF;"></div>
+				<mu-container class="demo-container is-stripe">
+					<div class="common_content" v-html="common_content"></div>
+				</mu-container>
+			</div>
+		</template>
+	</body>
+
+	<script>
+		$vm = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					art_id: 0,
+					common_title: "公用页面标题",
+					common_content: ""
+				}
+			},
+			computed: {},
+			mounted() {
+				this.art_id = getQueryVariable('id');
+				if (window.juduohui != undefined) {
+					juduohui.addEventListen("back", "backPress()");
+				}
+				axios.defaults.withCredentials = true; //开启后服务器才能拿到cookie
+				axios.defaults.crossDomain = true; //配置axios跨域
+				axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8' //配置默认请求头
+				axios.defaults.baseURL = api_host // 基础网址
+				axios.defaults.responseType = 'json'
+				//console.log(this.art_id);
+				if (this.art_id != false && this.art_id != 0) {
+					this.getArt()
+				}
+				//console.log(this.$refs.header.offsetHeight);
+				this.$refs.space_line.style.height = this.$refs.header.offsetHeight + "px"
+			},
+			// 页面内方法
+			methods: {
+				backPress() {
+					backPress();
+				},
+				getArt() {
+					//console.log("取文章")
+					var data = {
+						"token": getToken(),
+						"article_id": this.art_id
+					}
+					axios.post(api_list.getArticleMsg, data).then((res) => {
+						//console.log(res)
+						this.common_title = res.data.data.article_msg.title
+						this.common_content = res.data.data.article_msg.content
+
+					}).catch((err) => {
+						//console.log(err)
+					})
+				}
+			},
+
+		})
+	</script>
+
+</html>

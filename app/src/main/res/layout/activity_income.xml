@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/col_f7"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_jb"
+        android:elevation="@dimen/margin_size1"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_size15">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_left"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@mipmap/icon_back_while"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:textSize="@dimen/font_size14" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="我的收益"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size16" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/edt_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size15"
+            android:gravity="center"
+            android:text="¥:"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size30"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size12"
+            android:layout_marginTop="@dimen/margin_size10"
+            android:layout_marginRight="@dimen/margin_size12"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="累计结算收益"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size14" />
+
+        <TextView
+            android:id="@+id/txt_ye"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size12"
+            android:layout_marginTop="@dimen/margin_size10"
+            android:layout_marginRight="@dimen/margin_size12"
+            android:layout_marginBottom="@dimen/margin_size20"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="账户余额(元): ¥"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size16" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_size10">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="上月预估收入(元)"
+                        android:textSize="@dimen/font_size14" />
+
+                    <TextView
+                        android:id="@+id/txt_may_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margin_size8"
+                        android:text="¥"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size18" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/margin_size1"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_size20"
+                    android:layout_marginBottom="@dimen/margin_size20"
+                    android:background="@color/col_f7"></View>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_size10">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="本月预估收入(元)"
+                        android:textSize="@dimen/font_size14" />
+
+                    <TextView
+                        android:id="@+id/txt_today_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margin_size8"
+                        android:text="¥"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size18" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/margin_size12"
+                android:text="每月22号计算上月预估收入,本月预估收入将在下月22号结算"
+                android:textSize="@dimen/font_size12" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size10"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/margin_size20">
+
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/radio_group"
+                    android:checkedButton="@id/radio_one"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_one"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_radio_left"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/margin_size5"
+                        android:text="今日"
+                        android:textColor="@drawable/selector_txt"
+                        android:textSize="@dimen/font_size14" />
+
+                    <RadioButton
+                        android:id="@+id/radio_two"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_radio"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/margin_size5"
+                        android:text="昨日"
+                        android:textColor="@drawable/selector_txt"
+                        android:textSize="@dimen/font_size14" />
+                    <View
+                        android:layout_width="@dimen/margin_size1"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"></View>
+                    <RadioButton
+                        android:id="@+id/radio_three"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_radio"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/margin_size5"
+                        android:text="近7日"
+                        android:textColor="@drawable/selector_txt"
+                        android:textSize="@dimen/font_size14" />
+
+                    <RadioButton
+                        android:id="@+id/radio_four"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_radio_right"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:padding="@dimen/margin_size5"
+                        android:text="近30日"
+                        android:textColor="@drawable/selector_txt"
+                        android:textSize="@dimen/font_size14" />
+                </RadioGroup>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size10"
+                    android:layout_marginLeft="@dimen/margin_size30"
+                    android:layout_marginRight="@dimen/margin_size20">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="付款订单(笔)"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/font_size14" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="付款预估收入(元)"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/font_size14" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_size30"
+                    android:layout_marginRight="@dimen/margin_size30">
+                    <TextView
+                        android:id="@+id/txt_order_num"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size14" />
+                    <TextView
+                        android:id="@+id/txt_pay_money"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text=""
+                        android:paddingLeft="@dimen/margin_size10"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size16" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size8"
+                    android:layout_marginLeft="@dimen/margin_size20"
+                    android:layout_marginRight="@dimen/margin_size20">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="@dimen/margin_size10"
+                        android:text="结算收入(元)"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/font_size14" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_size20"
+                    android:layout_marginRight="@dimen/margin_size20">
+                    <TextView
+                        android:id="@+id/txt_actual_money"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingLeft="@dimen/margin_size10"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/font_size16" />
+                </TableRow>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_commission"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/margin_size10"
+                android:background="@color/white"
+                android:drawableRight="@mipmap/icon_my_user_next"
+                android:gravity="center_vertical|left"
+                android:paddingLeft="@dimen/margin_size20"
+                android:paddingRight="@dimen/margin_size20"
+                android:text="结算明细"
+                android:textColor="@color/col_title"
+                android:textSize="@dimen/font_size15" />
+            <TextView
+                android:id="@+id/tv_team"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/margin_size1"
+                android:background="@color/white"
+                android:drawableRight="@mipmap/icon_my_user_next"
+                android:gravity="center_vertical|left"
+                android:paddingLeft="@dimen/margin_size20"
+                android:paddingRight="@dimen/margin_size20"
+                android:text="团队收入"
+                android:textColor="@color/col_title"
+                android:textSize="@dimen/font_size15" />
+            <TextView
+                android:id="@+id/tv_put_forward"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/margin_size1"
+                android:background="@color/white"
+                android:drawableRight="@mipmap/icon_my_user_next"
+                android:gravity="center_vertical|left"
+                android:paddingLeft="@dimen/margin_size20"
+                android:paddingRight="@dimen/margin_size20"
+                android:text="提现明细"
+                android:textColor="@color/col_title"
+                android:textSize="@dimen/font_size15" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

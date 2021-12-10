@@ -1,0 +1,25 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 连框颜色值 -->
+    <item>
+        <shape>
+            <gradient android:angle="135"
+                android:startColor="#2C3039"
+                android:endColor="#FDEAA5"/>
+            <corners android:radius="@dimen/margin_size5"/>
+        </shape>
+    </item>
+    <!-- 主体背景颜色值 -->
+    <item android:left="1dp" android:top="1dp" android:right="1dp" android:bottom="1dp">
+        <shape>
+            <solid android:color="#2C3039" />
+            <corners android:radius="@dimen/margin_size5"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <stroke
+                android:color="#FDEAA5"
+                android:width="0dp" />
+        </shape>
+    </item>
+</layer-list>

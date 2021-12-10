@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_topbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--产品来源-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_size45"
+            android:layout_marginLeft="@dimen/margin_size12"
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="产品来源：   " />
+
+
+           <CheckBox
+                android:id="@+id/cb_tm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:button="@drawable/select_checkbox_round_new"
+               android:background="@null"
+                android:checked="true"
+               android:textColor="@color/col_333"
+               android:paddingLeft="@dimen/margin_size4"
+               android:drawablePadding="@dimen/margin_size4"
+                android:text="天猫" />
+            <CheckBox
+                android:id="@+id/cb_bm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_size12"
+                android:button="@drawable/select_checkbox_round_new"
+                android:background="@null"
+                android:textColor="@color/col_333"
+                android:drawablePadding="@dimen/margin_size4"
+                android:paddingLeft="@dimen/margin_size4"
+                android:text="天猫、淘宝" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size0"
+            android:background="@color/col_eb" />
+
+        <!--券后价区间-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_size45"
+            android:layout_marginLeft="@dimen/margin_size12"
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="折扣价区间：" />
+
+            <EditText
+                android:id="@+id/et_start"
+                android:layout_width="@dimen/margin_size69"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:paddingLeft="@dimen/margin_size6"
+                android:textSize="@dimen/font_size14"
+                android:inputType="number"
+                android:textColor="@color/col_333"
+                android:gravity="center"
+                android:background="@drawable/bg_btn_no_corners_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_size6"
+                android:text="元"
+                android:textColor="@color/red1" />
+
+            <View
+                android:layout_width="@dimen/margin_size50"
+                android:layout_height="@dimen/margin_size0"
+                android:layout_marginLeft="@dimen/margin_size12"
+                android:layout_marginRight="@dimen/margin_size12"
+                android:background="@color/col_eb" />
+
+            <EditText
+                android:id="@+id/et_end"
+                android:layout_width="@dimen/margin_size69"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:paddingLeft="@dimen/margin_size6"
+                android:inputType="number"
+                android:textSize="@dimen/font_size14"
+                android:textColor="@color/col_333"
+                android:gravity="center"
+                android:background="@drawable/bg_btn_no_corners_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_size6"
+                android:text="元"
+                android:textColor="@color/red1" />
+        </LinearLayout>
+        <!--分享赚比例-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_size45"
+            android:layout_marginLeft="@dimen/margin_size12"
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="分享赚比例：" />
+
+            <EditText
+                android:id="@+id/et_start1"
+                android:layout_width="@dimen/margin_size69"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:paddingLeft="@dimen/margin_size6"
+                android:inputType="number"
+                android:textSize="@dimen/font_size14"
+                android:gravity="center"
+                android:textColor="@color/col_333"
+                android:background="@drawable/bg_btn_no_corners_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_size6"
+                android:text=" %"
+                android:textColor="@color/red1" />
+
+            <View
+                android:layout_width="@dimen/margin_size50"
+                android:layout_height="@dimen/margin_size0"
+                android:layout_marginLeft="@dimen/margin_size12"
+                android:layout_marginRight="@dimen/margin_size12"
+                android:background="@color/col_eb" />
+
+            <EditText
+                android:id="@+id/et_end1"
+                android:layout_width="@dimen/margin_size69"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:paddingLeft="@dimen/margin_size6"
+                android:textSize="@dimen/font_size14"
+                android:inputType="number"
+                android:gravity="center"
+                android:textColor="@color/col_333"
+                android:background="@drawable/bg_btn_no_corners_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_size6"
+                android:text=" %"
+                android:textColor="@color/red1" />
+        </LinearLayout>
+        <!--商品关键词-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size45"
+            android:layout_marginLeft="@dimen/margin_size12"
+            android:layout_marginRight="@dimen/margin_size12"
+            android:gravity="center_vertical|left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="商品关键词：" />
+
+            <EditText
+                android:id="@+id/et_keyword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/margin_size8"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_size8"
+                android:singleLine="true"
+                android:paddingLeft="@dimen/margin_size6"
+                android:textSize="@dimen/font_size14"
+                android:textColor="@color/col_333"
+                android:background="@drawable/bg_btn_high_gray" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size45"
+            android:layout_marginLeft="@dimen/margin_size12"
+            android:layout_marginRight="@dimen/margin_size12"
+            android:gravity="center"
+            android:background="@drawable/bg_btn_red"
+            android:textColor="@color/white"
+            android:paddingTop="@dimen/margin_size6"
+            android:paddingBottom="@dimen/margin_size6"
+            android:text="商品搜索" />
+    </LinearLayout>
+</LinearLayout>

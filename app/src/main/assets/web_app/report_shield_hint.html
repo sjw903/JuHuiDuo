@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css" />
+
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- es6 promise修复组件 -->
+		<script src="js/es6-promise.auto.min.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<!-- 图片压缩组件 -->
+		<script src="js/lrz.bundle.js"></script>
+	</head>
+	<style>
+		.mu-radio-label{
+			font-size: .75rem;
+		}
+	</style>
+	<body style="height: 12rem;">
+	<template id="app">
+	<mu-container style="padding: 0;margin: 0;">
+	<div>
+		<mu-form>
+			<div class="art_form_title" style="padding-top: 0;padding-bottom: .5rem;">请选择举报原因或直接屏蔽分类</div>
+			<mu-form-item prop="radio" label=""
+						  style="display: flex; align-items: center; justify-content: space-between;position: static;margin: 0;padding: 0;">
+				<mu-container>
+					<mu-row class="radio_groups" gutter>
+						<template v-for="(item,index) in form_radio_list">
+							<mu-col class="radio_item" span="4">
+								<div class="grid-cell">
+									<mu-radio style="font-size: .75rem;" v-model="form.radio" :value="item.id" :label="item.text"
+											  color="#fe7454"></mu-radio>
+								</div>
+							</mu-col>
+						</template>
+					</mu-row>
+
+					<mu-row class="switch_groups" v-if="form.radio == 8" gutter>
+						<template v-for="(item,index) in form_disable_switch_list">
+							<mu-col class="switch_items" span="6" >
+								<mu-switch :label="item.type_name" :label-left="true" v-model="form_disable_switch_list[index].value" color="#fe7454"></mu-switch>
+							</mu-col>
+						</template>
+					</mu-row>
+
+					<mu-row @click="submitTipOff">
+						<mu-col class="button_groups" style="padding-top: 0;margin: 0;">
+							<mu-button color="#fe7454" style="padding-top: 0;margin: 0;">举报</mu-button>
+						</mu-col>
+					</mu-row>
+				</mu-container>
+			</mu-form-item>
+		</mu-form>
+	</div>
+	</mu-container>
+	</template>
+	</body>
+	<script>
+		var vue = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					form_radio_list: [{
+						"id": 1,
+						"text": "链接打不开"
+						},
+						{
+							"id": 2,
+							"text": "体验已过期"
+						},
+						{
+							"id": 3,
+							"text": "欺诈"
+						},
+						{
+							"id": 4,
+							"text": "色情"
+						},
+						{
+							"id": 5,
+							"text": "拉人头"
+						},
+						{
+							"id": 6,
+							"text": "搜集公民隐私"
+						},
+						{
+							"id": 7,
+							"text": "违法犯罪"
+						},
+						{
+							"id": 8,
+							"text": "屏蔽此类报告"
+						},
+					],
+					form_disable_switch_list:[{"jdh_type_id":77,"type_name":"多多砍价","value":false}],
+					form: {
+						radio: []
+					},
+					result: {}
+				}
+			},
+			// 计算后的属性方法
+			computed: {},
+			// 变量监听，少用
+			watch: {},
+			// 加载的自动执行，相当于onload = function(){}
+			mounted() {
+				commonAppSetting()
+				this.form_disable_switch_list = JSON.parse(localReadLib.load('form_disable_switch_list'))
+				this.result = JSON.parse(localReadLib.load('task_result'))
+				localReadLib.del('form_disable_switch_list')
+				localReadLib.del('task_result')
+			},
+			methods: {
+				closeTipOff() {
+					dialog.close();
+				},
+				async submitTipOff() {
+					//console.log("举报" + this.form.radio + JSON.stringify(this.form_switch_list))
+					if (this.form.radio == ''){
+						alertMessage('请勾选举报原因！')
+						return
+					}
+					var that = this;
+
+					var display_msg = "";
+					// localReadLib.del("current_task_is_start")
+					// 仅在“屏蔽此类报告”时才进行提交屏蔽操作。
+					var cancel_task = false;//如果是举报任务的时候，将现在用户接的任务取消
+					if (this.form_radio_list[this.form.radio-1].text.indexOf("屏蔽")>-1){
+						// 屏蔽并放弃
+						var disable_close_type = [],disable_open_type = []
+						//console.log(this.form_disable_switch_list)
+						for (var i = 0; i < this.form_disable_switch_list.length; i++) {
+							if (this.form_disable_switch_list[i].value != undefined) {
+
+								if (this.form_disable_switch_list[i].value){
+									disable_close_type.push(this.form_disable_switch_list[i].jdh_type_id)
+								}
+								else{
+									disable_open_type.push(this.form_disable_switch_list[i].jdh_type_id)
+								}
+							}
+						}
+
+						if (disable_close_type.length>0){
+							var post_data = {
+								token: getToken(),
+								type_id: disable_close_type.join(","),
+								status: 2
+							}
+							await axios.post(api_list.setType, post_data).then((res) => {
+								//console.log("disable_close_type","res",res,JSON.stringify(res))
+							}).catch(err => {
+								//console.log("disable_close_type","err",err)
+							})
+
+						}
+						if (disable_open_type.length>0){
+							var post_data = {
+								token: getToken(),
+								type_id: disable_open_type.join(","),
+								status: 1
+							}
+							await axios.post(api_list.setType, post_data).then((res) => {
+								//console.log("disable_open_type","res",res,JSON.stringify(res))
+							}).catch(err => {
+								//console.log("disable_open_type","err",err)
+							})
+						}
+
+						display_msg = "屏蔽成功"
+					} else{
+						// 举报并放弃
+						var data = {
+							"token": getToken(),
+							"task_id": this.result.id,
+							"inform_type": this.form.radio,
+						};
+						await axios.post(api_list.informSurveyTask, data).then((res) => {
+							// alertMessage(res.data.msg, function() {});
+							display_msg = res.data.msg
+						}).catch((err) => {
+							//console.log(JSON.stringify(err))
+							display_msg = "服务开了点小差，请稍后再试。"
+						})
+						cancel_task = true;
+					}
+
+					var callback = null;
+					if (cancel_task || disable_open_type.indexOf(this.result.task_type_id) === -1) {
+						//console.log("需要取消任务");
+						// 放弃任务
+						await this.cancelSurveyTask(false);
+						callback = function(){
+							dialog.close();
+						}
+					}
+					else{
+						callback = function(){
+							dialog.close();
+						}
+						//console.log("不需要")
+						dialog.close();
+					}
+					localReadLib.save('survey_task_backPress','1')
+					alertMessage(display_msg,function(){
+						backPress();
+					})
+				},
+				async cancelSurveyTask(has_message) {
+
+					let that = this;
+					let view_message = has_message === undefined ? true : has_message;
+					var display_message = ""; // 显示的文本信息
+
+					if (this.result.id == undefined || this.result.id == "") {
+						alertMessage("还没有领取调查报告");
+						return
+					}
+
+					localReadLib.del("current_task_is_start")
+					// localStorage.removeItem("current_task_result");
+					if (this.result.task_type === "yx"){
+
+						await axios.get(yx_host + yx_api.getCookie).then(res=>{
+							//console.log("取COOKIES")
+							//console.log(JSON.stringify(res))
+						}).catch(err=>{})
+
+						// 云享逻辑
+						await axios.get( yx_api.cancelTask,{
+							baseURL:yx_host,
+							responseType:"text",
+						}).then(res=>{
+							//console.log("放弃任务结果" + JSON.stringify(res.data));
+							display_message = false
+							if (res.data == "添加标签成功" || res.data == '天数不能大于30,次数不能大于20'){
+								display_message = "取消成功"
+							} else if (res.data.success == true){
+								display_message = "取消成功"
+							}
+						}).catch(err=>{
+							//console.log(err);
+						})
+						if (!display_message){
+							alertMessage('取消失败，请退出后再次尝试');
+							return ;
+						}
+						var post_data = {
+							"token":getToken(),
+							"task_status":[{
+								"task_id":this.result.id,
+								"yx_status":5,
+							}],
+							"yx_cookie":this.result.yx_cookie
+						}
+
+						await axios.post(api_list.updateYxTaskRecord,post_data).then(res=>{
+
+						}).catch(err=>{
+							display_message = "出错 "
+							//console.log("出错：" + JSON.stringify(err) )
+						})
+						//console.log(JSON.stringify(display_message))
+						if (view_message){
+							alertMessage(display_message,function(){
+								backPress();
+							})
+						}
+					}
+					else{
+						// 小宝逻辑
+						var data = {
+							"token": getToken(),
+							"task_id": this.result.id
+						};
+
+						await axios.post(api_list.cancelSurveyTask, data).then(res => {
+							if (res.data.code === 0) {
+								if (view_message){
+									alertMessage(res.data.msg,function(){
+										backPress();
+									})
+								}
+							}
+							else{
+								alertMessage(res.data.msg,function(){
+									backPress();
+								})
+							}
+
+						}).catch((err) => {
+							//console.log(err)
+						});
+					}
+				},
+			},
+
+		})
+	</script>
+
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_height="@dimen/margin_size80">
+    <RelativeLayout
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/margin_size80">
+        <ImageView
+            android:id="@+id/txjl_image"
+            android:layout_width="match_parent"
+            android:layout_height="70dp" />
+            <RelativeLayout
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:textSize="@dimen/font_size12"
+                        android:id="@+id/itemtxjl_qe"
+                        android:textColor="#542A08"
+                        android:text="五百"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+            </RelativeLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+            <TextView
+                android:maxLines="3"
+                android:id="@+id/itemtxjl_title"
+                android:layout_margin="@dimen/margin_size8"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_12"
+                android:text="leixing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/margin_size8"
+                android:layout_marginRight="@dimen/margin_size8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                    <TextView
+                        android:textSize="@dimen/font_size12"
+                        android:id="@+id/itemtxjl_time"
+                        android:text="time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textColor="#542A08"
+                        android:id="@+id/itemtxjl_ye"
+                        android:layout_alignParentRight="true"
+                        android:text="yue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+            </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:background="@color/white">
+    <include layout="@layout/include_topbar"></include>
+    <TextView
+        android:id="@+id/txt_order_num"
+        android:layout_width="match_parent"
+        android:textSize="@dimen/font_size16"
+        android:textColor="@color/col_333"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_size10"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="@dimen/font_size14"
+        android:textColor="@color/darkgray"
+        android:text="申请退款原因(必填)"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_size10"/>
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:lines="5"
+        android:text=""
+        android:layout_margin="@dimen/margin_size10"
+        android:textColor="@color/col_333"
+        android:textSize="@dimen/font_size14"
+        android:gravity="left|top"
+        android:padding="@dimen/margin_size10"
+        android:background="@drawable/et_bg"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:textSize="@dimen/font_size14"
+        android:textColor="@color/darkgray"
+        android:text="上传图片(选填)"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_size10"/>
+    <GridView
+        android:id="@+id/grid_view"
+        android:padding="@dimen/margin_size10"
+        android:horizontalSpacing="@dimen/margin_size5"
+        android:verticalSpacing="@dimen/margin_size5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:numColumns="3"
+        android:layout_weight="1"></GridView>
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:background="@drawable/bg_tv_circle_half_appmain"
+        android:textSize="@dimen/font_size14"
+        android:textColor="@color/white"
+        android:text="申请退款"
+        android:layout_margin="@dimen/margin_size40"
+        android:layout_height="@dimen/margin_size40" />
+</LinearLayout>

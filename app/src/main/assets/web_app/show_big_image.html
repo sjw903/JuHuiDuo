@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title></title>
+		<script src="js/jquery.min.js"></script>
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/show_big_image.css" />
+	</head>
+	<body>
+		<div class="img_box">
+			<img id="show_big_image" width="100%">
+		</div>
+		<script>
+		var img_url = localStorage.getItem("show_img_url");
+		$("#show_big_image").attr("src",img_url);
+		$(document).on("click","*",function(){
+			juduohui.closeWindow();
+		})
+		</script>
+	</body>
+</html>

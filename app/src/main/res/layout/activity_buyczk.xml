@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50">
+            <LinearLayout
+                android:id="@+id/buy_lyback"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="@dimen/margin_size35"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@mipmap/icon_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <TextView
+                android:textSize="@dimen/sp_16"
+                android:textColor="@color/black"
+                android:layout_centerInParent="true"
+                android:text="充值中心"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/buy_recy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/buy_button"
+        android:background="@drawable/btn_bg"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/margin_size15"
+        android:layout_marginRight="@dimen/margin_size15"
+        android:gravity="center"
+        android:textSize="@dimen/sp_16"
+        android:text="充值"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_size50"/>
+</RelativeLayout>

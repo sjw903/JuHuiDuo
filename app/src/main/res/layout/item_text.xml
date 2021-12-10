@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:paddingLeft="@dimen/margin_size5"
+    android:paddingRight="@dimen/margin_size5"
+    android:background="@color/col_f7"
+    android:textColor="@color/black"
+    android:paddingTop="@dimen/margin_size10"
+    android:paddingBottom="@dimen/margin_size10"
+    android:textSize="@dimen/font_size14"
+    android:layout_height="wrap_content">
+</TextView>

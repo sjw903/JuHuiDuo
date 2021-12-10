@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/substation.css" />
+
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- es6 promise修复组件 -->
+		<script src="js/es6-promise.auto.min.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<!-- 图片压缩组件 -->
+		<script src="js/lrz.bundle.js"></script>
+	</head>
+	<body>
+		<template id="app">
+			<mu-container ref="container" class="demo-loadmore-content" style="padding: 0; margin: 0;">
+				<!-- 顶部 -->
+				<div class="substation_header">
+					<div class="left" @click="backPress()"><i class="iconfont icon-fanhui1"></i></div>
+					<div class="title">{{option_type == 1 ? '公众号文章监测列表':'企业文章监测'}}</div>
+					<div class="right"><i @click="refresh()" class="iconfont icon-shuaxin" style="font-size: 1.35rem;"></i>&nbsp;&nbsp;<i
+							@click="addSubStation=true,form.textarea=''" class="iconfont icon-jiahao2" style="font-size: 1.6rem;"></i></div>
+				</div>
+				<!--添加分站弹窗开始 -->
+				<template v-if="addSubStation">
+					<div class="model_layer_mash">
+						<div class="model_layer_content" v-click-outside="closeAddSubStation">
+							<div class="model_layer_content_line"><span class="bold bigfont">添加监测</span></div>
+							<div class="model_layer_content_line">
+								<textarea class="textareas" v-model="form.textarea" :placeholder="'复制一篇'+ (option_type == 1 ? '公众号':'企业') +'文章链接，必须是'+ (option_type == 1 ? '公众':'企业') +'号的哟！'"></textarea>
+							</div>
+							<div class="model_layer_content_line" style="justify-content: space-between;">
+								<button class="normal" @click="submitAddMpMotion">确定</button>
+								<button class="revert" @click="closeAddSubStation">取消</button>
+							</div>
+						</div>
+					</div>
+				</template>
+				<!--添加分站弹窗结束-->
+				<!-- 正常顶部 -->
+				<mu-divider></mu-divider>
+				<mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load"
+					:loading-all="loaded_all">
+					<mu-list style="padding-bottom: 3rem;">
+						<template v-for="item,index in item_list">
+							<!-- 内容开始 -->
+							<div class="substation_item">
+								<div class="item_line"><span class="bold">{{item.title}}</span><span
+										class="option_icon" @click="optionStation(index,item)">
+										<template v-if="item.ex_station">
+											<i class="iconfont icon-xiangshang"></i>
+										</template>
+										<template v-else>
+											<i class="iconfont icon-xiala"></i>
+										</template>
+									</span></div>
+								<template v-if="item.ex_station">
+									<div class="item_line">
+										<span>创建时间:{{item.created_at}}</span>
+									</div>
+									<div class="item_line">
+										<span class="col-4">公众账号:<span
+												class="color_orange">{{item.name}}</span></span></span>
+										<span class="col-4">作者:<span
+												class="color_orange">{{item.author === '' ? '无':item.author}}</span></span>
+										<span class="col-2">原创:<span
+												class="color_orange">{{item.orginal ===1 ? '是':'否'}}</span></span>
+									</div>
+									<div class="item_line">
+										<span class="col-4">阅读:<span
+												class="color_orange">{{item.read_num}}</span></span>
+										<span class="col-4">点赞:<span
+												class="color_orange">{{item.look_num}}</span></span>
+										<span class="col-2">在看:<span
+												class="color_orange">{{item.praise_num}}</span></span>
+										</span>
+									</div>
+									<template v-if="option_type == 1">
+									<div class="item_line">
+										<span class="col-4 sub_flex"><span>原文链接</span><i
+												@click="copyHref(item.original_link)"
+												class="iconfont icon-fuzhi"></i></span>
+										<span class="col-4 sub_flex"><span>会话来源</span><i
+												@click="copyHref(item.dialogue_source)"
+												class="iconfont icon-fuzhi"></i></span>
+										<span class="col-4 sub_flex"><span>聊天会话</span><i
+												@click="copyHref(item.chat_dialogue)"
+												class="iconfont icon-fuzhi"></i></span>
+
+									</div>
+									<div class="item_line">
+										<span class="col-4 sub_flex"><span>收藏</span><i @click="copyHref(item.collect)"
+												class="iconfont icon-fuzhi"></i></span>
+										<span class="col-4 sub_flex "><span>朋友圈</span><i
+												@click="copyHref(item.circle_of_friends)"
+												class="iconfont icon-fuzhi"></i></span>
+										<span class="col-4 sub_flex"><span>看一看</span><i @click="copyHref(item.look)"
+												class="iconfont icon-fuzhi"></i></span>
+									</div>
+									</template>
+									<template v-else>
+										<div class="item_line" v-if="item.original_link !== ''">
+											<span class="col-2">原文链接:</span>
+											<span class="col-9 color_orange" style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">{{item.original_link}}</span>
+											<span class="col-1"><i @click="copyHref(item.original_link)" class="iconfont icon-fuzhi color_orange"></i></span>
+										</div>
+									</template>
+								</template>
+							</div>
+							<!-- 内容结束 -->
+						</template>
+						<template v-if="has_no_data"></template>
+					</mu-list>
+				</mu-load-more>
+				<div class="nospace" style="width: 100%; height: 3rem; display: block;"></div>
+			</mu-container>
+		</template>
+	</body>
+	<script>
+		var vue = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					option_type_ed: 0,
+					// 共用
+					refreshing: false,
+					loading: false,
+					loaded_all: false,
+					// 数据渲染使用
+					item_list: [],
+					// 表单数据
+					form: {},
+					addSubStation: false,
+					has_no_data: false,
+				}
+			},
+			// 计算后的属性方法
+			computed: {
+				option_type: {
+					get() {
+						var saved_type = localReadLib.load("art_motion_type")
+						if (saved_type === null) {
+							return 1;
+						} else {
+							return parseInt(saved_type);
+						}
+					}
+				}
+			},
+			// 变量监听，少用
+			watch: {},
+			// 加载的自动执行，相当于onload = function(){}
+			mounted() {
+				commonAppSetting()
+				this.loadData()
+			},
+			methods: {
+				refresh() {
+					this.refreshing = true;
+					this.$refs.container.scrollTop = 0;
+					this.item_list = []
+					this.loadData()
+				},
+				load() {
+					return true;
+					//console.log(this.loading);
+					this.page++;
+					this.loadData();
+					this.loading = true;
+					// setTimeout(() => {
+					// 	this.loading = false;
+					// }, 2000)
+				},
+				// 读取更多的商品
+				loadData() {
+					var data = {
+						token: getToken(),
+						type: this.option_type,
+					}
+					axios.post(api_list.articleMonitorrList, data).then(res => {
+						//console.log(res)
+						if (res.data.code === 0) {
+							var tmp_list = res.data.list;
+							for (var i in tmp_list){
+								tmp_list[i].ex_station = true;
+							}
+							this.item_list = this.item_list.concat(tmp_list)
+						}
+						this.loading = false, this.refreshing = false
+					}).then(err => {
+						this.loading = false, this.refreshing = false
+						//console.log(err)
+					})
+
+				},
+				// 提交添加分站申请
+				submitAddMpMotion() {
+					//console.log(this.form.textarea);
+					var data = {
+						token: getToken(),
+						type: this.option_type,
+						link: this.form.textarea
+					}
+					var that = this
+					axios.post(api_list.addArticleMonitor, data).then(res => {
+						//console.log(res)
+						var callback = null;
+						if (res.data.code === 0) {
+							callback = function() {
+								that.closeAddSubStation()
+								that.refresh()
+							}
+						} else {
+							callback = function() {
+								that.closeAddSubStation()
+							}
+						}
+						alertMessage(res.data.msg, callback)
+					}).then(err => {
+						//console.log(err)
+					})
+				},
+				closeAddSubStation() {
+					this.addSubStation = false;
+				},
+				copyHref(link_href) {
+					localReadLib.copyToClip(link_href)
+					alertMessage("复制成功")
+				},
+				optionStation(index,item){					
+					if (this.item_list[index].ex_station !== true){
+						this.item_list[index].ex_station = true
+					}
+					else{
+						this.item_list[index].ex_station = false
+					}
+				}
+
+			},
+
+		})
+	</script>
+
+</html>

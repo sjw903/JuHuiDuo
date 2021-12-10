@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".juduohui.NewsPubActivity">
+
+    <include layout="@layout/include_topbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="可转载微信、今日头条、趣头条、微博、UC、搜狐的链接"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请选择文章转载分类：" android:textColor="#000000" android:textStyle="bold"/>
+            <Spinner
+                android:id="@+id/news_cat"
+                android:layout_marginStart="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dropDownWidth="match_parent"
+                android:textAlignment="textStart"
+                android:gravity="start"
+                android:prompt="@string/app_name"
+                android:spinnerMode="dropdown" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/edit_url"
+            android:layout_width="match_parent"
+            android:layout_height="86dp"
+            android:background="@drawable/news_pub_button"
+            android:ems="10"
+            android:gravity="left"
+            android:hint="长按粘贴复制的链接"
+            android:lineSpacingMultiplier="1.2"
+            android:lines="5"
+            android:maxLines="5"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:singleLine="false"
+            android:text=""
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:id="@+id/clear_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingTop="10dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="10dp"
+            android:text="清除链接"
+            android:textColor="#CCCCCC"
+            android:textSize="@dimen/sp_14" />
+
+        <Button
+            android:id="@+id/pub_button"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FF5722"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="转载"
+            android:textColor="#FFFFFF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkbox_zzxy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:buttonTint="#FF5722"
+                android:buttonTintMode="src_in"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="我已阅读且同意【" />
+
+            <TextView
+                android:id="@+id/open_xieyi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="转载发布协议"
+                android:textColor="#FF5722" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="0dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="】" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/news_pub_button"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_margin="10dp"
+            android:text="转载操作说明"/>
+        <View
+            android:layout_width="match_parent" android:layout_height="1dp"
+            android:background="#CEB5B5B5"
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="10dp"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/news_pub_art_list"
+            android:layout_width="match_parent"
+            android:padding="@dimen/dp_10"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

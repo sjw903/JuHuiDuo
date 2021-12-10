@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/msg_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:background="@drawable/common_dialog_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:weightSum="7">
+
+        <TextView
+            android:id="@+id/alert_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="标题"
+            android:textColor="#333333"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/alert_msg_box"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="15dp"
+            android:layout_weight="5">
+
+            <TextView
+                android:id="@+id/alert_msg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="内容" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/progress_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:weightSum="5">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/StyleProgressBarMini"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginVertical="10dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/install_bt"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@drawable/common_dialog_submit"
+                android:text="安装"
+                android:textColor="@drawable/common_normal"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/submit_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/common_dialog_submit"
+                android:text="是"
+                android:textColor="@drawable/common_dialog_text_color" />
+
+            <Button
+                android:id="@+id/cancel_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/common_dialog_submit"
+                android:text="否"
+                android:textColor="@drawable/common_dialog_text_color" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 加币成功 -->
+    <RelativeLayout
+        android:id="@+id/add_golds_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/main_desp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="120dp"
+            android:background="@drawable/common_dialog_2"
+            android:paddingTop="50dp">
+
+            <TextView
+                android:id="@+id/desp_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="恭喜您已获得观看视频奖励"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:id="@+id/desp_message_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/desp_message"
+                android:layout_marginVertical="@dimen/dp_10"
+                android:layout_centerHorizontal="true">
+
+                <TextView
+                    android:id="@+id/desp_message_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textAlignment="center"
+                    android:textColor="#FFEB3B"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/desp_message_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="#FFEB3B"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/desp_message_uni"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" 惠币"
+                    android:layout_marginHorizontal="5dp"
+                    android:textAlignment="center"
+                    android:textColor="#FFEB3B"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/golds_button_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/desp_message_box"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
+
+                <ImageView
+                    android:id="@+id/button_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/hui_bt_1" />
+
+                <Button
+                    android:id="@+id/golds_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignStart="@id/button_bg"
+                    android:layout_alignTop="@id/button_bg"
+                    android:layout_alignEnd="@id/button_bg"
+                    android:layout_alignBottom="@id/button_bg"
+                    android:background="@color/tt_trans_black"
+                    android:text="按钮" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/no_golds_button_box"
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:layout_below="@id/desp_message_box"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/main_icon"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignTop="@id/main_desp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-85dp"
+            android:src="@mipmap/hui_icon_1" />
+    </RelativeLayout>
+    <!--版本检测-->
+    <RelativeLayout
+        android:id="@+id/version_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:id="@+id/main_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="120dp"
+            android:background="@drawable/common_dialog_2"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="50dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:id="@+id/version_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:singleLine="false"
+                android:text="恭喜您已获得观看视频奖励 \n + 50 惠币"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/main_version"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-75dp">
+
+            <ImageView
+                android:id="@+id/version_icon"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:src="@mipmap/hui_icon_2" />
+
+            <TextView
+                android:id="@+id/version_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="93dp"
+                android:text="版本更新内容"
+                android:textColor="#FFFFFF" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tt_trans_black"
+        android:orientation="vertical"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/adv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/close_bt"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:drawableTop="@drawable/common_close_bt" />
+</LinearLayout>

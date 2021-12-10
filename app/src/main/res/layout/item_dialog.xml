@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/item_dialoggd"
+            android:text="高德地图"
+            android:textSize="20dp"
+            android:background="#33ffffff"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    <TextView
+        android:id="@+id/item_dialogbd"
+        android:text="百度地图"
+        android:textSize="20dp"
+        android:background="#33ffffff"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+</LinearLayout>

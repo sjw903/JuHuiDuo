@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:color="#D3E91E63"
+    tools:ignore="NewApi">
+    <item android:drawable="@drawable/news_share_bg" />
+</ripple>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html style="height: 100%; width:100%">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta charset="utf-8">
+</head>
+<body style="height: 100%; width: 100%; margin: 0; ">
+<div id="container" style="height: 100%;width:100%"></div>
+<script type="text/javascript" src="./jquery.min.js"></script>
+<script type="text/javascript" src="./echarts.min.js"></script>
+<script type="text/javascript">
+            var dom =document.getElementById("container");
+            var myChart =echarts.init(dom);
+            var app ={};
+
+            myChart.on("finished",function(){
+                var data = new Date();
+                juhuohui.loadFinished(data.toDateString());
+            });
+
+            window.addEventListener("resize",function () {
+                myChart.resize();
+            })
+
+            $(document).ready(function(){
+                $("#container").css({
+                    "width":window.innerWidth,
+                    "height":window.innerHeight
+                });
+
+            });
+
+            function loadEcharts(echartJson){
+                var option = JSON.parse(echartJson);
+                if (option && typeof option ==="object") {
+
+                    option.xAxis.axisLabel = {
+                        formatter : function (params) {
+                            const dates = new Date(params);
+                            return (dates.getMonth() + 1) + "-" + dates.getDate();
+                        }
+                    }
+
+                    option.tooltip.position=function(params){
+                        return [params[0],0];
+                    }
+                    myChart.setOption(option,true);
+                }
+            }
+            function loadEchartsData(xdataJson,ydataJson){
+                const option = {
+                    tooltip: {
+                        backgroundColor: "#f85500",
+                        confine: true,
+                        textStyle:{
+                            color:"#FFFFFF",
+                            fontsize:12,
+                        },
+                        "axisPointer": {
+                            "lineStyle": {
+                                "color": "#f85500"
+                            }
+                        },
+                        formatter: function(params){
+                            const date = new Date(params[0].name);
+                            const dateStr = date.getFullYear() + "年" + (date.getMonth()+1) + "月" + date.getDate() +"日";
+                            return dateStr + " ￥" + params[0].value;
+                        },
+                        position:function (params) {
+                          return [params[0],0];
+                        },
+                        "trigger": "axis"
+                    },
+                    "yAxis": [{
+                        "type": "value"
+                    }],
+                    grid: {
+                        show: true,
+                        top:40,
+                        left:"8%",
+                        right:"8%",
+                        bottom:40
+                    },
+                    series: [{
+                        "data": ydataJson,
+                        "itemStyle": {
+                            "normal": {
+                                color: "#f85500",
+                                lineStyle: {
+                                    "color": "#f85500",
+                                    "width": 2
+                                }
+                            },
+                            emphasis:{
+                                lineStyle:{
+                                    width: 2
+                                }
+                            }
+                        },
+                        legendHoverLink:false,
+                        "name": "价格",
+                        "smooth": false,
+                        "showSymbol": false,
+                        "type": "line"
+                    }],
+                    "xAxis": [{
+                        "boundaryGap": true,
+                        "data": xdataJson,
+                        "type": "category",
+                        splitLine:{
+                          show: true
+                        },
+                        axisLabel:{
+                            formatter : function (params) {
+                                const dates = new Date(params);
+                                return (dates.getMonth() + 1) + "-" + dates.getDate();
+                            }
+                        }
+                    }]
+                };
+                myChart.setOption(option,true);
+            }
+        </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/itemdialog_tvone"
+        android:textSize="@dimen/sp_16"
+        android:gravity="center"
+        android:text="使用抵扣券"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_size50"/>
+    <View
+        android:background="#efeffe"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <TextView
+        android:id="@+id/itemdialog_tvtwo"
+        android:textSize="@dimen/sp_16"
+        android:gravity="center"
+        android:text="不使用抵扣券"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_size50"/>
+</LinearLayout>

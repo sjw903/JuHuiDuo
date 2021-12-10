@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".activity.PreferentialTransferActivity">
+
+    <include layout="@layout/include_topbar" />
+
+    <com.lljjcoder.style.citylist.widget.CleanableEditView
+        android:id="@+id/edti_et"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/ali_auth_space_160"
+        android:layout_marginLeft="@dimen/margin_size10"
+        android:layout_marginRight="@dimen/margin_size10"
+        android:layout_marginTop="@dimen/margin_size10"
+        android:background="@drawable/bg_btn_border__gray_gray_2"
+        android:hint="请输入淘宝商品链接或者淘口令，淘宝商品名称无法精确查找"
+        android:textSize="@dimen/font_size15"
+        android:gravity="left|top"
+        android:padding="@dimen/margin_size5" />
+
+    <TextView
+        android:id="@+id/copy_btn"
+        style="@style/textContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_size30"
+        android:background="@color/col_divider"
+        android:gravity="center"
+        android:paddingBottom="@dimen/margin_size5"
+        android:paddingLeft="@dimen/margin_size10"
+        android:paddingRight="@dimen/margin_size10"
+        android:paddingTop="@dimen/margin_size5"
+        android:text="一键复制粘贴" />
+
+
+    <Button
+        android:id="@+id/view_now_btn"
+        android:textSize="@dimen/font_size16"
+        android:textColor="@color/red1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_size45"
+        android:layout_marginLeft="@dimen/margin_size20"
+        android:layout_marginRight="@dimen/margin_size20"
+        android:layout_marginTop="@dimen/margin_size30"
+        android:background="@drawable/shape_btn"
+        android:text="立即查看" />
+</LinearLayout>

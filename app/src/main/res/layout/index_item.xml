@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_ll"
+        android:padding="@dimen/margin_size10">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="@dimen/margin_size110"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
+            <ImageView
+                android:id="@+id/zq_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/zcicon"
+                android:visibility="gone"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="10dp"
+                />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size10"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/shop_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size2"
+                    android:layout_marginRight="@dimen/margin_size2"
+                    android:adjustViewBounds="true"
+                    android:src="@mipmap/home_taobao"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/title_child"
+                    style="@style/textTitleContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    tools:text="产品名称" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tx5"
+                style="@style/textHindContent"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size5"
+                tools:text=":3000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size5"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tx2"
+                    style="@style/textRedContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_size14"
+                    android:textStyle="bold"
+                    tools:text="拼团价" />
+
+                <TextView
+                    android:id="@+id/tx2_2"
+                    style="@style/textHindContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_size5"
+                    android:layout_toRightOf="@id/tx2"
+                    tools:text="￥30.00" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size5"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tx3"
+                    style="@style/textAppColorContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/home_couponbox"
+                    android:gravity="center"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="@dimen/dp_4"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    tools:text="5.0元" />
+
+                <TextView
+                    android:id="@+id/tx4"
+                    style="@style/textAppColorContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:gravity="center|left"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:textSize="@dimen/font_size12"
+                    tools:text="5.0元" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_width="@dimen/margin_size69"
+        android:layout_height="match_parent"
+        android:background="@color/red1"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="删除"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size14" />
+</LinearLayout>

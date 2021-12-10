@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:background="@drawable/yuanjiao"
+        android:layout_marginLeft="30dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/ai_assistant_dia_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="复制成功"
+            android:textStyle="bold"
+            android:padding="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:textColor="#000"
+            android:textSize="16dp"
+            />
+
+        <TextView
+            android:id="@+id/ai_ass_text1"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="快去添加助理好友拉它入群吧，千万不要将助理踢出群，若将助理踢出群您将在3天内无法重新申请助理，如有问题您可以在【我的】-【我的群数】中重新开通助理。"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="#CB000000"
+            android:textSize="15dp"
+            />
+
+        <TextView
+            android:id="@+id/ai_ass_text2"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"
+            android:text=""
+            android:gravity="center"
+            android:textColor="#CB000000"
+            android:textSize="15dp"
+            />
+        <Button
+            android:id="@+id/set_weixinqun_add"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/set_assistant_yuanjiao"
+            android:textSize="16dp"
+            android:layout_alignParentBottom="true"
+            android:textColor="#fff"
+            android:text="确定"
+            android:layout_marginBottom="20dp"
+            android:layout_height="45dp"/>
+    </LinearLayout>
+</RelativeLayout>

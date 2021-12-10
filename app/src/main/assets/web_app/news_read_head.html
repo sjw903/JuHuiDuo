@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css">
+		<link rel="stylesheet" href="css/news.css" />
+		<link rel="stylesheet" href="js/swiper/swiper-bundle.min.css" />
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- es6 promise修复组件 -->
+		<script src="js/es6-promise.auto.min.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<!-- 图片压缩组件 -->
+		<script src="js/lrz.bundle.js"></script>
+		<!-- SWIPER -->
+		<script src="js/swiper/swiper-bundle.min.js"></script>
+
+	</head>
+	<body class="demo-loadmore-wrap">
+		<template id="app">
+			<mu-container ref="container" class="demo-loadmore-content" style="padding: 0; margin: 0;">
+				<!-- 分类选择Layer -->
+				<div class="type_select_layer" v-show="status_type_layer">
+					<mu-container>
+						<mu-row>
+							<template v-for="(item,index) in tabs_list">
+								<mu-col class="switch_items" span="6">
+									<mu-switch :label="item.type_name" :label-left="true" v-model="tabs_list[index].state" color="#fe7454"></mu-switch>
+								</mu-col>
+							</template>
+						</mu-row>
+						<mu-row
+							style="position: absolute; bottom: 3rem; right:2rem; justify-content: flex-end; align-items: flex-end">
+							<mu-button color="#fe7454" @click="submitTypeSave()">保存</mu-button>
+							<mu-button color="#CCCCCC" @click="closeTypeLayer()" style='margin-left: 1;'>关闭</mu-button>
+						</mu-row>
+					</mu-container>
+				</div>
+				<!-- 分类选择Layer end -->
+				<!-- 兑换弹窗 -->
+				<template>
+					<mu-scale-transition>
+						<div class="mExchangeLayer" v-show="showExchangeLayer">
+							<mu-container class="mExchangeContents">
+								<mu-row class="form_title">
+									<mu-col fill='true' style="text-align: center;">兑换惠币</mu-col>
+								</mu-row>
+								<mu-row>
+									<mu-col class="mExchangeCloseButton">
+										<div class="guanbi_button"><i class="iconfont icon-guanbi manbeijing" @click="closeExchangeLayer"></i></div>
+									</mu-col>
+								</mu-row>
+								<mu-row gutter class='mExchangeColumn'>
+									<mu-col span="5" md="3" class='mExchangeLeft'>金币余额</mu-col>
+									<mu-col span="7" md="7" order=1 class='mExchangeRight'>{{sum_gold}}个</mu-col>
+								</mu-row>
+								<mu-row gutter class='mExchangeColumn'>
+									<mu-col span="5" md="3" class='mExchangeLeft'>兑换比例</mu-col>
+									<mu-col span="7" md="7" order=1 class='mExchangeRight'>1:{{gold_exchange_hpoint}}
+									</mu-col>
+								</mu-row>
+								<mu-row gutter class='mExchangeColumn'>
+									<mu-col span="5" md="3" class='mExchangeLeft'>兑换惠币</mu-col>
+									<mu-col span="7" md="7" order=1 class='mExchangeRight'>
+										<div class="mExchangeInputBox">
+											<span style="flex-grow:1"><input v-model="huibi_number" type="number" ref="huibi_number" min="1" class="mExchangeInputText"></span><span>个</span>
+										</div>
+									</mu-col>
+								</mu-row>
+								<mu-row>
+									<mu-col fill='true' class='mExchangeButtons'>
+										<mu-button color="#FFF1C4" text-color="#FF5700" round large
+											:class="'exchange_button'" @click="exchangeHuiBi">立即兑换
+										</mu-button>
+									</mu-col>
+								</mu-row>
+							</mu-container>
+
+						</div>
+					</mu-scale-transition>
+				</template>
+				<!-- 兑换弹窗结束 -->
+				<!-- 顶部 -->
+				
+				<div class="zuanqian_header" ref="headers">
+					<div class="zuanqian_header_left col-1" @click="backPress"><i class="iconfont icon-fanhui1"></i>
+					</div>
+					<div class="zuanqian_header_center col-10">
+						<div><span>{{day_readtime | getMinute}}<span class="small_font">分钟</span></span><span>今日阅读时长</span>
+						</div>
+						<div style="display:flex;width: 2px; overflow: hidden; justify-content: center;">
+							<div class="" style="background-color: rgba(255,255,255,.5); width: 10px; height: 60%;">
+							</div>
+						</div>
+						<div style="display: flex; flex-direction: column; align-items: center;"><span>{{sum_gold}}<span class="small_font">金币</span></span><span
+								@click="openExchangeLayer"><a class="mubutton">兑换惠币</a></span></div>
+					</div>
+					<div class="zuanqian_header_right col-1" @click="openHistory()">
+						<i class="iconfont icon-qianjin"></i>
+					</div>
+				</div>
+				
+				<div class="zuanqian_menu" ref="menus">
+					<div class="scroll_menus">
+						<ul class="zuanqian_list" @touchmove="scroll_self" @touchstart="scroll_start"
+							@touchend="scroll_end" ref="zuanqian_list" >
+							<li v-for="(it,ind) in tabs_list" @click="changeNewsType(it.id,true)" :class="isActive(it.id) ? 'active':''" v-if="it.state != false" :data-type-id="it.id" :ref="'menu_id_'+it.id">{{it.type_name}}</li>
+						</ul>
+					</div>
+					<div class="scroll_right_menus" @click="showTypeSelect()">
+						<i class="iconfont icon-option"></i>
+					</div>
+				</div>
+				<div class="spaceline" :style="'height:'+ spaceline_heigth +'px;'"></div>
+				<!-- 正常顶部 -->
+				<mu-divider></mu-divider>
+			</mu-container>
+		</template>
+		<script src="./model/jdhLoadMore.js" type="text/javascript"></script>
+		<script src="./model/jdh_adv.js" type="text/javascript"></script>
+		<script src="./model/iWeb.js"></script>
+		<script>
+		var swiper = null;
+			var vue = new Vue({
+				el: '#app',
+				data: function() {
+					return {
+						spaceline_heigth: 0,
+						goodsList: [],
+						refreshing: false,
+						loading: false,
+						loading_all:false,
+						active: 0,
+						// 移动子控件使用
+						touch_start_x: 0,
+						old_left_x: 0,
+						// 收益
+						sum_gold: 0,
+						can_getGold: "Y",
+						day_gold: 0,
+						day_readtime: 0,
+						surplus_time: 0,
+						// 阅读
+						cycle_interval: 0, // 圆圈45秒转1圈
+						one_cycle_golds: 0, // 转1圈给的金币数量
+						maxinum_reading_time: 0, // 每日最多阅读时长
+						minimum_gold_exchange: 0, //金币最低兑换数
+						maxinum_reading_time_article: 0, //每篇文章最多阅读时长
+						operation_time_limit: 0, //页面无操作时长限制
+						gold_exchange_hpoint: 0,
+						money_making_tips: "",
+						interval_income: 0,
+						// 分类列表使用
+						status_type_layer: false,
+						// 菜单list
+						tabs_list: [],
+						// 文章列表
+						type_id_s: 0, // 当前分类ID
+						news_list: [],
+						page: 1,
+						pagesize: 10,
+						// 兑换惠币使用
+						showExchangeLayer: false,
+						huibi_number_ed: 0,
+						// 阅读页面
+						swiper:null,
+						all_adv_cfg:[],
+						adv_cfg:[],
+					}
+				},
+				// 计算后的属性方法
+				computed: {
+					type_id: {
+						get() {
+							return this.type_id_s;
+						},
+						set(val) {
+							if (val == undefined) return;
+							this.type_id_s = val;
+							localStorage.setItem("news_read_type_id", val)
+							// this.moveTabsToCurrent();
+							//console.log("set 触发 ")
+							
+							var post = {
+								"type":"main",
+								"callback":function(){
+									this.tabs_list =  localReadLib.loadJSON('news_type_list');
+									this.type_id = localReadLib.load("news_read_type_id");
+									this.getXhmediaLibtype();
+								}
+							};
+							
+							var s = JSON.stringify(post, function(key, val) {
+								if (typeof val === 'function') {
+									return val + '';
+								}
+								return val;
+							});
+							
+							if (typeof(juduohui)!="undefined") juduohui.sendParamToWebView(s)
+							
+						}
+					},
+					huibi_number:{
+						get(){
+							this.huibi_number_ed = Number(this.huibi_number_ed)// (this.huibi_number_ed + "").toString().replace("+","").replace("-","")
+							
+							return parseInt(this.huibi_number_ed) > Math.floor(this.sum_gold / this.gold_exchange_hpoint) ? Math.floor(this.sum_gold / this.gold_exchange_hpoint) : parseInt(this.huibi_number_ed)
+						},
+						set(val){
+							val = (val+"").toString().replace("+","").replace("-","")
+							this.huibi_number_ed = val
+							if (typeof(val) === "string" && val.indexOf(".")!=-1) {
+								showToast("请输入整数")
+							}
+						}
+					}
+				},
+				// 加载的自动执行，相当于onload = function(){}
+				mounted() {
+					/** 根据屏幕宽度计算偷图尺寸 */
+					this.getAppSet();
+
+					if (localStorage.getItem("news_read_type_id") != null) {
+						this.type_id_s = localStorage.getItem("news_read_type_id")
+					}
+					//window.addEventListener('scroll',this.bodyScroll,true);
+					var that = this;
+					this.$nextTick(() => {
+						that.spaceline_heigth = that.$refs.headers.offsetHeight + that.$refs.menus.offsetHeight;
+						that.$refs.menus.style.marginTop = that.$refs.headers.offsetHeight + "px";
+						that.normalSizeWebview();
+						
+					})
+
+					if (typeof(juduohui) !== "undefined") {
+						juduohui.addEventListen("resume", "this.vue.onPageResume()")
+						juduohui.addEventListen("hide", "this.vue.onPageHide()")
+					}
+					// juduohui.setStatusBar("#00FF00")
+					localReadLib.getAdvCfg("article_list").then(res=>{
+						this.all_adv_cfg = res;
+					});
+
+				},
+				filters: {
+					cut_title(title, lent) {
+						if (title.length > lent) {
+							return title.substr(0, lent) + "...";
+						} else {
+							return title;
+						}
+					},
+					getMinute(second){
+						if (second != ""){
+							return Math.floor(second/60);
+						}
+						else{
+							return 0;
+						}
+					}
+				},
+				// 页面内方法
+				methods: {
+					notify(){
+						this.type_id_s = localReadLib.load("news_read_type_id")
+						//console.log("同步数据 notify(); this.type_id_s = " + this.type_id_s)
+					},
+					isActive(fTypeId){
+						// //console.log(fTypeId,this.type_id)
+						if (this.type_id == "undefined") this.type_id_s = 0
+						return (parseInt(fTypeId) == parseInt(this.type_id));
+					},
+					onPageHide() {
+						//console.log("onPageHide");
+					},
+					onPageResume() {
+						this.getReadCoin();
+					},
+					scroll_start(e) {
+						this.touch_start_x = e.targetTouches[0].pageX;
+						this.old_left_x = $(".zuanqian_list").offset().left
+					},
+					scroll_self(e) {
+						let offset_left = this.old_left_x + (e.targetTouches[0].pageX - this.touch_start_x)
+						let offset_top = $(".zuanqian_list").offset().top
+						$(".zuanqian_list").offset({
+							left: offset_left,
+							top: offset_top
+						});
+					},
+					scroll_end(e) {
+						var max_width = 0;
+						$(".zuanqian_list>li").each(function(index) {
+							max_width += $(this).innerWidth();
+						})
+
+						if ($(".zuanqian_list").offset().left > 0 || max_width < $(".zuanqian_list").width()) {
+							$(".zuanqian_list").animate({
+								left: 0
+							}, 500, "swing")
+							return;
+						}
+
+						if (e.changedTouches[0].pageX - this.touch_start_x > 0) {
+
+						} else {
+							if (Math.abs($(".zuanqian_list").offset().left) > (max_width - $(window).width() + $(
+									".zuanqian_list>li").last().width())) {
+								$(".zuanqian_list").animate({
+									left: -max_width + $(window).width() - $(".zuanqian_list>li").last().width()
+								}, 500, "swing")
+							}
+						}
+
+					},
+					moveTabsToCurrent(){
+						for (var i=0;i< this.$refs.zuanqian_list.childNodes.length;i++){
+							if (this.$refs.zuanqian_list.childNodes[i].className!=undefined && this.$refs.zuanqian_list.childNodes[i].className.indexOf("active")!=-1){
+								this.$refs.zuanqian_list.style.left = (0 - this.$refs.zuanqian_list.childNodes[i].offsetLeft + this.$refs.container.clientWidth / 2) +"px";
+								if ((0 - this.$refs.zuanqian_list.childNodes[i].offsetLeft + this.$refs.container.clientWidth / 2) >0){
+									this.$refs.zuanqian_list.style.left = 0
+								}
+							}
+						}
+						
+					},
+					backPress() {
+						backPress();
+					},
+					activeTab(tab_index) {
+						this.active = tab_index;
+						//console.log(this.active);
+					},
+					// 加载更多接口
+					async load() {
+						
+						this.loading = true;
+						this.page = this.page + 1;
+						let that = this;
+						await this.getXhmediaLiblist();
+						// setTimeout(() => {
+						// 	that.loading = false;
+						// }, 2000);
+					},
+					// 刷新接口
+					async refresh() {
+						this.refreshing = true;
+						this.page = 0;
+						this.$refs.container.scrollTop = 0;
+						this.news_list = [];
+						this.loading_all = false;
+						await this.getXhmediaLiblist();
+						this.refreshing = false;
+					},
+					getAppSet() {
+						//console.log("取配置！");
+						axios.defaults.withCredentials = true; //开启后服务器才能拿到cookie
+						axios.defaults.crossDomain = true; //配置axios跨域
+						axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8' //配置默认请求头
+						axios.defaults.baseURL = api_host
+						axios.defaults.responseType = "json"
+						this.getReadConfig()
+					},
+					async getReadConfig() {
+						let that = this
+						await axios.post(api_list.getReadConfig, {
+							"token": getToken()
+						}).then(res => {
+							// //console.log(res.data.data)
+							if (res.data.code === 0) {
+								that.tabs_list = res.data.list
+								that.maxinum_reading_time = res.data.data.maxinum_reading_time
+								that.gold_exchange_hpoint = res.data.data.gold_exchange_hpoint
+								that.minimum_gold_exchange = res.data.data.minimum_gold_exchange
+								that.money_making_tips = res.data.data.money_making_tips
+								that.cycle_interval = res.data.data.cycle_interval
+								that.interval_income = res.data.data.interval_income
+								that.maxinum_reading_time_article = res.data.data
+									.maxinum_reading_time_article
+								that.operation_time_limit = res.data.data.operation_time_limit
+								
+								localReadLib.save("cycle_interval", that.cycle_interval)
+								localReadLib.save("interval_income", that.interval_income)
+								localReadLib.save("maxinum_reading_time", that.maxinum_reading_time)
+								localReadLib.save("maxinum_reading_time_article", that.maxinum_reading_time_article)
+								localReadLib.save("gold_exchange_hpoint",res.data.data.gold_exchange_hpoint)
+								localReadLib.save("money_making_tips",res.data.data.money_making_tips)
+
+							} else {
+								alertMessage(res.data.msg, 2);
+							}
+						}).catch(err => {
+							//console.log(err)
+							alertMessage(err, 2);
+						})
+
+						await this.getReadCoin();
+						await this.getXhmediaLibtype();
+						// await this.getXhmediaLiblist();
+					},
+					async getReadCoin() {
+						let that = this
+						var data = {
+							token: getToken()
+						}
+						axios.post(api_list.getGoldsDaytime, data).then(res => {
+							//console.log( JSON.stringify(res))
+							var data = res.data.data;
+							that.can_getGold = data.can_getGold
+							that.day_gold = data.day_gold
+							that.day_readtime = data.day_readtime
+							that.sum_gold = data.sum_gold
+							that.surplus_time = data.surplus_time
+
+						}).catch(err => {
+							//console.log(JSON.stringify(err))
+						})
+					},
+					async getXhmediaLibtype() {
+						var that = this
+						// 分类缓存60秒.
+						// if (localReadLib.loadJSON("news_type_list") != null && localReadLib.getSaveTime(
+						// 		"news_type_list") != null && localReadLib.getSaveTime("news_type_list") + 10 * 60 *
+						// 	1000 > new Date().getTime()) {
+							this.tabs_list = localReadLib.loadJSON("news_type_list");
+						// 	return;
+						// }
+
+
+						
+						await axios.post(api_list.getXhmediaLibtype, {
+							"token": getToken()
+						}).then(res => {
+							// //console.log(res.data)
+							if (res.data.code === 0) {
+								var tmp_json = res.data.list
+								var local_saved_tabs_list = localReadLib.loadJSON("news_type_list")
+
+								if (local_saved_tabs_list != null) {
+									for (var itm in tmp_json) {
+										for (var iitm in local_saved_tabs_list) {
+											if (tmp_json[itm].id === local_saved_tabs_list[iitm].id) {
+												tmp_json[itm].state = local_saved_tabs_list[iitm].state
+											}
+										}
+									}
+								}
+								this.tabs_list = tmp_json
+								localReadLib.saveJSON("news_type_list", tmp_json);
+							} else {}
+						}).catch(err => {
+							//console.log(err)
+						})
+						
+						
+						// swiper = new Swiper(".mySwiper", {
+						// 	spaceBetween: 20,
+						// 	pagination: {},
+						// 	observer: true,
+						// 	autoHeight: false,
+						// 	setWrapperSize:true,
+						// 	on: {
+						// 		setTranslate(swiper,translate){
+						// 			//console.log("setTranslate")
+						// 			localReadLib.setAdvStation(false)
+						// 		},
+						// 		transitionEnd(swiper){
+						// 			//console.log("transitionEnd")
+						// 			localReadLib.setAdvStation(true)
+						// 		},
+						// 		slideChangeTransitionEnd: function() {
+						// 			//console.log("slideChangeTransitionEnd")
+						// 			//console.log( that.type_id, this.slides[this.activeIndex].getAttribute("data-type-id"))
+						// 			that.type_id = this.slides[this.activeIndex].getAttribute("data-type-id")
+						// 			for (var i=0;i<that.$refs["menu_id_"+this.slides[this.activeIndex].getAttribute("data-type-id")][0].parentElement.children.length;i++){
+						// 				that.$refs["menu_id_"+this.slides[this.activeIndex].getAttribute("data-type-id")][0].parentElement.children[i].className = that.$refs["menu_id_"+this.slides[this.activeIndex].getAttribute("data-type-id")][0].parentElement.children[i].className.replace("active","");
+						// 			}
+						// 			that.$refs["menu_id_"+this.slides[this.activeIndex].getAttribute("data-type-id")][0].className = "active"
+						// 			that.moveTabsToCurrent()
+						// 			localReadLib.setAdvStation(true);
+						// 			// that.type_id = 
+						// 		},
+						// 	},
+						// });
+						
+						this.moveTabsToCurrent()
+						
+						// this.changeNewsType(this.type_id)
+					},
+					showTypeSelect() {
+						this.fullSizeWebView();
+						this.status_type_layer = true
+					},
+					async getXhmediaLiblist() {
+						var that = this
+						var data = {
+							token: getToken(),
+							type_id: this.type_id,
+							page: this.page,
+							per: this.pagesize,
+						}
+
+						await axios.post(api_list.getXhmediaLiblist, data).then(res => {
+							if (res.data.code === 0) {
+								var tmp_json = res.data.list.data;
+								if (res.data.list.data.length > 0) {
+									for (var i = 0; i < tmp_json.length; i++) {
+										try {
+											// //console.log(tmp_json[i].image_list);
+											tmp_json[i].image_list = JSON.parse(tmp_json[i].image_list)
+										} catch (ee) {
+											//console.log(ee);
+										}
+									}
+								}
+								if (that.news_list.length === 0) {
+									that.news_list = tmp_json
+								} else {
+									that.news_list = that.news_list.concat(tmp_json)
+								}
+								//console.log(res.data.list.total , that.page*that.pagesize)
+								if (res.data.list.total < that.page*that.pagesize) that.loading_all = true;
+								
+								//console.log(res.data.request_data.length)
+								if (res.data.request_data !== undefined && res.data.request_data.length != 0){
+									//console.log("走这里了吗？" + JSON.stringify(res.data.request_data))
+									juduohui.setProxy(JSON.stringify(res.data.request_data))
+								}
+							}
+							
+							//
+						
+							
+							that.loading = false;
+							// //console.log(that.news_list)
+						}).catch(err => {
+							//console.log(err)
+						})
+
+					},
+					async changeNewsType(type_id,isTrans) {
+						this.type_id = type_id
+
+						
+						// var post = {
+						// 	"type":"main",
+						// 	"callback":function(){
+						// 		//console.log("swipter_type_id = " + localReadLib.load("swipter_type_id"))
+						// 		this.changeNewsType(localReadLib.load("swipter_type_id"));
+						// 	}
+						// };
+						
+						// var s = JSON.stringify(post, function(key, val) {
+						// 	if (typeof val === 'function') {
+						// 		return val + '';
+						// 	}
+						// 	return val;
+						// });
+						
+						// if (isTrans && typeof(juduohui)!="undefined") juduohui.sendParamToWebView(s)
+					},
+					closeTypeLayer() {
+						var tmp_json = localReadLib.loadJSON('news_type_list');
+						this.tabs_list = tmp_json;
+						this.status_type_layer = false
+						this.normalSizeWebview()
+					},
+					// 保存分类设置
+					async submitTypeSave() {
+						// //console.log("head submitTypeSave(); tabs_list" + JSON.stringify(this.tabs_list) );
+						localReadLib.saveJSON('news_type_list', this.tabs_list)
+						
+						var find_first_id = null;
+						var find_current_id = false;
+						
+						
+						if (this.type_id == "undefined") this.type_id = 0;
+						for (var i = 0 ; i < this.tabs_list.length; i++){
+							if (this.tabs_list[i].state !=false &&  find_first_id == null ) {
+								find_first_id = this.tabs_list[i].id;
+							}
+							if (this.tabs_list[i].id == this.type_id && this.tabs_list[i].state!=false){
+								find_current_id = true;
+							}
+						}
+						
+						if (!find_current_id) { 
+							this.type_id = find_first_id;
+						}					
+
+						this.status_type_layer = false;
+						
+						//console.log("submitTypeSave 触发 ")
+						
+						var post = {
+							"type":"main",
+							"callback":function(){
+								this.tabs_list =  localReadLib.loadJSON('news_type_list');
+								this.type_id = localReadLib.load("news_read_type_id");
+								this.getXhmediaLibtype();
+							}
+						};
+						
+						var s = JSON.stringify(post, function(key, val) {
+							if (typeof val === 'function') {
+								return val + '';
+							}
+							return val;
+						});
+						
+						if (typeof(juduohui)!="undefined") juduohui.sendParamToWebView(s)
+						// var need_to_index = 0;
+											
+						// for (var i=0; i < this.$refs.zuanqian_list.children.length; i ++){
+						// 	if (this.$refs.zuanqian_list.children[i].getAttribute("data-type-id") == this.type_id){
+						// 		need_to_index = i;
+						// 	}else{
+						// 		this.$refs.zuanqian_list.children[i].className = "";
+						// 	}
+						// }
+						
+						
+
+						// this.moveTabsToCurrent();
+						// this.$refs.zuanqian_list.children[need_to_index].className = "active";
+
+						// var e = document.createEvent("MouseEvents");
+						// e.initEvent("click", true, true);
+						// this.$refs.zuanqian_list.children[need_to_index].dispatchEvent(e);
+						this.changeNewsType()
+						this.status_type_layer = false;
+						this.normalSizeWebview();
+					},
+					fullSizeWebView(){
+						var screen = typeof(juduohui)!="undefined" ? JSON.parse(juduohui.getScreenInfo()) : {"width":window.innerWidth,"height":window.innerHeight};
+						
+						var post = {
+							display:"yes",
+							width:screen.width,
+							height:screen.height,
+							top:0,
+							bottom:0,
+						};
+						document.body.style.backgroundColor = "transparent"
+						if (typeof(juduohui)!="undefined") juduohui.renderWebView( JSON.stringify(post));
+					},
+					normalSizeWebview(){
+						this.showExchangeLayer = false
+						var post = {
+							display:"yes",
+							width:window.innerWidth,
+							height:this.spaceline_heigth,
+							top:0,
+							bottom:0,
+						};
+						document.body.style.backgroundColor = "transparent"
+						if (typeof(juduohui)!="undefined") juduohui.renderWebView( JSON.stringify(post));
+					},
+					//跳转收益历史 
+					openHistory(){
+						openNewActivite("news_history.html")
+					},
+					// 处理视频列表中的图片
+					getPoster(vars) {
+						// //console.log(vars)
+						if (vars == null) return;
+						// //console.log(vars)
+						// //console.log(vars)
+						var p = vars.substr(vars.indexOf("data-poster=\"") + "data-poster=\"".length, vars.indexOf("\"",
+							vars.indexOf("data-poster=")));
+					},
+					closeExchangeLayer(){
+						this.showExchangeLayer = false
+						var post = {
+							display:"yes",
+							width:window.innerWidth,
+							height:this.spaceline_heigth,
+							top:0,
+							bottom:0,
+						};
+						document.body.style.backgroundColor = "transparent"
+						if (typeof(juduohui)!="undefined") juduohui.renderWebView( JSON.stringify(post));
+					},
+					openExchangeLayer(){
+						
+						
+						this.showExchangeLayer = true
+						this.huibi_number = Math.floor(this.sum_gold / this.gold_exchange_hpoint);
+						this.fullSizeWebView();
+					},
+					async exchangeHuiBi() {
+						let that = this;
+						if (this.huibi_number < 1) {
+							alertMessage("请正确输入惠币数量", function() {
+								that.huibi_number = 0
+							})
+							return;
+						}
+
+						if (this.huibi_number > Math.floor(this.sum_gold / this.gold_exchange_hpoint)) {
+
+							alertMessage("金币余额不足", function() {
+								that.huibi_number = Math.floor(this.sum_gold / this.gold_exchange_hpoint)
+							})
+							return;
+						}
+
+						var is_success = false;
+						await axios.post(api_list.goldExchangeToHB, {
+							"token": getToken(),
+							"gold_num": this.huibi_number
+						}).then(res => {
+							//console.log(res)
+							if (res.data.code === 0) {
+								is_success = true;
+							}
+
+							alertMessage(res.data.msg,function(){
+								that.showExchangeLayer =false
+							})
+
+						}).catch(err => {
+							//console.log(err)
+						})
+
+						if (is_success) {
+							await this.getReadCoin();
+						}
+					},
+					changeType(type_id){
+						//console.log("changeType"+type_id);
+					}
+				},
+
+			})
+		</script>
+	</body>
+</html>

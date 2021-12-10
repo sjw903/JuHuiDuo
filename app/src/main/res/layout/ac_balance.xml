@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <include layout="@layout/include_topbar" />
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:srlAccentColor="@android:color/white"
+        app:srlPrimaryColor="#444444">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/wushuju_image"
+                android:layout_width="130dp"
+                android:layout_marginTop="90dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                />
+            <TextView
+                android:id="@+id/wushuju_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="暂无数据"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:textSize="17dp"
+                android:layout_gravity="center"
+                />
+            <LinearLayout
+                android:id="@+id/ll_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:elevation="@dimen/margin_size1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size35"
+                    android:gravity="center"
+                    android:text="余额(元)"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size30"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/edt_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_size12"
+                    android:layout_marginRight="@dimen/margin_size12"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="5000.00(元)"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size35" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size20"
+                    android:layout_marginBottom="@dimen/margin_size40"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_cust"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="客户："
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size14" />
+
+                    <TextView
+                        android:id="@+id/tv_tax"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="扣税："
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size14" />
+
+                    <TextView
+                        android:id="@+id/tv_platform"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="平台："
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size14" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--记录-->
+            <ListView
+                android:id="@+id/lv_record"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scrollbars="none"
+                android:layout_marginLeft="@dimen/margin_size12"
+                android:layout_marginRight="@dimen/margin_size12"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:divider="@color/col_eb"
+                android:dividerHeight="@dimen/margin_size1" />
+        </LinearLayout>
+
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <TextView
+        android:id="@+id/tv_commit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/margin_size20"
+        android:background="@drawable/bg_btn_blue"
+        android:gravity="center"
+        android:text="提   现"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size15" />
+</LinearLayout>

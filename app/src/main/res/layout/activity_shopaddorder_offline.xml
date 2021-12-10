@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#f8f8f8"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <LinearLayout
+                android:id="@+id/shopaddorder_lyback"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_width="35dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@mipmap/icon_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/shopaddorder_title"
+                android:layout_marginRight="15dp"
+                android:maxLines="1"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="35dp"
+                android:text="冰淇淋"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="1dp"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="80dp">
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/shopaddorder_img"
+                    android:src="@mipmap/app_icon"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:layout_weight="7"
+                android:paddingRight="10dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="21dp">
+                    <TextView
+                        android:id="@+id/shopaddorder_name"
+                        android:textSize="16dp"
+                        android:textColor="@color/black"
+                        android:text="冰淇淋"
+                        android:maxLines="1"
+                        android:layout_marginRight="25dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/shopaddorder_pric"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:text="18积分"
+                        android:textColor="#F56D26"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:layout_width="wrap_content"
+                    android:text="周一至周日 | 免预约"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_marginTop="1dp"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50">
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:text="数量"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/shopaddorder_imgjian"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/jian"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+                <TextView
+                    android:id="@+id/shopaddorder_num"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/black"
+                    android:text="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/shopaddorder_imgjia"
+                    android:src="@mipmap/jia"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+            </LinearLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_marginTop="1dp"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50">
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:text="小计"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/shopaddorder_allpric"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:textColor="#F56D26"
+                android:layout_centerVertical="true"
+                android:text="1积分"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:layout_height="@dimen/margin_size50">
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:text="消费金额"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10"
+                android:hint="输入消费金额"
+                android:id="@+id/et_input"
+                android:inputType="numberDecimal"
+                android:textSize="@dimen/font_size14"
+                android:layout_weight="1"
+                android:background="@color/white"></EditText>
+        </LinearLayout>
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50">
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:text="应付金额"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/shopaddorder_allpric1"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:textColor="#F56D26"
+                android:layout_centerVertical="true"
+                android:text="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_height="@dimen/margin_size50">
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:text="商家代金券"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/shopaddorder_lydkq"
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <org.angmarch.views.NiceSpinner
+                    android:id="@+id/shopaddorder_dkq1"
+                    android:textColor="#F56D26"
+                    android:textSize="@dimen/font_size14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+<!--                <ImageView-->
+<!--                    android:src="@drawable/to"-->
+<!--                    android:layout_width="20dp"-->
+<!--                    android:layout_height="20dp" />-->
+            </LinearLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50">
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:text="实付金额"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/shopaddorder_allpric_pay"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:textColor="#F56D26"
+                android:layout_centerVertical="true"
+                android:text="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:visibility="gone"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50">
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:text="使用积分"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_marginRight="15dp"
+                android:gravity="center_vertical|right"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:textSize="12dp"
+                    android:text="当前积分不足以抵扣"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="现有积分0,写优质评价获得"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50">
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:text="手机号"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/shopaddorder_phone"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_centerVertical="true"
+                android:text="188****1235"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/shopaddorder_tvbutton"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="提交订单"
+        android:layout_alignParentBottom="true"
+        android:background="#F56D26"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+</RelativeLayout>

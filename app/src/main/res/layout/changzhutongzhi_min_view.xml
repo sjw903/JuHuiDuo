@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="5dp">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tz_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tz_image"
+            android:text="聚多惠通知"
+            android:textColor="#070606" />
+
+        <TextView
+            android:id="@+id/tz_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tz_image"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="省钱赚钱就来聚多惠，让钱包鼓起来！"
+            android:textColor="#686363" />
+
+    </LinearLayout>
+</LinearLayout>

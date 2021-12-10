@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="60dp" android:height="60dp">
+        <shape>
+            <solid android:color="#4CAF50"/>
+            <corners android:radius="150dp"/>
+        </shape>
+    </item>
+    <item android:id="@+id/duihao"
+        android:gravity="center"
+        android:drawable="@drawable/news_duigou"
+        android:width="35dp"
+        android:height="35dp">
+    </item>
+</layer-list>

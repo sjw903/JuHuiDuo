@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/substation.css" />
+		
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- es6 promise修复组件 -->
+		<script src="js/es6-promise.auto.min.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<!-- 图片压缩组件 -->
+		<script src="js/lrz.bundle.js"></script>
+	</head>
+	<body>
+		<template id="app">
+				<mu-container ref="container" class="demo-loadmore-content" style="padding: 0; margin: 0;">
+					<!-- 顶部 -->
+					<div class="substation_header">
+						<div class="left" @click="backPress()"><i class="iconfont icon-fanhui1"></i></div>
+						<div class="title">分站列表</div>
+						<div class="right" @click="addSubStation = true"><i class="iconfont icon-jiahao2"></i></div>
+					</div>
+					<!--添加分站弹窗开始 -->
+					<template v-if="addSubStation">
+						<div class="model_layer_mash">
+							<div class="model_layer_content" v-click-outside="closeAddSubStation">
+								<div class="model_layer_content_line"><span class="bold bigfont">添加分站</span></div>
+								<div class="model_layer_content_line">
+									<div class="label">分站名称</div>
+									<div class="form"><input type="text" v-model="form.branch_name" placeholder="请输入分站名称"></div>
+								</div>
+								<div class="model_layer_content_line">
+									<div class="label">我拿佣金</div>
+									<div class="form"><div class="baby_from"><input type="number" placeholder="0" v-model="form.proportion"><span>%</span></div></div>
+								</div>
+								<div class="model_layer_content_line">
+									<div class="label" style="align-self: flex-start;">类型选择</div>
+									<div class="form">
+										<span class="check_box" v-for="item in form.module"><mu-checkbox v-model="item.recommend" color="#FE7454" value="true" :label="item.name"></mu-checkbox></span>
+									</div>
+								</div>
+								<div class="model_layer_content_line">
+									<button class="normal" @click="submitAddSubStation">确定</button>
+									<button class="revert" @click="closeAddSubStation">取消</button>
+								</div>
+								<div class="model_layer_content_line color_orange">注：如未注册用户点击，会自动绑定师傅哟！</div>
+							</div>
+						</div>
+					</template>
+					<!--添加分站弹窗结束-->
+					<!-- 正常顶部 -->
+					<mu-divider></mu-divider>
+					<mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load" :loading-all="loaded_all">
+						<mu-list style="padding-bottom: 3rem;">
+							<template v-for="item in item_list">
+								<!-- 内容开始 -->
+								<div class="substation_item">
+									<div class="item_line"><span class="bold bigfont">{{item.branch_name}}</span><span>{{item.created_at|getDatePart(0)}}</span></div>
+									<div class="item_line">
+										<div class="gray_line"><span class="opt_lnk">{{item.branch_link}}</span><span class="opt_bt" @click="copyHref(item.branch_link)"><i class="iconfont icon-fuzhi" style="font-size: 1.5rem;"></i></span></div>
+									</div>
+									<div class="item_line">
+										<div class="line_label">开通分类 </div>
+										<div class="line_label_c">
+											<span class="common_radius_button_revert" v-for="sub_item in item.module">{{sub_item | getModuleName(form.module)}}</span>
+										</div>
+									</div>
+									<mu-divider style="margin-top: 1rem;"></mu-divider>
+									<div class="item_line align_end">
+										<button class="common_radius_button_normal" @click="openResult(0,item.id)">收益报表</button>
+										<button class="common_radius_button_normal" @click="openResult(1,item.id)">问卷报表</button>
+									</div>
+								</div>
+								<!-- 内容结束 -->
+							</template>
+							<template v-if="has_no_data">
+								<div class="substation_item">
+									<div class="has_no_data">暂无更多分站数据,点击上方加号添加您的分站吧</div>
+								</div>
+							</template>
+						</mu-list>
+					</mu-load-more>
+					<div class="nospace" style="width: 100%; height: 3rem; display: block;"></div>
+				</mu-container>
+		</template>
+	</body>
+	<script>
+		var vue = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					// 共用
+					refreshing:false,
+					loading:false,
+					loaded_all:false,
+					// 数据渲染使用
+					item_list:[],
+					// 表单数据
+					form:{
+						branch_name:"",
+						proportion:10,
+						module:[
+							// {id:1,label:'签到模块',check_status:true},
+						]
+					},
+					addSubStation:false,
+					has_no_data:false,
+				}
+			},
+			filters:{
+				getDatePart(date,part_index){
+					if (date === "" || date === undefined) return ""
+					
+					var temp_date = date.split(" ")
+					if (part_index > temp_date.length) part_index = temp_date.length
+					return temp_date[part_index]
+				},
+				getModuleName(model_id,model_list){
+					var module_name = "";
+					// if (this.form.module === undefined || this.form.module.length === 0) return ""
+					for (var i=0;i<model_list.length;i++){
+						if (model_id === model_list[i].id){
+							module_name = model_list[i].name
+						}
+					}
+					return module_name
+				}
+			},
+			// 计算后的属性方法
+			computed: {},
+			// 变量监听，少用
+			watch:{},
+			// 加载的自动执行，相当于onload = function(){}
+			mounted() {
+				//this.getAppSet();
+				commonAppSetting()
+				this.getAddModuleList()
+			},
+			methods: {
+				refresh() {
+					this.refreshing = true;
+					this.$refs.container.scrollTop = 0;
+					this.item_list = []
+					this.loadData()
+				},
+				load() {
+					//console.log(this.loading);
+					this.page++;
+					this.loadData();
+					this.loading = true;
+					// setTimeout(() => {
+					// 	this.loading = false;
+					// }, 2000)
+				},
+				async getAddModuleList() {
+					var data = {
+						token:getToken(),
+					}
+					
+					await axios.post(api_list.getAddModuleList,data).then(res=>{
+						if (res.data.code === 0){
+							this.form.module = res.data.list
+						}
+						
+						log(this.form.module)
+					}).then(err=>{
+						if (err !== undefined){
+							console.error(err)
+						}
+					}).finally(()=>{
+						//console.log("finally")
+						this.load()
+					})
+				},
+				// 读取更多的商品
+				async loadData() {
+					var data = {
+						token:getToken(),
+					}
+					
+					await axios.post(api_list.getSubStationList,data).then(res=>{
+						if (res.data.code === 0){
+							this.item_list = this.item_list.concat(res.data.list)
+							if (this.item_list.length == 0) this.has_no_data = true
+						}
+						
+					}).then(err=>{
+						if (err !== undefined){
+							console.error(err)
+						}
+					}).finally(()=>{
+						//console.log("finally")
+						this.refreshing = false,this.loading = false
+					})
+				},
+				// 提交添加分站申请
+				submitAddSubStation(){
+					//console.log(this.form.module)
+					var temp_module = []
+					for (var i=0;i<this.form.module.length;i++){
+						if (this.form.module[i].recommend){
+							temp_module.push(this.form.module[i].id)
+						}
+					}
+					
+					var post_data = {
+						token:getToken(),
+						branch_name:this.form.branch_name,
+						proportion:this.form.proportion,
+						module:temp_module
+					}
+					
+					axios.post(api_list.addSubStation,post_data).then(result=>{
+						log(result)
+						var callback = null,that = this
+						if (result.data.code === 0){
+							callback = function(){
+								that.addSubStation = false,that.refresh()
+							}
+						}
+						
+						alertMessage(result.data.msg,callback)
+						
+					}).then(error=>{
+						log(error)
+					})
+				},
+				closeAddSubStation(){
+					this.addSubStation = false;
+				},
+				copyHref(msg){
+					localReadLib.copyToClip(msg)
+					alertMessage("复制成功")
+				},
+				openResult(opt,id){
+					if (opt === 0){
+						openNewActivite("profit_history.html?substation="+id)
+					}
+					else
+					{
+						openNewActivite("survey_history.html?substation="+id)
+					}
+				}
+				
+			},
+
+		})
+	</script>
+
+</html>

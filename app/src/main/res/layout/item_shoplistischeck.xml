@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:layout_marginLeft="8dp"
+
+    android:layout_height="wrap_content">
+        <LinearLayout
+            android:padding="3dp"
+            android:id="@+id/itemshoplistidcheck_ly"
+            android:orientation="vertical"
+            android:background="@drawable/shopidcheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:scaleType="fitXY"
+            android:id="@+id/itemshoplist_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/itemshoplist_name"
+            android:layout_marginTop="3dp"
+            android:text="123"
+            android:maxLines="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+</LinearLayout>

@@ -1,0 +1,2 @@
+include ':jiguang'//include ':Demo'//include ':jdkepler'
+include ':app', ':adlibrary', ':jdsdk', ':library', ':androidimagepicker', ':selectorlibrary', ':resourcecoree', ':resourcebundle'

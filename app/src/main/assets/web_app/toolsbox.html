@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/toolsbox.css" />
+
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- es6 promise修复组件 -->
+		<script src="js/es6-promise.auto.min.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<!-- 图片压缩组件 -->
+		<script src="js/lrz.bundle.js"></script>
+	</head>
+	<body>
+		<template id="app">
+			<mu-container ref="container" class="demo-loadmore-content" style="padding: 0; margin: 0;">
+				<!-- 顶部 -->
+				<div class="tools_box_header">
+					<div class="left" @click="backPress()"><i class="iconfont icon-fanhui1"></i></div>
+					<div class="title">工具箱</div>
+					<div class="right"></div>
+				</div>
+				<!-- 正常顶部 -->
+				<mu-divider></mu-divider>
+				<mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load"
+					:loading-all="loaded_all">
+					<mu-list style="padding-bottom: 3rem;">
+						<template v-for="item in item_list">
+							<!-- 内容开始 -->
+							<div class="tools_box_item">
+								<div class="item_line" @click="openTarget(item.id)">
+									<span class="bold color_black">{{item.title}}</span>
+									<span  v-if="item.id!=5">
+										<span class="color_orange bold">{{item.use_quantity}}</span>/{{item.num}}<i class="iconfont icon-qianjin"></i>
+									</span>
+								</div>
+								<mu-divider style="margin-top: 1rem;"></mu-divider>
+								<div class="item_line align_start">
+									{{item.content}}
+								</div>
+							</div>
+							<!-- 内容结束 -->
+						</template>
+					</mu-list>
+				</mu-load-more>
+				<div class="nospace" style="width: 100%; height: 3rem; display: block;"></div>
+			</mu-container>
+		</template>
+	</body>
+	<script>
+		var vue = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					// 共用
+					refreshing: false,
+					loading: false,
+					loaded_all: true,
+					// 数据渲染使用
+					item_list: [],
+					// 表单数据
+				}
+			},
+			// 计算后的属性方法
+			computed: {},
+			// 变量监听，少用
+			watch: {},
+			// 加载的自动执行，相当于onload = function(){}
+			mounted() {
+				//this.getAppSet();
+				commonAppSetting()
+				this.loadToolsList()
+				juduohui.addEventListen("resume", "this.vue.onResume()")
+				juduohui.countViewPage();
+			},
+			methods: {
+				onResume(){
+					this.refresh();
+				},
+				refresh() {
+					this.refreshing = true;
+					this.$refs.container.scrollTop = 0;
+					this.item_list = [];
+					this.loadToolsList()
+				},
+				load() {
+					return;
+					//console.log(this.loading);
+					this.page++;
+					this.loadToolsList()
+					this.loading = true;
+					// setTimeout(() => {
+					// 	this.loading = false;
+					// }, 2000)
+				},
+				getAppSet() {
+
+				},
+				// 读取更多的商品
+				loadToolsList() {
+					axios.post(api_list.toolBoxGetList, {
+						'token': getToken()
+					}).then(res => {
+						//console.log(res)
+						if (res.data.code === 0) {
+							this.item_list = this.item_list.concat(res.data.list)
+						} else {
+							alertMessage(res.data.msg)
+						}
+					}).then(err => {
+						//console.log(err)
+					}).finally(()=>{
+						this.refreshing = false,this.loading = false
+					})
+				},
+				// 提交添加分站申请
+				submitAddSubStation() {},
+				closeAddSubStation() {
+					this.addSubStation = false;
+				},
+				openTarget(tools_id) {
+					var target_url = "";
+					switch (tools_id) {
+						case 2:
+							// target_url = "substation.html"
+							alertMessage("此功能正在开发中")
+							return;
+							break;
+						case 3:
+							target_url = "mp_motion.html"
+							localReadLib.save("art_motion_type",1);
+							break;
+						case 4:
+							target_url = "mp_motion.html"
+							localReadLib.save("art_motion_type",2);
+							break;
+						case 5:
+							target_url = "policy.html?id=69"
+							break;
+						default:
+							alertMessage("操作失败，请返回重新尝试！");
+							return;
+					}
+					//console.log(target_url)
+					openNewActivite(target_url)
+				}
+
+			},
+
+		})
+	</script>
+
+</html>

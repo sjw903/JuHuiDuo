@@ -1,0 +1,93 @@
+<resources>
+    <string name="app_name">聚多惠</string>
+    <string name="welcome_to_app">欢迎来到聚多惠</string>
+
+    <!-- xlistview -->
+
+    <string name="get_verification_code_success">获取验证码成功，请注意查收短信！</string>
+    <string name="error_network">网络连接失败，请检查网络配置</string>
+    <string name="get_verification_code">重新获取</string>
+    <string name="seconds_after">s</string>
+    <string name="abroad_photo">拍照</string>
+    <string name="abroad_choosephotp">从相册选择</string>
+    <string name="abroad_cancel">取消</string>
+    <string name="test_text">%1$s\n%2$s</string>
+    <string name="attend_str">1.连续每日签到可获得当日对应的积分奖励，如果签到中断，则需从地一天重新开始累积\n2.当连续签到5天后，没有中断签到则可以每天领取第五天的签到积分\n3.连续签到1至5天对应的积分是:1、2、3、4、5</string>
+    <string name="shuo">1.{标题}表示商品标题\n2.{商品原价}表示在售原价格\n3.{券后价}表示优惠券抵用后价格\n4.{佣金}表示分享后可获得的佣金\n5.{淘口令}表示淘宝商品的淘口令</string>
+    <string name="qq">感谢您对聚多惠一直以来的信任。我们依据最新的监管要求更新了《隐私权政策》，特向您说明如下：\n1， 为向您提供交易相关的基本功能，我们会收集、使用必要的信息。\n2， 基于您的授权我们可能会获取您的位置等信息，您有权拒绝或取消授权。</string>
+    <string name="qq1">　　请您务必审慎阅读、充分理解"服务协议"、"隐私政策"中各条款和第三接入SDK目录中各权限说明，包括但不限于:为了向你提供即时通讯、内容分享等服务,我们需要收集你的设备信息、操作日志等个人信息。您可以在"设置"中查看、变更、删除个人信息并管理您的授权。\n　　您可阅读以下三篇文章了解详细信息。如您同意,请点击"同意"开始接受我们的服务。</string>
+    <string name="must_read">您是否已阅读以上三篇文章,如已阅读请勾选</string>
+    <string name="third_text">《第三方SDK接入说明》</string>
+    <string name="policy_text">《隐私政策》</string>
+    <string name="agree_text">《用户协议》</string>
+
+    <string name="dialog3_title">服务协议和隐私政策</string>
+    <string name="dialog_zhuxiao_title">温馨提醒</string>
+    <string name="dialog_zhuxiao_content">您好,感谢您一直以来对聚多惠的支持,我们后期会更加努力做到您喜欢的样子,期待与您再次相会!</string>
+    <string name="zhuxiao_agree_text">《聚多惠账号注销协议》</string>
+    <string name="zhuxiao_check_text">我已同意以上的《聚多惠账号注销协议》</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="qx_tongyi">好的</string>
+    <string name="qx_quxiao">取消</string>
+    <string name="homepage_set_bg">设置背景</string>
+    <string name="homepage_edit_data">编辑资料</string>
+    <string name="homepage_edit_submit">发布/转载</string>
+    <string name="homepage_production">%1$d 作品</string>
+    <string name="homepage_like">%1$d 获赞</string>
+    <string name="homepage_fans">%1$d 粉丝</string>
+    <string name="homepage_attention">%1$d 关注</string>
+    <string name="homepage_attention_default">关注我吧，会给你更多惊喜</string>
+    <string name="homepage_tab_all">全部</string>
+    <string name="homepage_tab_article">文章</string>
+    <string name="homepage_sex_women">女</string>
+    <string name="homepage_sex_men">男</string>
+    <string name="homepage_data_not_enough">您好，您的资料不全，请优化完资料后才可以正常使用！</string>
+    <string name="homepage_data_complete">资料完成度</string>
+    <string name="homepage_domain_limit">超过最大三个的限制</string>
+    <string name="homepage_news_header">不看转载</string>
+    <string name="homepage_search">搜索你关注的人</string>
+    <string name="homepage_order">排序方式</string>
+    <string name="homepage_search2">搜索我的全部内容</string>
+    <string name="homepage_search3">搜索</string>
+    <string name="homepage_search_no_data">未能找到发布的相关内容</string>
+    <string name="homepage_search_attention_title">用户</string>
+    <string name="homepage_search_no_fans">暂无粉丝数据</string>
+    <string name="homepage_search_fans_title">粉丝</string>
+    <string name="homepage_search_attention_order_seven">近7日访问频次</string>
+    <string name="homepage_search_attention_order_old">关注时间从新到旧</string>
+    <string name="homepage_search_attention_order_new">关注时间从旧到新</string>
+    <string name="homepage_search_attention_order_low">粉丝量从高到低</string>
+    <string-array name="homepage_search_attention_order">
+        <item>@string/homepage_search_attention_order_old</item>
+        <item>@string/homepage_search_attention_order_seven</item>
+        <item>@string/homepage_search_attention_order_new</item>
+        <item>@string/homepage_search_attention_order_low</item>
+    </string-array>
+    <string name="homepage_search_attention_order_title">排序选择</string>
+    <string name="homepage_other_attention">+关注</string>
+    <string name="homepage_other_attentioned">已关注</string>
+    <string name="homepage_other_recommend">相关推荐</string>
+    <string name="homepage_top">置顶</string>
+    <string name="homepage_top_cancel">取消置顶</string>
+    <string name="homepage_delete">删除</string>
+    <string name="homepage_retrial">重审</string>
+
+    <string name="homepage_cancel_attention">取消关注</string>
+    <string name="homepage_defriend">拉黑</string>
+    <string name="homepage_report_content">举报此内容</string>
+    <string name="homepage_attention_card">期待您的关注</string>
+    <string name="homepage_attention_card_qrcode">扫码关注我 获取更多信息</string>
+    <string name="homepage_cancel">取消</string>
+    <string name="homepage_welcome">欢迎来到个人主页</string>
+    <string name="homepage_submit">提交</string>
+    <string name="homepage_user_name">用户名</string>
+    <string name="homepage_user_name_back_direct">直接返回</string>
+    <string name="homepage_user_name_back_direct_msg">直接修改不会生效,是否提交修改?</string>
+    <string name="homepage_sign">简介</string>
+    <string name="homepage_contact">微信号/QQ号</string>
+    <string name="homepage_phone">手机号</string>
+    <string name="homepage_phone_tips">请输入正确的手机号</string>
+
+</resources>

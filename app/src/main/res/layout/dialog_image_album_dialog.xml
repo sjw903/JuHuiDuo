@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".widget.ImageAlbumDialog">
+
+    <TextView
+        android:id="@+id/colose_btn"
+        style="@style/textHindContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_size10"
+        android:padding="@dimen/margin_size5"
+        android:text="X" />
+
+    <GridView
+        android:id="@+id/image_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/margin_size20"
+        android:layout_marginTop="@dimen/margin_size25"
+        android:gravity="center"
+        android:numColumns="4" />
+</FrameLayout>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <!-- 公用APP配置 -->
+    <script src="js/app.js"></script>
+    <!-- es6 promise修复组件 -->
+    <script src="js/es6-promise.auto.min.js"></script>
+    <!-- import Vue before Element -->
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/muse-ui.js"></script>
+    <!-- import JavaScript -->
+    <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/layer/layer.js"></script>
+    <!-- 图片压缩组件 -->
+    <script src="js/lrz.bundle.js"></script>
+    <!-- 二维码 -->
+    <script src="js/qrcode.js"></script>
+
+</head>
+<body class="demo-loadmore-wrap" style="background-color: #DDDDDD">
+<template id="app">
+    <mu-container ref="container" style="padding: 0.5rem 1rem; margin: 0;" class="demo-loadmore-content">
+<!--        头部返回-->
+        <div class="my_header">
+            <div class="col-1 my_data_header_left" @click="backPress"><i class="iconfont icon-fanhui1" style="font-size: 1.35rem;position: relative;right: .5rem;"></i>
+            </div>
+            <div class="zuanqian_header_center col-8 zuanqian_header_center_read">
+            </div>
+            <div class="zuanqian_header_right_read zuanqian_header_right" style="padding-right: 0rem">
+            </div>
+        </div>
+        <div class="my_data_user_msg">
+            <mu-avatar style="width: 4.5rem;height: 4.5rem;float: left;">
+                <img :src="user_msg.avatar">
+            </mu-avatar>
+            <div class="my_data_user_data">
+                <div class="my_data_nickname">{{user_msg.nickname}}</div>
+                <div>邀请码：{{user_msg.auth_code}}<span @click="copyAutoCode" class="my_data_copy_button">复制</span></div>
+            </div>
+        </div>
+        <div class="my_data_withdraw_back">
+            <div>
+                <img src="./img/hb_oblique.png" style="width: 3rem;height: 3rem;margin-top: 0.5rem;">
+            </div>
+            <div class="my_data_hui_text">
+                <div class="my_data_hui">{{user_msg.balance_hui_b}}惠币</div>
+                <div class="my_data_hint">惠币可以直接提现</div>
+            </div>
+            <div class="my_data_withdraw_button">
+                <div class="my_data_withdraw" @click="openProfit()">
+                    立即提现
+                </div>
+            </div>
+        </div>
+        <jdh_adv adv_clss="adv_class" idt="make_money_index" :cfg="adv_cfg" ref="jdh_adv_t" refm="jdh_adv_t" class="my_data_adv" v-show="advertising_height"></jdh_adv>
+        <mu-row>
+            <mu-col>
+                <mu-paper :z-depth="2" style='border-radius: .5rem;margin-top: .5rem;'>
+                    <mu-list>
+                        <div @click="openHistory(1)" class="list_box">
+                            <div class="list_box_left">
+                                <i class="iconfont icon-zijinjilu1" style="font-size: 1.7rem;color: #ffa050;"></i>
+                            </div>
+                            <div class="list_box_center">
+                                调查记录
+                            </div>
+                            <div class="list_box_right">
+                                <i class="iconfont icon-qianjin"></i>
+                            </div>
+                        </div>
+						<mu-divider></mu-divider>
+                        <div @click="openHistory(2)" class="list_box">
+                            <div class="list_box_left">
+                                <i class="iconfont icon-zijinjilu2" style="font-size: 1.7rem;color: #ffa050;"></i>
+                            </div>
+                            <div class="list_box_center">
+                                资金记录
+                            </div>
+                            <div class="list_box_right">
+                                <i class="iconfont icon-qianjin"></i>
+                            </div>
+                        </div>
+						<mu-divider></mu-divider>
+                        <div @click="openToolsBox" class="list_box">
+                            <div class="list_box_left">
+                                <i class="iconfont icon-gongjuxiang" style="font-size: 1.7rem;color: #ffa050;"></i>
+                            </div>
+                            <div class="list_box_center">
+                                工具箱
+                            </div>
+                            <div class="list_box_right">
+                                <i class="iconfont icon-qianjin"></i>
+                            </div>
+                        </div>
+                        <mu-divider></mu-divider>
+                        <div @click="openKefu" class="list_box">
+                            <div class="list_box_left">
+                                <i class="iconfont icon-kefu" style="font-size: 1.7rem;color: #ffa050;"></i>
+                            </div>
+                            <div class="list_box_center">
+                                客服
+                            </div>
+                            <div class="list_box_right">
+                                <i class="iconfont icon-qianjin"></i>
+                            </div>
+                        </div>
+                    </mu-list>
+                </mu-paper>
+            </mu-col>
+        </mu-row>
+    </mu-container>
+</template>
+
+</body>
+
+<script src="model/isFollow.js" type="text/javascript" async="async"></script>
+<script>
+    localReadLib.require("jdh_adv.js")
+
+    function getAdInfo(class_name) {
+        var info = JSON.stringify($(class_name).offset()).replace('"', "");
+        info = info.replace("\"", "");
+        return info
+    }
+    // adRenderCallBack(width,height) 广告渲染成功后的宽，高
+    function adRenderCallBack(width, height) {
+        $(".add_bars").css({
+            width: width + "px",
+            height: height + "px"
+        });
+    }
+
+    var vue = new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                headerHeight: 0,
+                headerWidth: 320,
+                sign_box_width: 0,
+                sign_box_height: 0,
+                sign_box_top: 0,
+                auto_policy_check: false,
+                user_msg:{
+                    avatar:'',
+                    nickname:'',
+                    auth_code:'',
+                    balance_hui_b:''
+                },//用户头像、昵称、邀请码、惠币余额
+                // 广告配置
+                adv_cfg: [],
+                advertising_height: true
+            }
+        },
+        // 计算后的属性方法
+        computed: {
+
+        },
+        watch: {
+
+        },
+        // 加载的自动执行，相当于onload = function(){}
+        mounted() {
+            localReadLib.setAdvStation(false);
+            this.getAppSet();
+            this.getAdvSetting();
+            window.addEventListener('scroll', this.bodyScroll, true);
+        },
+        // 页面内方法
+        methods: {
+            getAppSet(){
+                axios.defaults.withCredentials = true; //开启后服务器才能拿到cookie
+                axios.defaults.crossDomain = true; //配置axios跨域
+                axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8' //配置默认请求头
+                axios.defaults.baseURL = api_host
+                axios.defaults.responseType = "json"
+                this.getUserMsg();
+                this.getAllHPoint();
+            },
+            getAdvSetting(){
+                if (!getAdIsOpen()) return;
+                localReadLib.getAdvCfg("sign_video,make_money_index,videos_money").then(res => {
+                    this.adv_cfg = res;
+                    //console.log(this.adv_cfg)
+                })
+            },
+            async heavyAdvertising() {
+                localReadLib.removeAllAdv(); // 移除所有广告
+                localReadLib.setAdvStation(false);
+            },
+            bodyScroll(e) {
+                if (typeof(juduohui) !== "undefined") juduohui.setScrollTop(); // 触发页面滚动的广告定位
+            },
+            async getUserMsg(){
+                let that = this;
+                let data = {
+                    'token':getToken()
+                }
+                await axios.post(api_list.getUserMsg,data).then(res=>{
+                    that.user_msg.avatar = res.data.data.user_detail.avatar;//头像
+                    that.user_msg.nickname = res.data.data.user_detail.nickname;//用户名
+                    that.user_msg.auth_code = res.data.data.user_msg.auth_code;//邀请码
+                    if (that.user_msg.avatar == '' || that.user_msg.avatar == null || that.user_msg.avatar == undefined){
+                        that.user_msg.avatar = api_host + '/static/admin/img/logo.png';
+                    }
+                }).catch(err=>{})
+            },
+            async getAllHPoint(){
+                let that = this;
+                let data = {
+                    'token':getToken()
+                }
+                await axios.post(api_list.getAllHPoint,data).then(res=>{
+                    that.user_msg.balance_hui_b = res.data.balance_hui_b;
+                }).catch(err=>{})
+                this.$nextTick(() => {
+                    localReadLib.removeAllAdv(); // 移除所有广告
+                    localReadLib.setAdvStation(true);
+                    this.$refs.jdh_adv_t.loadAdvs();
+                })
+            },
+            copyAutoCode(){
+                $("body").append(
+                    "<div id='copyTempNodeDiv' style='width:1px;height:1px;overflow:hidden;'><input type='text' id='copyTempNode' value='" +
+                    this.user_msg.auth_code + "'></div>");
+                $("#copyTempNode").select();
+                document.execCommand("copy");
+                $("#copyTempNodeDiv").detach();
+                try {
+                    juduohui.showToast("复制成功");
+                } catch (e) {
+                    alertMessage("复制成功");
+                }
+            },
+            openProfit(){
+                openNewActivite("./profit.html?tab_value=1");
+            },
+			openHistory(toType) {
+				if (toType === 1) {
+					openNewActivite("./survey_history.html")
+				} else {
+					openNewActivite("./profit_history.html")
+				}
+			},
+			openToolsBox() {
+				openNewActivite("./toolsbox.html")
+			},
+			openKefu() {
+				openNewActivite(getKefuUrl())
+			},
+            closeBase() {
+                //console.log(this.advertising_height)
+                //console.log('调用页面内的函数')
+                localReadLib.removeAllAdv(); // 移除所有广告
+                localReadLib.setAdvStation(false);
+                this.advertising_height = false
+            }
+        },
+
+    })
+</script>
+
+</html>

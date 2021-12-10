@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/ll_root"
+    android:layout_height="@dimen/margin_size35"
+    android:orientation="horizontal">
+    <com.android.jdhshop.utils.DrawableCenterTextView
+        android:id="@+id/jiage_st"
+        style="@style/textContent"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:drawableRight="@mipmap/sort_normal"
+        android:drawablePadding="@dimen/margin_size5"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="价格" />
+    <com.android.jdhshop.utils.DrawableCenterTextView
+        android:id="@+id/xiaoliang_st"
+        style="@style/textContent"
+        android:layout_width="0dp"
+        android:drawableRight="@mipmap/sort_normal"
+        android:drawablePadding="@dimen/margin_size5"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="销量" />
+
+    <com.android.jdhshop.utils.DrawableCenterTextView
+        android:id="@+id/yongjin_st"
+        style="@style/textContent"
+        android:layout_width="0dp"
+        android:drawableRight="@mipmap/sort_normal"
+        android:drawablePadding="@dimen/margin_size5"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="佣金比例" />
+
+    <com.android.jdhshop.utils.DrawableCenterTextView
+        android:id="@+id/tuiguang_st"
+        style="@style/textContent"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:drawableRight="@mipmap/sort_normal"
+        android:drawablePadding="@dimen/margin_size5"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="推广量" />
+</LinearLayout>

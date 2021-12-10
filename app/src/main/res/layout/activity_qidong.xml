@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/hb_bg"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_size20"
+        android:drawablePadding="@dimen/margin_size5"
+        android:fitsSystemWindows="true"
+        android:gravity="center"
+        android:padding="@dimen/margin_size15"
+        android:text="返回"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size14" />
+
+    <ImageView
+        android:id="@+id/img_top"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/margin_size110"
+        android:layout_below="@id/tv_left"
+        android:layout_marginTop="@dimen/margin_size20"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/margin_size40"
+        android:layout_marginRight="@dimen/margin_size40"
+         />
+
+    <LinearLayout
+        android:id="@+id/hh_ll"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_200"
+        android:layout_below="@id/img_top"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:background="@drawable/kuang"
+        android:layout_marginTop="@dimen/margin_size15">
+        <LinearLayout
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingRight="@dimen/margin_size2"
+                    android:text="¥"
+                    android:textColor="#B36220"
+                    android:textSize="@dimen/font_size14" />
+
+                <TextView
+                    android:id="@+id/txt_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:paddingRight="@dimen/margin_size5"
+                    android:text="88"
+                    android:textColor="#B36220"
+                    android:textSize="@dimen/font_size30" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin_size5"
+                    android:paddingRight="@dimen/margin_size25"
+                    android:text="现金红包"
+                    android:textColor="#B36220"
+                    android:textSize="@dimen/font_size16" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin_size5"
+                    android:text="可致余额提现"
+                    android:textColor="#B36220"
+                    android:textSize="@dimen/font_size12" />
+            </LinearLayout>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/qid_yi"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/margin_size40"
+            android:layout_marginRight="@dimen/margin_size40"
+            android:layout_height="@dimen/margin_size40"
+            android:layout_marginBottom="@dimen/margin_size20"
+            />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/jinbi"
+        android:layout_width="@dimen/margin_size110"
+        android:layout_height="@dimen/margin_size110"
+        android:layout_below="@id/hh_ll"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-70dp"
+        android:layout_marginRight="@dimen/margin_size30"
+         />
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="@dimen/margin_size45"
+        android:layout_below="@id/hh_ll"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_size30"
+        android:background="@drawable/anniu"
+        android:gravity="center"
+        android:text="立即查看"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size14" />
+</RelativeLayout>

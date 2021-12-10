@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:paddingBottom="5dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tz_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tz_image"
+            android:text="聚多惠通知"
+            android:textColor="#070606"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tz_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@id/tz_image"
+
+            android:text="省钱赚钱就来聚多惠，让钱包鼓起来！"
+            android:textColor="#686363"
+            android:textSize="15dp" />
+
+        <LinearLayout
+            android:id="@+id/icon_boxs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/tz_image1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp" />
+
+            <ImageView
+                android:id="@+id/shuxian"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="17dp" />
+
+            <ImageView
+                android:id="@+id/tz_image2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="17dp" />
+
+            <ImageView
+                android:id="@+id/shuxian1"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="17dp" />
+
+            <ImageView
+                android:id="@+id/tz_image3"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="17dp" />
+
+            <ImageView
+                android:id="@+id/shuxian2"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="17dp" />
+
+            <ImageView
+                android:id="@+id/tz_image4"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="17dp" />
+        </LinearLayout>
+    </LinearLayout>
+<!--    <ImageView-->
+<!--        android:layout_width="20dp"-->
+<!--        android:layout_height="20dp"-->
+<!--        android:src="@drawable/chahao"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        />-->
+    <ImageView
+        android:id="@+id/tz_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="8.0dip"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="centerCrop"
+        android:visibility="visible" />
+</LinearLayout>

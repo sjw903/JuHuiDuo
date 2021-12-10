@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/all_farther"
+    android:background="#FFFFFF"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/infomation_body_box"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/pinglun_box"
+        >
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/smart_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <com.android.jdhshop.utils.MyScrollView
+                android:id="@+id/main_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/news_top_adv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp" />
+                    <LinearLayout
+                        android:id="@+id/comment_empty_box"
+                        android:layout_below="@id/news_top_adv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="40dp"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:src="@mipmap/ic_comment_empty"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="30dp"
+                            android:gravity="center"
+                            android:textColor="#999999"
+                            android:text="暂时还没有任何评论哦！"/>
+                        <Button
+                            android:id="@+id/open_pl_box"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:background="@drawable/common_dialog_submit_act"
+                            android:textSize="12sp"
+                            android:textColor="#FFFFFF"
+                            android:text="我要评论"/>
+                    </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/comment_list"
+                        android:layout_below="@id/news_top_adv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#ffffff"
+                        android:layerType="hardware" />
+
+                </RelativeLayout>
+
+
+            </com.android.jdhshop.utils.MyScrollView>
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/pinglun_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:divider="@drawable/divider_news"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/pinglun_text"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="18dp"
+            android:layout_weight="1"
+            android:background="@drawable/news_input_bg"
+            android:ems="10"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:freezesText="false"
+            android:text="写评论"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/i_like"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_i_like"/>
+        <ImageView
+            android:id="@+id/i_share"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_ishare"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pinglun_box_big"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="#66000000"
+        android:clickable="true"
+        android:divider="@drawable/divider_news"
+        android:focusable="true"
+        android:focusedByDefault="true"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/pinglun_text_big"
+                style="@android:style/Widget.DeviceDefault.EditText"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:background="#E8E8E8"
+                android:ems="10"
+                android:focusable="true"
+                android:freezesText="false"
+                android:gravity="top"
+                android:hint="友善是交流的起点"
+                android:inputType="text"
+                android:padding="10dp"
+                android:singleLine="false"
+                android:text=""
+                android:textAlignment="gravity"
+                android:textAllCaps="false"
+                android:textColor="#999999"
+                android:textCursorDrawable="@drawable/cursot_for_edittext"
+                android:textIsSelectable="true"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/pub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingEnd="@dimen/dp_10"
+                android:text="发布"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css">
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- es6 promise修复组件 -->
+		<script src="js/es6-promise.auto.min.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<!-- 图片压缩组件 -->
+		<script src="js/lrz.bundle.js"></script>
+		<!-- qrcode -->
+		<script src="js/qrcode.js"></script>
+
+
+	</head>
+	<body>
+		<template id="app">
+			<mu-container ref="container" class="demo-loadmore-content"
+				style="padding: 0; margin: 0; background-image: url(./img/top_qd_mini_bg.png); background-repeat: no-repeat; background-size: contain; background-color: #f5f5f5;">
+				<!-- 验证任务弹窗-->
+
+				<!-- 举报屏蔽弹窗 -->
+				<mu-fade-transition>
+					<div class="message_mash_bg" v-if="tipOffStatus || verifyStatus" @click="closeTipOff"
+						:style="'height:'+maxDocumentHeight+'px;'"></div>
+				</mu-fade-transition>
+				<mu-fade-transition>
+					<div v-if="verifyStatus" class="message_verification">
+						<div class="message_content">
+							<div class="">
+								<img src="./img/verification_box_t.png" @click="checkVerifyStatus()">
+								<img src="./img/verification_box.png">
+								<div class="message_verification_but_box">
+									<button class="verification_button" style="margin-left: 1rem;" @click="shareHrefToWeixin(true)">分享到微信</button>
+									<button class="verification_button" style="margin-right: 1rem;"  @click="shareHrefToWeixin(false)">复制链接</button>
+								</div>
+								<img src="./img/verification_box_b.png">
+							</div>
+						</div>
+					</div>
+				</mu-fade-transition>
+				<mu-fade-transition>
+					<div class="message_jubao" v-show="tipOffStatus">
+						<mu-form>
+							<div class="art_form_title">请选择举报原因或直接屏蔽分类</div>
+							<mu-form-item prop="radio" label=""
+								style="display: flex; align-items: center; justify-content: space-between;">
+								<mu-container>
+									<mu-row class="radio_groups" gutter>
+										<template v-for="(item,index) in form_radio_list">
+											<mu-col class="radio_item" span="6">
+												<div class="grid-cell">
+													<mu-radio v-model="form.radio" :value="item.id" :label="item.text"
+														color="#fe7454"></mu-radio>
+												</div>
+											</mu-col>
+										</template>
+									</mu-row>
+
+									<mu-row class="switch_groups" v-if="form.radio == 8" gutter>
+										<template v-for="(item,index) in form_disable_switch_list">
+											<mu-col class="switch_items" span="6" >
+												<mu-switch :label="item.type_name" :label-left="true" v-model="form_disable_switch_list[index].value" color="#fe7454"></mu-switch>
+											</mu-col>
+										</template>
+									</mu-row>
+
+									<mu-row>
+										<mu-col class="button_groups">
+											<mu-button color="#fe7454" @click="submitTipOff">提交</mu-button>
+										</mu-col>
+									</mu-row>
+									<mu-row>
+										<mu-col>
+											<i class="iconfont icon-guanbi jubao_close" @click="closeTipOff"></i>
+										</mu-col>
+									</mu-row>
+								</mu-container>
+							</mu-form-item>
+						</mu-form>
+					</div>
+				</mu-fade-transition>
+				<!-- 顶部 -->
+				<div class="survey_dt_header">
+					<div class="left" @click="backPress()"><i class="iconfont icon-fanhui1"></i></div>
+					<div class="center">报告详情</div>
+					<div class="right">
+						<div class="gold_coin_box">
+							<img src="img/golds2.png" class="img_icon">{{result.complete_task_price}}
+						</div>
+					</div>
+				</div>
+				<div class="art_content">
+					<div class="inner_content"
+						style="display: flex; justify-content: space-between; padding-top: .8rem; ">
+						<span class="color_orange"><i class="iconfont icon-dunpai"></i>资产已托管，过审立结</span>
+						<span class="color_gray">{{result.a_trial}}小时内过审</span>
+					</div>
+					<div class="inner_content">{{task_type[task_type_id]}} - {{result.name}} - ID:{{result.id}}</div>
+					<div class="inner_content inner_flex_between">
+						<span v-text="result.title"></span>
+						<span><i class="iconfont icon-zhuanqian-copy"></i><span class="color_orange">
+								{{result.complete_num}}人</span>已赚</span>
+					</div>
+					<div class="inner_content" style="padding-bottom: 1rem;">
+						<i class="iconfont icon-daojishi"></i> 体验提交倒计时 <span
+							class="color_orange">{{timeouts_display}}</span> <i class="iconfont icon-help"
+							@click="showToast('请您务必在倒计时结束前完成调查券的体验过程，否则超时系统会自动取消此调查券的体验')"></i>
+					</div>
+				</div>
+
+				<div class="art_content">
+					<div style="display: flex; justify-content: flex-start; align-items: center;">
+						<span class="art_badge">体验要求</span>
+						<span class="color_gray art_badge_next" @click="showDesc()"><i class="iconfont icon-help"></i>
+							点触问号了解详情</span>
+					</div>
+					<div class="color_orange next_title"><span v-html="result.task_rule"></span></div>
+					<div class="" style="text-align: center; padding: 1.5rem 0;">
+						<div class="art_qrcode_org"><img :src="result.task_url"></div>
+						<div class="art_qrcode_mask" v-if="!task_is_start">
+							<mu-fade-transition><img :src="result.task_url"></mu-fade-transition>
+						</div>
+					</div>
+					<div style="display: flex; justify-content: space-around;padding-bottom: 1rem;">
+						<mu-button round color="warning" @click="shareImageToWeixin()">分享图片</mu-button>
+						<mu-button round color="warning" @click="shareHrefToWeixin()">分享链接</mu-button>
+						<mu-button round color="warning" @click="downloadImg()">下载图片</mu-button>
+						<mu-button round color="warning" @click="copyHref">复制链接</mu-button>
+					</div>
+				</div>
+
+				<div class="art_content">
+					<div style="display: flex; justify-content: flex-start; align-items: center;">
+						<span class="art_badge">报告验证</span>
+					</div>
+					<template v-for="(img_item,img_index) in result.demo_img_url">
+						<div class="inner_content" style="padding: 1rem 0 1rem;">
+							<mu-badge color="#fe7454" circle content="1"></mu-badge> &nbsp;图 {{img_index+1}}
+						</div>
+						<div class="art_img_uploader">
+							<div style="width: 45%; min-height: 22rem;"><img :src="img_item" width="100%" height="100%">
+							</div>
+							<div
+								style="width: 45%; display: flex; align-items: center; flex-direction: column; justify-content: center; border: 0.0625rem dashed #999999;">
+								<template v-if="!upload_info[img_index].upload_status">
+									<div @click="openFileBrowser(img_index)"
+										style="width: 100%; text-align: center; display: flex; align-items: center; flex-direction: column; justify-content: center;">
+										<input :id="'file_'+img_index" type="file" accept="image/*"
+											@change="processImage(img_index,$event)" style="display: none;" />
+										<i class="iconfont icon-jiahao1 color_orange" style="font-size: 2.5rem;"></i>
+										<span>点击上传<br>您的截图</span>
+									</div>
+								</template>
+								<template v-if="upload_info[img_index].upload_status">
+									<div class="uploaded_box">
+										<div class="upload_file_tools">
+											<div class="tools_button" @click="reSelectFile(img_index)">重新上传</div>
+										</div>
+										<div class="upload_file_display">
+											<img :src="upload_info[img_index].upload_src" width="100%" height="100%">
+										</div>
+									</div>
+								</template>
+							</div>
+						</div>
+					</template>
+					<div class="inner_content"
+						style="display: flex; justify-content: center; align-items: stretch; padding-bottom: 1rem;">
+						<span>
+							<mu-checkbox v-model="policy_check" value="eat" label="我已阅读并同意"></mu-checkbox>
+						</span>
+						<span @click="viewPolice" class="color_orange" style="padding-top: 0.05rem;">《体验报告领取协议》</span>
+					</div>
+				</div>
+
+				<div class="nospace" style="width: 100%; height: 3.5rem; display: block;"></div>
+				<!-- 底部导航 -->
+				<div class="bottom_nav" style="position: fixed; bottom: 0; left: 0; right: 0;">
+					<ul>
+						<li :class="{' active':bottom_nav_value==0}" @click="changeBottomNavActive(0)">
+							<i class="iconfont icon-dianyuan"></i>
+							<span>开始体验</span>
+						</li>
+						<li :class="{' active':bottom_nav_value==1}" @click="changeBottomNavActive(1)">
+							<i class="iconfont icon-yishenhe"></i>
+							<span>提交报告</span>
+						</li>
+						<li :class="{' active':bottom_nav_value==2}" @click="changeBottomNavActive(2)">
+							<i class="iconfont icon-shouhouxiangqing_shenheweitongguo"></i>
+							<span>取消体验</span>
+						</li>
+						<li :class="{' active':bottom_nav_value==3}" @click="changeBottomNavActive(3)">
+							<i class="iconfont icon-dunpai1"></i>
+							<span>举报屏蔽</span>
+						</li>
+					</ul>
+				</div>
+			</mu-container>
+		</template>
+	</body>
+
+	<script>
+		var vue = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					
+					
+					task_is_start: false, // 任务是否开始，主要控件二维码遮罩
+					tipOffStatus: false, // 举报窗口的开启状态
+					verifyStatus: false, // 验证任务
+					task_type_id: 1,
+					task_type: ['', '转文体验', '小程序试玩','投吧体验','砍砍比价','你做赏你','惠看视频'],
+					upload_1_status: false,
+					upload_1_src: "",
+
+					upload_info: [],
+
+					result: {},
+					timeouts: 0,
+					task_expire_timestamp: 0,
+					timeouts_display: "00:00",
+					bottom_nav_value: -1,
+					maxDocumentHeight: 2480,
+					form_radio_list: [{
+							"id": 1,
+							"text": "链接打不开"
+						},
+						{
+							"id": 2,
+							"text": "体验已过期"
+						},
+						{
+							"id": 3,
+							"text": "欺诈"
+						},
+						{
+							"id": 4,
+							"text": "色情"
+						},
+						{
+							"id": 5,
+							"text": "拉人头"
+						},
+						{
+							"id": 6,
+							"text": "搜集公司隐私"
+						},
+						{
+							"id": 7,
+							"text": "违法犯罪"
+						},
+						{
+							"id": 8,
+							"text": "屏蔽此类报告"
+						},
+					],
+					form_switch_list: [], // 正常所有的列表
+					form_disable_switch_list:[], // 已经屏蔽掉的列表
+					policy_check: false, // 体验报告领取协议
+					form: {
+						radio: []
+					}
+				}
+			},
+			filters:{
+				compactFftoHtml(ffStr){
+					return ffStr.replace("\n","<br>")
+				},
+			},
+			// 计算后的属性方法
+			computed: {
+				checkTimeout: {
+					get() {
+						return this.timeouts;
+					},
+					set(newValue) {
+						this.timeouts = newValue;
+						var xiangcha_time = this.task_expire_timestamp - new Date().getTime();
+						if (xiangcha_time < 1) {
+							localStorage.removeItem("current_task_result");
+							this.resetSurveyTask();
+							return;
+						}
+
+						var m = Math.floor(xiangcha_time / (60 * 1000))
+						var s = Math.floor((xiangcha_time - m * 60 * 1000) / 1000)
+
+						if (m < 10) m = "0" + m
+						if (s < 10) s = "0" + s
+
+						this.timeouts_display = m + " : " + s;
+
+						let that = this;
+						setTimeout(function() {
+							that.checkTimeout = 1
+						}, 1000)
+
+					}
+				}
+
+			},
+			// 加载的自动执行，相当于onload = function(){}
+			mounted() {
+				this.task_type_id = getQueryVariable("type_id") === false ? 1 : getQueryVariable("type_id")
+				window.addEventListener('scroll', this.scrollHandle, true); //绑定页面滚动事件
+
+				this.getAppSet();
+
+				var policy_check = localStorage.getItem("policy_check");
+				this.policy_check = policy_check == null || policy_check != "1" ? false : true;
+
+			},
+			// 页面内方法
+			methods: {
+				backPress() {
+					backPress();
+				},
+				scrollHandle(e) {
+					//this.maxDocumentHeight = e.target.scrollHeight; // 获取页面滚动高度
+				},
+				changeBottomNavActive(index) {
+
+					if (!this.policy_check) {
+						alertMessage("请先勾选《体验报告领取协议》后方可开始体验。");
+						return;
+					}
+
+					if (this.result.id === undefined) return;
+					this.bottom_nav_value = index;
+					switch (index) {
+						case 0:
+							// 开始体验,关闭mask
+							this.task_is_start = true;
+							localReadLib.save("current_task_is_start","1");
+							break;
+						case 1:
+							// 提交报告
+							this.submitSurveyTask();
+							break;
+						case 2:
+							// 取消
+							this.cancelSurveyTask();
+							break;
+						case 3:
+							this.tipOffStatus = true;
+							break;
+					}
+				},
+				openTipOff() {
+					this.tipOffStatus = true;
+				},
+				closeTipOff() {
+					this.tipOffStatus = false;
+					this.verifyStatus = false;
+					this.bottom_nav_value = -1;
+				},
+				async submitTipOff() {
+					//console.log("举报" + this.form.radio + JSON.stringify(this.form_switch_list))
+					
+					if (this.result.id == undefined || this.result.id == "") {
+						alertMessage("还没有领取调查报告");
+						return
+					}
+					var that = this;
+					
+					
+					var display_msg = "";
+					// localReadLib.del("current_task_is_start")
+					// 仅在“屏蔽此类报告”时才进行提交屏蔽操作。
+					if (this.form_radio_list[this.form.radio-1].text.indexOf("屏蔽")>-1){
+						// 屏蔽并放弃
+						var disable_close_type = [],disable_open_type = []
+						for (var i = 0; i < this.form_disable_switch_list.length; i++) {
+							if (this.form_disable_switch_list[i].value != undefined) {
+								
+								if (this.form_disable_switch_list[i].value){
+									disable_close_type.push(this.form_disable_switch_list[i].jdh_type_id)
+								}
+								else{
+									disable_open_type.push(this.form_disable_switch_list[i].jdh_type_id)
+								}
+
+							}
+						}
+						
+						if (disable_close_type.length>0){
+							var post_data = {
+								token: getToken(),
+								type_id: disable_close_type.join(","),
+								status: 2
+							}
+							await axios.post(api_list.setType, post_data).then((res) => {
+								//console.log("disable_close_type","res",res,JSON.stringify(res))
+							}).catch(err => {
+								//console.log("disable_close_type","err",err)
+							})
+							
+						}
+						
+						if (disable_open_type.length>0){
+							var post_data = {
+								token: getToken(),
+								type_id: disable_open_type.join(","),
+								status: 1
+							}
+							await axios.post(api_list.setType, post_data).then((res) => {
+								//console.log("disable_open_type","res",res,JSON.stringify(res))
+							}).catch(err => {
+								//console.log("disable_open_type","err",err)
+							})
+						}
+						
+						display_msg = "屏蔽库已设置"
+					}
+					else{
+						// 举报并放弃
+						var data = {
+							"token": getToken(),
+							"task_id": this.result.id,
+							"inform_type": this.form.radio,
+						};
+						
+						await axios.post(api_list.informSurveyTask, data).then((res) => {
+							// alertMessage(res.data.msg, function() {});
+							display_msg = res.data.msg
+						}).catch((err) => {
+							//console.log(JSON.stringify(err))
+							// alertMessage("服务开了点小差，请稍后再试。")
+							display_msg = "服务开了点小差，请稍后再试。"
+						})
+					}
+					
+					var callback = null;
+					if (disable_open_type.indexOf(this.result.task_type_id) === -1) {
+						log("需要取消任务");
+						// 放弃任务
+						await this.cancelSurveyTask(false);
+						callback = function(){
+							backPress();
+							that.tipOffStatus = false;
+						}
+					}
+					else{
+						log("不需要")
+						that.tipOffStatus = false;
+					}
+
+					alertMessage(display_msg,callback)
+				},
+				viewPolice() {
+					//console.log("查看报告")
+					openNewActivite("./policy.html?id=67");
+				},
+				showDesc() {
+					alertMessage("按照体验要求操作，最终将验证体验的截图提交")
+
+					// layer.open({
+					// 	type: 1,
+					// 	shade: [0.6, "#000000"],
+					// 	shadeClose: true,
+					// 	area: ['80%', '60%'],
+					// 	title: false, //不显示标题
+					// 	content: "<div style='font-size:0.9rem; padding:1rem'>" + this.result.task_rule +
+					// 		"</div>", //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+					// 	cancel: function() {}
+					// });
+				},
+				async getAppSet() {
+					axios.defaults.withCredentials = true; //开启后服务器才能拿到cookie
+					axios.defaults.crossDomain = true; //配置axios跨域
+					axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8' //配置默认请求头
+					axios.defaults.baseURL = api_host // 基础网址
+					axios.defaults.responseType = 'json'
+					await this.getSurveyTaskType();
+					await this.getSurveyTask();
+				},
+				async resetSurveyTask() {
+					await this.cancelSurveyTask(false);
+					alertMessage("任务已过期",function(){backPress();});
+				},
+				async getSurveyTask() {
+					layer.load(1, {
+						shade: [0.8, '#000'], //0.1透明度的白色背景,
+					});
+
+					var that = this;
+					var find_error = false;
+					var result = localStorage.getItem("current_task_result");
+
+
+
+					if (result == null) {
+						//console.log("走网络")
+						await axios.post(api_list.getSurveyTask, {
+							"token": getToken(),
+							"task_type": this.task_type_id
+						}).then((res) => {
+							//console.log(res.data);
+							result = res;
+						}).catch((error) => {
+							//console.log("error:" + error);
+							find_error = true;
+						})
+					} else {
+						//console.log("走缓存")
+						result = JSON.parse(result);
+					}
+
+					// layer.load(1, {
+					// 	shade: [0.8, '#000'], //0.1透明度的白色背景,
+					// });
+
+
+					layer.closeAll();
+					
+					if (result.data.code !== 0) {
+						find_error = true;
+						alertMessage(result.data.msg, function() {
+							backPress();
+						});
+					} else {
+						that.result = result.data.data;
+						if (that.result.id !== undefined) {
+							//console.log(that.result)
+							// that.result.demo_img_url = JSON.parse(that.result.demo_img_url);
+
+							if (typeof(that.result.demo_img_url) === "string") {
+								that.result.demo_img_url = JSON.parse(that.result.demo_img_url);
+							}
+							/** 处理 task_url 不为图片的情况 **/
+							that.result.org_task_url = that.result.task_url // 保留一份原始的数据，分享链接到微信时使用。
+							that.result.task_url = checkImageExt(that.result.task_url)
+							that.result.task_rule = that.result.task_rule.replace(/\n/g,"<br>")
+
+							/** 处理上传图片数组 **/
+							for (var i = 0; i < that.result.demo_img_url.length; i++) {
+								that.upload_info.push({
+									"upload_status": false,
+									"upload_src": "",
+									"upload_obj": null,
+									"upload_name": ""
+								})
+							}
+							
+							// 将本条任务的分类添加到 屏蔽分类列表中并设置为 false
+							if (that.form_disable_switch_list == undefined)that.form_disable_switch_list = []
+							if ( that.form_disable_switch_list.length>0){
+								var find_disable_switch = false
+								for (var ind in that.form_disable_switch_list){
+									if (that.form_disable_switch_list[ind].jdh_type_id === that.result.task_type_id){
+										find_disable_switch = true
+										that.form_disable_switch_list[ind].value = false;
+										log("ragc")
+									}
+								}
+								if (!find_disable_switch) {
+									that.form_disable_switch_list.unshift({
+										"jdh_type_id":that.result.task_type_id,
+										"type_name":that.result.name,
+										"value":false
+									})
+								}
+							}
+							else{
+								that.form_disable_switch_list.unshift({
+									"jdh_type_id":that.result.task_type_id,
+									"type_name":that.result.name,
+									"value":false
+								})
+							}
+
+							// 从这里将 时间处理逻辑拿出来，改async模式
+
+							if (that.result.record_created_at == "") {
+								let now = new Date();
+								now.setMinutes(now.getMinutes() + that.result.task_expire);
+								that.task_expire_timestamp = now.getTime();
+							} else {
+								let now = new Date(that.result.record_created_at);
+								now.setMinutes(now.getMinutes() + that.result.task_expire);
+								that.task_expire_timestamp = now.getTime()
+							}
+
+							that.checkTimeout = new Date().getTime();
+							if (localReadLib.load("current_task_is_start")!=null){
+								that.task_is_start = true
+							}
+
+						} else {
+							this.verifyStatus = true;
+							window.addEventListener('resume', this.checkVerifyStatus, true) // 检测
+							if (typeof(juduohui)!="undefined") juduohui.addEventListen("resume", "this.vue.checkVerifyStatus()")
+							//console.log("验证任务。");
+						}
+					}
+
+				},
+				async cancelSurveyTask(has_message) {
+					
+					let that = this;
+					let view_message = has_message === undefined ? true : has_message;
+
+					if (this.result.id == undefined || this.result.id == "") {
+						alertMessage("还没有领取调查报告");
+						return
+					}
+					
+					localReadLib.del("current_task_is_start")
+					localStorage.removeItem("current_task_result");
+					
+					var data = {
+						"token": getToken(),
+						"task_id": this.result.id
+					};
+					await axios.post(api_list.cancelSurveyTask, data).then(res => {
+						//console.log(res)
+						if (res.data.code === 0) {
+							
+							if (view_message){
+								alertMessage(res.data.msg,function(){
+									backPress();
+								})
+							}
+
+						}
+						else{
+							alertMessage(res.data.msg,function(){
+								backPress();
+							})
+						}
+
+					}).catch((err) => {
+						//console.log(err)
+					});
+				},
+				async submitSurveyTask() {
+
+					if (!this.policy_check) {
+						alertMessage("请先勾选《体验报告领取协议》后方可开始体验。");
+						return;
+					}
+
+					// 保存领取协议勾选状态
+					localStorage.setItem("policy_check", "1");
+
+					/** 检查没问题，开始上传图片 */
+					var that = this;
+					var check_upload = true;
+					for (var i = 0; i < this.upload_info.length; i++) {
+						//console.log("this.upload_info[i].upload_status", this.upload_info[i].upload_status);
+						if (!this.upload_info[i].upload_status) {
+							check_upload = false;
+							layer.alert('您还有报告验证图片没有上传，请先上传！', {
+								icon: 2,
+								skin: 'layer-ext-demo' //见：扩展说明
+							})
+							return;
+						}
+					}
+					
+					showLoading("正在提交中，请稍后...")
+
+					var uploaded_file_url = [];
+					for (var i = 0; i < this.upload_info.length; i++) {
+
+						var img_sign_data = {
+							"token": getToken(),
+							"file_name": this.upload_info[0].upload_name,
+							"oss_path_name": "userCheckImg",
+							"channel_type": 2
+						};
+
+						//console.log("挂靠1")
+						var up_form = new FormData();
+						var sign_info = null;
+						await axios.post(api_list.getUploadSign, img_sign_data).then((res) => {
+							//console.log("挂靠2")
+							//console.log(JSON.stringify(res));
+							sign_info = res.data.data;
+							// up_form.append("name", that.upload_info[0].upload_name);
+							up_form.append("key", sign_info.dir + "/" + sign_info.pic_name);
+							up_form.append("policy", sign_info.policy);
+							up_form.append("OSSAccessKeyId", sign_info.accessid);
+							up_form.append("signature", sign_info.signature);
+							up_form.append("callback", sign_info.callback)
+							up_form.append("success_action_status", '200');
+							up_form.append("file", that.upload_info[0].upload_obj);
+
+						}).catch((err) => {
+							//console.log("挂靠2-1")
+							//console.log(err)
+						})
+
+						await axios.post(sign_info.host, up_form, {
+							'Content-Type': 'multipart/form-data',
+							"transformResponse": null,
+						}).then((res_sub) => {
+							//console.log("挂靠3")
+							//console.log(res_sub);
+
+							//console.log(res_sub.data);
+							// var temp_json = JSON.parse(res_sub.data);
+							// //console.log(temp_json);
+							if (res_sub.data.code === 0) {
+								uploaded_file_url.push(res_sub.data.url);
+							}
+
+						}).catch((err_sub) => {
+							//console.log("挂靠3-1")
+							//console.log(JSON.stringify(err_sub));
+						})
+
+					}
+					//console.log("挂靠外")
+					//console.log(JSON.stringify(uploaded_file_url))
+
+
+					/* 组织提交数据 */
+					var data = {
+						"token": getToken(),
+						"task_id": this.result.id,
+						"img_str": JSON.stringify(uploaded_file_url),
+					};
+
+					axios.post(api_list.submitSurveyTask, data, {
+						"transformResponse": null,
+					}).then((res) => {
+						localReadLib.del("current_task_is_start")
+						localStorage.removeItem("current_task_result");
+						//console.log(res)
+						//console.log(res.data)
+						var temp_json = JSON.parse(res.data);
+						//console.log(temp_json)
+						if (temp_json.code === 0) {
+							
+							layer.alert(temp_json.msg, {
+								title:false,
+								icon: 1,
+								skin: 'jdh-layer',
+								btn:["再领一份","返回首页"],
+								yes:function(){
+									showLoading("正在领取调查卷,请稍后...");
+									//console.log("再领一份")
+									that.upload_info = [];
+									that.task_is_start = false;
+									that.getSurveyTask();
+									return true;
+								},
+								btn2:function(){
+									//console.log("返回首页")
+									backPress();
+									return true;
+								},
+								cancel:function(){
+									//console.log("右上角取消")
+									backPress();
+									return true;
+								}				
+							});
+							
+							
+							// 成功，重新获取任务
+							// layer.alert(temp_json.msg, {
+							// 	title:false,
+							// 	icon: 1,
+							// 	// skin: 'layer-ext-demo', //见：扩展说明
+
+							// }, function() {
+							// 	layer.load(1, {
+							// 		shade: [0.8, '#000'], //0.1透明度的白色背景,
+							// 	});
+							// 	that.upload_info = [];
+							// 	localStorage.removeItem("current_task_result");
+							// 	that.getSurveyTask();
+							// })
+
+
+						} else {
+							// 失败，提示
+							layer.alert(temp_json.msg, {
+								icon: 2,
+								title:false,
+								skin: 'jdh-layer',
+								btn:["换一份","回首页"],
+								yes(){
+									showLoading("正在领取调查卷,请稍后...");
+									//console.log("再领一份")
+									that.upload_info = [];
+									localStorage.removeItem("current_task_result");
+									that.getSurveyTask();
+									return true;
+								},
+								btn2(){
+									//console.log("返回首页")
+									backPress();
+									return true;
+								},
+								cancel(){
+									//console.log("右上角取消")
+									backPress();
+									return true;
+								},
+								// skin: 'layer-ext-demo' //见：扩展说明
+							})
+						}
+					}).catch((err) => {
+						closeLoading();
+						alertMessage("提交错误，请退出重试")
+					});
+				},
+				// 获取类型
+				async getSurveyTaskType() {
+					await axios.post(api_list.getSurveyTaskType, {
+						"token": getToken(),
+						"status": 0
+					}).then((res) => {
+						this.form_switch_list = res.data.list;
+						this.form_disable_switch_list = res.data.disablelist
+						for (var ind in this.form_disable_switch_list){
+							this.form_disable_switch_list[ind].value = true;
+						}
+						
+					}).catch((err) => {
+						layer.open({
+							content: '服务出了点小问题，请稍后重试。'
+						})
+					});
+				},
+				openFileBrowser(index) {
+					document.getElementById("file_" + index).click();
+					// var a=document.createEvent("MouseEvents");//FF的处理 
+					// a.initEvent("click", true, true); 
+					// document.getElementById("file1").dispatchEvent(a);  
+				},
+				reSelectFile(index) {
+					this.upload_info[index].upload_status = false
+					this.upload_info[index].upload_src = ""
+					this.upload_info[index].upload_obj = null
+					this.upload_info[index].upload_name = ""
+				},
+				processImage(index, event) {
+					//console.log(index, event);
+
+					let that = this;
+
+					lrz(event.target.files[0], {
+						quality: 0.1,
+						width: 600
+					}).then((obj) => {
+						//console.log(obj)
+						that.upload_info[index].upload_status = true
+						that.upload_info[index].upload_src = obj.base64
+						that.upload_info[index].upload_obj = obj.file
+						that.upload_info[index].upload_name = obj.origin.name
+					}).catch((err) => {
+						//console.log(err)
+					}).always(() => {
+						//console.log("不管如何都执行");
+					})
+				},
+				// 分享到微信
+				shareImageToWeixin() {
+					if (!this.policy_check) {
+						alertMessage("请先勾选《体验报告领取协议》后方可开始体验。");
+						return;
+					}
+					//console.log("分享链接到微信好友");
+
+					if (this.result.task_url != undefined) {
+						juduohui.ShareImgToWeiXin(this.result.task_url, 0);
+					} else {
+						layer.open({
+							content: "任务失败，请关闭后重新打开！"
+						});
+					}
+				},
+				shareHrefToWeixin(copyOrShare) {
+					if (!this.policy_check && !this.verifyStatus) {
+						alertMessage("请先勾选《体验报告领取协议》后方可开始体验。");
+						return;
+					}
+					//console.log("分享链接到微信好友！")
+
+					if (this.result.task_url != undefined) {
+						var dis_url = this.result.task_url.indexOf("http")!= -1 ? this.result.task_url:this.result.org_task_url
+						if (copyOrShare){
+							juduohui.ShareTxtToWeiXin(dis_url, 0);
+						}
+						else
+						{
+							localReadLib.copyToClip(dis_url)
+							alertMessage("复制成功")
+						}
+					} else {
+						layer.open({
+							content: "任务失败，请关闭后重新打开！"
+						});
+					}
+				},
+				downloadImg() {
+					if (!this.policy_check) {
+						alertMessage("请先勾选《体验报告领取协议》后方可开始体验。");
+						return;
+					}
+					juduohui.saveToSdCard(this.result.task_url);
+				},
+				copyHref() {
+					if (!this.policy_check) {
+						alertMessage("请先勾选《体验报告领取协议》后方可开始体验。");
+						return;
+					}
+					$("body").append(
+						"<div id='copyTempNodeDiv' style='width:1px;height:1px;overflow:hidden;'><input type='text' id='copyTempNode' value='" +
+						this.result.org_task_url + "'></div>");
+					$("#copyTempNode").select();
+					document.execCommand("copy");
+					$("#copyTempNodeDiv").detach();
+					try {
+						juduohui.showToast("复制成功");
+					} catch (e) {
+						layer.alert("复制成功");
+					}
+				},
+				checkVerifyStatus() {
+					//console.log("走了这里了哟。")
+					if (this.verifyStatus){
+						this.verifyStatus = false;
+						localStorage.removeItem("current_task_result");
+						this.getSurveyTask();
+					}
+				}
+
+			},
+
+		})
+	</script>
+
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!-- 提现 -->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css">
+		<link rel="stylesheet" href="css/profit.css" />
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+
+	</head>
+	<body style=" padding-top: 4rem;" class="demo-loadmore-wrap">
+		<template id="app">
+			<mu-container ref="container" class="demo-loadmore-content">
+				<!-- 顶部 -->
+				<div class="common_header" style="box-shadow: none;">
+					<div class="art_left" @click="backPress"><i class="iconfont icon-fanhui1"></i></div>
+					<div class="art_title">支付宝绑定</div>
+					<div class="art_right"></div>
+				</div>
+				<div class="survey_content">
+					<div class="inner_box profit_form_item">
+						<span>真实姓名</span>
+						<span><input type="text" placeholder="请输入支付宝账号的真实姓名" ref="v1" v-model="ali_pay_truename"></span>
+					</div>
+					<div class="inner_box profit_form_item">
+						<span>支付宝账号</span>
+						<span><input type="text" placeholder="请输入支付宝账号" ref="v2" v-model="ali_pay_account"></span>
+					</div>
+					<div class="inner_box"></div>
+				</div>
+				<!-- <span class="survey_line"><span class=""><img src="img/gold_coin.png" class="img_icon"></span>666</span> -->
+				<!-- 正常顶部 -->
+				<div class="nospace" style="width: 100%; height: 3rem; display: block;"></div>
+				<div class="bottom_nav">
+					<div class="survey_history_bottom">
+						<button class="profit_button" @click="setAlipayAccount">立即绑定</mu-button>
+					</div>
+				</div>
+			</mu-container>
+		</template>
+	</body>
+
+	<script>
+		var vue = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					ali_pay_account: "",
+					ali_pay_truename: "",
+
+				}
+			},
+			// 计算后的属性方法
+			computed: {
+
+			},
+			filters: {},
+			// 加载的自动执行，相当于onload = function(){}
+			mounted() {
+				/** 根据屏幕宽度计算偷图尺寸 */
+				this.getAppSet();
+			},
+			// 页面内方法
+			methods: {
+				backPress() {
+					backPress();
+				},
+				getAppSet() {
+					axios.defaults.withCredentials = true; //开启后服务器才能拿到cookie
+					axios.defaults.crossDomain = true; //配置axios跨域
+					axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8' //配置默认请求头
+					axios.defaults.baseURL = api_host // 基础网址
+					axios.defaults.responseType = 'json'
+					this.getAlipayAccount()
+				},
+				setAlipayAccount() {
+					if (this.ali_pay_truename === "") {
+						alertMessage("请正确输入支付宝账号对应的真实姓名。")
+						this.$refs.v1.focus();
+						return;
+					}
+
+					if (this.ali_pay_account === "") {
+						alertMessage("请正确输入支付宝账号。")
+						this.$refs.v2.focus();
+						return;
+					}
+
+
+					let o = new Date().getTime();
+					let jdh_secret = localReadLib.getJDHSecret()
+					let dataType = 'JSON',
+						version = 'V1'
+					let token = getToken()
+					// 组装
+					let str =
+						`data_type=${dataType}&timestamp=${o}&version=${version}&alipay_account=${this.ali_pay_account}&truename=${this.ali_pay_truename}&token=${token}`
+					// 剔除=&
+					str = str.split('&')
+					str = str.sort()
+					str = str.join('').split('=').join('')
+					// 拼接
+					let cs = jdh_secret + str + jdh_secret
+					// 加密
+					str = localReadLib.md5(cs).toUpperCase()
+
+					console.log(str)
+					/* 请求参数签名结束 */
+
+					var data = {
+						token: token,
+						alipay_account: this.ali_pay_account,
+						truename: this.ali_pay_truename,
+						data_type: 'JSON',
+						sign: str,
+						version: 'V1',
+						timestamp: o
+					}
+					axios.post(api_list.changeAlipay,data).then(res=>{
+						console.log(JSON.stringify(res))
+						if (res.data.code ===0) {
+							//console.log("成功",res)
+							alertMessage(res.data.msg,function(){
+								backPress()
+							})
+						}
+						else{
+							//console.log("操作失败，错误信息："+ res.data.msg)
+							juduohui.showToast(res.data.msg);
+						}
+					}).then(err=>{
+						console.log(err)
+					})
+				},
+				async getAlipayAccount() {
+					let data = {
+						token: getToken()
+					}
+					let that = this
+					axios.post(api_list.getUserMsg,data).then(res=>{
+						//console.log(res)
+						that.ali_pay_truename = res.data.data.user_detail.truename
+						that.ali_pay_account = res.data.data.user_msg.alipay_account
+					})
+				}
+			},
+
+		})
+	</script>
+
+</html>

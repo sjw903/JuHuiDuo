@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"  android:color="#FFABAB">
+    <item android:id="@android:id/mask" android:drawable="@color/col_999" tools:ignore="NewApi"></item>
+    <item android:drawable="@color/white"></item>
+</ripple>

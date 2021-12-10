@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tag_adv_position" type="id" />
+    <item name="tag_adv_config" type="id" />
+    <item name="tag_adv_width" type="id"/>
+    <item name="tag_adv_height" type="id"/>
+    <item name="scrollview" type="id"/>
+    <item name="tag_pub_list_id" type="id"/>
+    <item name="news_list_item_top_adv" type="id"/>
+    <item name="news_list_item_adapter_position" type="id"/>
+    <item name="news_comment_is_liked" type="id"/>
+</resources>

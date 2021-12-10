@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50">
+
+            <LinearLayout
+                android:id="@+id/back"
+                android:layout_width="@dimen/margin_size35"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/fanhuii"
+                    android:layout_width="20dp"
+                    android:layout_height="18dp"
+                     />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="asdf"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_16" />
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="1080px"
+                android:layout_height="1920px">
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="1080px"
+                    android:layout_height="1920px"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="1340px"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_ll"
+                    android:layout_marginLeft="@dimen/margin_size20"
+                    android:orientation="vertical"
+                    android:padding="@dimen/margin_size15"
+                    android:layout_marginRight="@dimen/margin_size20">
+                    <TextView
+                        android:id="@+id/wocao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text=""
+                        android:textSize="@dimen/font_size14"
+                        android:textColor="@color/col_333" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/margin_size20"
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="@dimen/margin_size35"
+                            android:id="@+id/btn_one"
+                            android:layout_marginRight="@dimen/dp_10"
+                            android:textColor="@color/white"
+                            android:text="复制口令"
+                            android:textSize="@dimen/font_size12"
+                            android:background="@drawable/bg_tv_circle_half_appmain"></Button>
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="@dimen/margin_size35"
+                            android:id="@+id/btn_two"
+                            android:textSize="@dimen/font_size12"
+
+                            android:textColor="@color/white"
+                            android:text="打开淘宝"
+                            android:background="@drawable/bg_tv_circle_half_appmain"></Button>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</RelativeLayout>

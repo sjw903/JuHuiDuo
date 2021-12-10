@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_120"
+        android:scaleType="centerCrop"
+        android:id="@+id/img"></ImageView>
+    <ImageView
+        android:layout_width="@dimen/margin_size20"
+        android:layout_height="@dimen/margin_size20"
+        android:layout_margin="@dimen/margin_size5"
+        android:id="@+id/img_del"
+        android:layout_alignParentRight="true"
+        ></ImageView>
+</RelativeLayout>

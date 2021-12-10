@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/include_seach_new_topbar" />
+    </LinearLayout>
+    <ListView
+        android:layout_below="@id/top"
+        android:id="@+id/search_lv_tips"
+        android:elevation="@dimen/margin_size1"
+        android:clickable="true"
+        android:background="@color/white"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/top"
+        android:layout_weight="1"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_size15"
+                android:paddingRight="@dimen/margin_size7"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_size45"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical|left"
+                    android:textStyle="bold"
+                    android:text="热门搜索"/>
+                <com.zhy.view.flowlayout.TagFlowLayout
+                    android:id="@+id/fy_hot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_size45"
+                android:paddingLeft="@dimen/margin_size15"
+                android:paddingRight="@dimen/margin_size7">
+
+                <TextView
+                    style="@style/textTitleContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:text="历史搜索" />
+
+                <ImageView
+                    android:id="@+id/delete_icon"
+                    android:layout_width="30dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:adjustViewBounds="true"
+                    android:padding="@dimen/margin_size8"
+                    />
+            </FrameLayout>
+
+            <GridView
+                android:id="@+id/grid_view"
+                android:numColumns="3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+
+   <TextView
+       android:id="@+id/tv_senior"
+       android:layout_width="match_parent"
+       android:layout_height="@dimen/margin_size50"
+       android:gravity="center"
+       android:visibility="gone"
+       android:background="@color/app_main_color"
+       android:textColor="@color/white"
+       android:text="高级搜索"/>
+
+</RelativeLayout>

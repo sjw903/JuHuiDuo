@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF0000</color>
+    <color name="bai">#FFFF</color>
+    <color name="colorPrimaryDark">#FF0000</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="navpage">#FFE1E8EB</color>
+    <color name="colo_3366">#ff3366</color>
+    <!--app主要字体颜色-->
+    <color name="app_main_color">#FF0000</color>
+    <color name="col_333">#333333</color>
+    <color name="col_666">#666666</color>
+    <color name="col_999">#999999</color>
+    <color name="color_f6">#f6f6f6</color>
+
+    <!-- 对话框 -->
+
+    <!-- 透明 -->
+    <!-- 白色 -->
+    <color name="white">#FFFFFF</color>
+    <color name="chooses">#fba126</color>
+    <!-- 黄色 -->
+    <!-- 金色 -->
+    <color name="gold">#FFD700</color>
+    <!-- 橙色 -->
+    <color name="orange">#FFA500</color>
+    <!-- 红色 -->
+    <color name="red">#c22d32</color>
+    <!-- 商品页 红色 -->
+    <!-- 拜访历史记录 红色 -->
+    <color name="red1">#FE0036</color>
+    <!-- 天蓝色 7 -->
+    <!-- 银色 -->
+    <!-- 蓝色 -->
+    <!-- 亮蓝色 -->
+    <!-- 灰色   背景 -->
+    <!-- 暗灰色 -->
+    <color name="darkgray">#A9A9A9</color>
+    <!-- 亮灰色 -->
+    <!-- 褐色 -->
+    <!-- 天蓝色 -->
+    <!-- 灰色 -->
+    <color name="gray">#999999</color>
+    <!-- 紫色 -->
+    <color name="f0">#f0f0f0</color>
+    <!-- 青色 -->
+    <!-- 绿色 -->
+    <!-- 黑色 -->
+    <color name="black">#000000</color>
+    <color name="black_jj">#88000000</color>
+
+    <color name="col_app">#00AFFE</color>
+
+    <color name="col_root">#F8F8F8</color>
+
+    <color name="col_divider">#DCDCDC</color>
+    <color name="black_40">#DCDCDC</color>
+    <color name="lv">#32DB34</color>
+
+    <!--亮灰色-->
+    <color name="light_gray">#999999</color>
+    <color name="light1_gray">#d9d9d9</color>
+    <color name="col_e9">#E9E9E9</color>
+    <color name="col_eb">#EBEBEB</color>
+    <color name="col_f7">#F7F7F7</color>
+    <color name="col_title">#333333</color>
+
+
+    <color name="col_c5a984">#c5a984</color>
+    <color name="col_fef1d1">#fef1d1</color>
+
+    <color name="abroad_dialog_item">#ffffff</color>
+    <color name="abroad_dialog_item_press">#dfdfdf</color>
+    <color name="abroad_dialog_textcolor">#222222</color>
+    <color name="abroad_dialog_view_bg">#cccccc</color>
+    <color name="qidong">#F5F5F5</color>
+    <drawable name="common_normal">#EF411F</drawable>
+    <drawable name="common_active">#FFFFFF</drawable>
+    <color name="tt_trans_black">#00000000</color>
+    <color name="tt_ssxinmian7">#333333</color>
+
+</resources>

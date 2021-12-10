@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/margin_size5"
+    android:padding="@dimen/margin_size8"
+    android:background="@color/white"
+    android:gravity="center"
+    android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/itemitem_img"
+            android:src="@mipmap/app_icon"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="@dimen/dp_150" />
+        <TextView
+            android:maxLines="1"
+            android:id="@+id/itemitem_name"
+            android:layout_marginTop="@dimen/margin_size3"
+            android:text="眼罩"
+            android:textSize="@dimen/font_size14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    <TextView
+        android:textSize="@dimen/sp_14"
+        android:id="@+id/itemitem_qhj"
+        android:layout_marginTop="@dimen/margin_size3"
+        android:textColor="@color/colorPrimary"
+        android:text="券后价"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

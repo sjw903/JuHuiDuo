@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--重新加载 按钮背景-->
+
+    <!--正常状态背景-->
+    <item android:state_enabled="false">
+        <shape
+            android:shape="rectangle">
+            <!--圆角-->
+            <corners android:radius="5dp" />
+            <!--白色背景-->
+            <solid android:color="@color/white" />
+            <!--边框 颜色和宽度-->
+            <stroke android:color="@color/col_app" android:width="0.5dp"></stroke>
+
+        </shape>
+    </item>
+
+    <!--按下去状态背景-->
+    <item android:state_pressed="true" android:drawable="@drawable/bg_btn_blue">
+    </item>
+
+
+</selector>

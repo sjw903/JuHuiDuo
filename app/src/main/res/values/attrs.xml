@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!--  圆形头像 -->
+        <declare-styleable name="CircleImageView">
+            <attr name="civ_border_width" format="dimension" />
+            <attr name="civ_border_color" format="color" />
+            <attr name="civ_border_overlay" format="boolean" />
+            <attr name="civ_fill_color" format="color" />
+        </declare-styleable>
+
+
+
+    <declare-styleable name="ShapedImageView">
+        <attr name="shape_mode" format="enum">
+            <enum name="round_rect" value="1" />
+            <enum name="circle" value="2" />
+        </attr>
+        <attr name="round_radius" format="dimension" />
+    </declare-styleable>
+
+    <!-- Defines the custom XML attributes supported for a HorizontalListView -->
+    <declare-styleable name="HorizontalListView">
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="android:divider" />
+        <attr name="android:requiresFadingEdge" />
+        <attr name="android:fadingEdgeLength" />
+    </declare-styleable>
+
+    <!--可展开的ExpandableTextView-->
+    <!--<declare-styleable name="ExpandableTextView">-->
+        <!--<attr name="maxCollapsedLines" format="integer"/>-->
+        <!--<attr name="animDuration" format="integer"/>-->
+        <!--<attr name="animAlphaStart" format="float"/>-->
+        <!--<attr name="expandDrawable" format="reference"/>-->
+        <!--<attr name="collapseDrawable" format="reference"/>-->
+    <!--</declare-styleable>-->
+    <declare-styleable name="ExpandableTextView">
+        <attr name="maxCollapsedLines" format="integer"/>
+        <attr name="animDuration" format="integer"/>
+        <attr name="contentTextSize" format="dimension"/>
+        <attr name="contentTextColor" format="color"/>
+        <attr name="contentLineSpacingMultiplier" format="float"/>
+        <attr name="expandDrawable" format="reference"/>
+        <attr name="expandText" format="string"/>
+        <attr name="collapseDrawable" format="reference"/>
+        <attr name="collapseText" format="string"/>
+        <attr name="expandCollapseTextColor" format="color"/>
+        <attr name="DrawableAndTextGravity">
+            <enum name="left" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+    </declare-styleable>
+
+    <!--下拉 背景放大-->
+    <declare-styleable name="PullToZoomView">
+        <attr name="headerView" format="reference" />
+        <attr name="contentView" format="reference" />
+        <attr name="zoomView" format="reference" />
+        <attr name="isHeaderParallax" format="boolean" />
+    </declare-styleable>
+
+     <!--SwitchButton的MoreStyle-->
+    <attr name="sb_shadow_radius" format="reference|dimension"/>       <!--阴影半径-->
+    <attr name="sb_shadow_offset" format="reference|dimension"/>       <!--阴影偏移-->
+    <attr name="sb_shadow_color" format="reference|color"/>            <!--阴影颜色-->
+    <attr name="sb_uncheck_color" format="reference|color"/>           <!--关闭颜色-->
+    <attr name="sb_checked_color" format="reference|color"/>           <!--开启颜色-->
+    <attr name="sb_border_width" format="reference|dimension"/>        <!--边框宽度-->
+    <attr name="sb_checkline_color" format="reference|color"/>         <!--开启指示器颜色-->
+    <attr name="sb_checkline_width" format="reference|dimension"/>     <!--开启指示器线宽-->
+    <attr name="sb_uncheckcircle_color" format="reference|color"/>     <!--关闭指示器颜色-->
+    <attr name="sb_uncheckcircle_width" format="reference|dimension"/> <!--关闭指示器线宽-->
+    <attr name="sb_uncheckcircle_radius" format="reference|dimension"/><!--关闭指示器半径-->
+    <attr name="sb_checked" format="reference|boolean"/>               <!--是否选中-->
+    <attr name="sb_shadow_effect" format="reference|boolean"/>         <!--是否启用阴影-->
+    <attr name="sb_effect_duration" format="reference|integer"/>       <!--动画时间，默认300ms-->
+    <attr name="sb_button_color" format="reference|color"/>            <!--按钮颜色-->
+    <attr name="sb_show_indicator" format="reference|boolean"/>        <!--是否显示指示器，默认true：显示-->
+    <attr name="sb_background" format="reference|color"/>              <!--背景色，默认白色-->
+    <attr name="sb_enable_effect" format="reference|boolean"/>         <!--是否启用特效，默认true-->
+    <declare-styleable name="CropImageView">
+
+        <attr name="guidelines">
+            <enum name="off" value="0"/>
+            <enum name="onTouch" value="1"/>
+            <enum name="on" value="2"/>
+        </attr>
+
+        <attr name="fixAspectRatio" format="boolean"/>
+        <attr name="aspectRatioX" format="integer"/>
+        <attr name="aspectRatioY" format="integer"/>
+
+    </declare-styleable>
+
+
+    <!--NumberRollingView-->
+    <declare-styleable name="NumberRollingView">
+        <!--帧数-->
+        <attr name="frameNum" format="integer"></attr>
+        <!--内容的格式-->
+        <attr name="textType">
+            <enum name="money" value="0"></enum>
+            <enum name="num" value="1"></enum>
+        </attr>
+        <!--是否设置每三位数字一个逗号-->
+        <attr name="useCommaFormat" format="boolean"></attr>
+        <!--是否当内容改变的时候使用动画，反之则不使用动画-->
+        <attr name="runWhenChange" format="boolean"></attr>
+    </declare-styleable>
+
+//tagView
+    <declare-styleable name="FlowLayout">
+        <attr name="horizontalSpacing" format="dimension"/>
+        <attr name="verticalSpacing" format="dimension"/>
+        <attr name="orientation" format="enum">
+            <enum name="horizontal" value="0"/>
+            <enum name="vertical" value="1"/>
+        </attr>
+        <attr name="debugDraw" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="FlowLayout_LayoutParams">
+        <attr name="layout_newLine" format="boolean"/>
+        <attr name="layout_horizontalSpacing" format="dimension"/>
+        <attr name="layout_verticalSpacing" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="SideBarView">
+        <attr name="sidebar_nor_background" format="color"/>
+        <attr name="sidebar_press_background" format="color"/>
+        <attr name="sidebar_text_size" format="dimension"/>
+        <attr name="sidebar_text_color_nor" format="color"/>
+        <attr name="sidebar_text_color_press" format="color"/>
+
+    </declare-styleable>
+
+    <declare-styleable name="AvatarView">
+        <attr name="showLabel" format="boolean" />
+        <attr name="avatarSize" format="dimension" />
+        <attr name="avatarSrc" format="reference" />
+        <attr name="labelSrc" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TriangleLabelView">
+
+        <attr name="backgroundColor" format="color" />
+        <attr name="primaryTextColor" format="color" />
+        <attr name="secondaryTextColor" format="color" />
+
+        <attr name="primaryText" format="string" />
+        <attr name="secondaryText" format="string" />
+
+        <attr name="primaryTextSize" format="dimension" />
+        <attr name="secondaryTextSize" format="dimension" />
+
+        <attr name="labelTopPadding" format="dimension" />
+        <attr name="labelCenterPadding" format="dimension" />
+        <attr name="labelBottomPadding" format="dimension" />
+
+        <attr name="primaryTextStyle">
+            <enum name="normal" value="0" />
+            <enum name="italic" value="1" />
+            <enum name="bold" value="2" />
+        </attr>
+
+        <attr name="secondaryTextStyle">
+            <enum name="normal" value="0" />
+            <enum name="italic" value="1" />
+            <enum name="bold" value="2" />
+        </attr>
+
+        <attr name="corner">
+            <enum name="leftTop" value="1" />
+            <enum name="rightTop" value="2" />
+            <enum name="leftBottom" value="3" />
+            <enum name="rightBottom" value="4" />
+        </attr>
+
+    </declare-styleable>
+
+    <!--卫星菜单-->
+    <declare-styleable name="SatelliteMenu">
+        <attr name="radius" format="dimension"></attr>
+        <attr name="menu_image_width" format="dimension"></attr>
+        <attr name="menu_item_image_width" format="dimension"></attr>
+        <attr name="menu_item_text_size" format="dimension"></attr>
+        <attr name="menu_item_text_color" format="color"></attr>
+
+        <attr name="menu_postion" format="integer">
+            <enum name="left_top"  value="0"></enum>
+            <enum name="right_top" value="1"></enum>
+            <enum name="left_bottom" value="2"></enum>
+            <enum name="right_bottom" value="3"></enum>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="CustomCircle">
+        <attr name="circleTextSize" format="dimension" />
+        <attr name="circleTextColor" format="color" />
+        <attr name="circleWidth" format="dimension" />
+        <attr name="firstCircleColor" format="color" />
+        <attr name="secondCircleColor" format="color" />
+        <attr name="circleProgress" format="dimension" />
+        <attr name="circlePandding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="LineWaveVoiceView">
+        <attr name="voiceLineColor" format="color"/>
+        <attr name="voiceLineWidth" format="dimension"/>
+        <attr name="voiceTextColor" format="color" />
+        <attr name="voiceTextSize" format="dimension" />
+    </declare-styleable>
+
+
+    <declare-styleable name="RotateCircleImageView">
+        <attr name="image" format="reference" />
+        <attr name="rotate_sd" format="float" />
+        <attr name="rotate_fx" format="integer" />
+        <attr name="isRotate" format="boolean" />
+        <attr name="circle_back_width" format="dimension" />
+        <attr name="circle_back_color" format="color" />
+    </declare-styleable>
+
+
+</resources>

@@ -1,0 +1,87 @@
+@import url("common.css");
+body{ background-color: #FFFFFF; }
+.art_left { margin-left: 1rem; }
+.inner_box{ width: 96%; padding: 0; }
+.proft_coin{ display: flex; flex-direction: column; justify-content: center; align-items: center;}
+.proft_coin .coins_hb { font-size: .9rem; }
+.proft_coin .coins{ font-size: 2.4rem; color: #000000; font-weight: bold; }
+.proft_coin .link { color: #2a92f3; }
+.proft_subline{ display: flex; flex-direction: row; justify-content: space-between; color: #000000;  }
+.proft_subline span:first-child{ font-size: 1.1rem; }
+.profit_list{ width: 100%; display: flex; flex-wrap: wrap; padding: 0; margin: 0; list-style: none; justify-content: flex-start;  align-items: stretch}
+.profit_list li{ width: 33.3%; display: flex; align-items: center; height: 3.5rem; justify-content: center; }
+.profit_list li .list_item{ width: 95%;  border-radius: .3rem; display: flex; flex-direction: column; justify-content: space-around; background-color: #f5f5f5; min-height: 2.7rem; }
+.profit_list li .custom_item{ width: 99%; height: 2.8rem; text-align: center;  }
+.profit_list li.active .custom_item { color:#e24e4e ; font-size: 1.1rem; }
+.profit_list li.active .list_item{ border: 1px solid #e24e4e; background-color: #FFFFFF; }
+.profit_list li.disable .list_item { border:0; }
+.profit_list li.disable .item_content span{ color: gray; }
+.profit_list li.disable  .mu-badge{ background-color: gray; }
+
+.list_item em{ position:relative; float: right; color: #FFFFFF; background-color: #FF0000;}
+.list_item .item_content{ display: flex; flex-direction: row; width: 100%; justify-content: center; align-items: baseline; padding:0 0 .3rem 0; margin-top: -.2rem; }
+.list_item .item_content span { color: #E24E4E;}
+.list_item .item_content span:first-child{ font-size: 1.2rem; }
+
+
+.list_item.disabled em{ position:relative; float: right; background-color: #999999;}
+.list_item.disabled .item_content{ display: flex; flex-direction: row; width: 100%; justify-content: center; align-items: baseline; padding:0 0 .3rem 0; margin-top: -.2rem; }
+.list_item.disabled .item_content span { color: #666;}
+.list_item.disabled .item_content span:first-child{ font-size: 1.2rem; }
+
+.profit_type li { padding: .4rem .8rem .4rem .8rem; font-size: 1rem; display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: .8rem; border: 1px solid #CCCCCC; border-radius: .3rem;  }
+.profit_type li i{ font-size: 1.5rem; }
+.profit_type li .p1{ text-align: left;}
+.profit_type li .p2{ display: flex; align-items: flex-start; flex-grow: 1; padding-left: 1rem;}
+.profit_type li .p3{ text-align: right; color: #e24e4e; font-size: 1rem; }
+.profit_type li .p3 i { font-size: 1rem; }
+.profit_type .disabled .p3 span{ color: gray;}
+.profit_type .disabled .color_wx { color: gray; }
+.profit_type .active{ border: 1px solid #e24e4e; border-radius: .3rem; }
+
+.proft_warn_title{ margin-top: 3rem; }
+
+.survey_history_bottom{ justify-content: center; }
+.profit_button{ width: 80%; border-radius: 3rem; border: 0; outline: 0; background-image: linear-gradient(#f77d7d,#e45252); padding: .8rem 0; color: #FFFFFF; box-shadow: 0 0 1rem rgba(247,125,125,0.7); }
+
+
+/* 绑定支付宝 */
+.profit_form_item{
+	display: flex;
+	flex-direction: row;
+	padding: 1rem 0 1rem 0rem;
+	font-size: 1rem;
+	border-bottom: 1px solid #CCCCCC;
+	border-radius: 0;
+}
+.profit_form_item span:first-child{
+	
+}
+.profit_form_item span:last-child{
+	flex-grow: 1;
+}
+.profit_form_item span:last-child input{
+	width:100%;
+	border: 0;
+	outline: 0;
+	text-align: right;
+}
+
+.custom_profit_layer{ position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,.7); z-index: 9999; display: flex; flex-direction: row; justify-content: center; align-items: center;}
+.custom_profit_layer .inner_content { background-color: #FFFFFF; width: 90%; padding: 1rem; border-radius: .725rem; display: flex; flex-direction: column; justify-content: center; }
+
+.custom_profit_layer .inner_content div{ text-align: center;}
+.custom_profit_layer .inner_content .title { font-size: 1rem; font-weight: bold; color: #000000; padding: .6rem 0 1.5rem; display: flex;   }
+.custom_profit_layer .inner_content .title .t1{ flex-grow: 1;}
+.custom_profit_layer .inner_content .title .close_button{ margin-top: -0.8rem; color: #666666; }
+.custom_profit_layer .inner_content .content{  }
+.custom_profit_layer .inner_content .content input { width: 100%; outline: 0; border: 1px solid #CCCCCC; padding: .6rem; }
+.custom_profit_layer .inner_content .button{ padding: 1.5rem 0 0rem; }
+.custom_profit_layer .inner_content .button button { background-image: linear-gradient(rgb(246,124,124),rgb(246,78,78)); width: 100%; outline: 0; border: 0px; padding: .6rem; border-radius: 3rem; color: #FFFFFF; font-size: 1rem; }
+
+.color_zfb {
+	color:#11a5f2;
+}
+.color_wx {
+	color:#12B548
+}

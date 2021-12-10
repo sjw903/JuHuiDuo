@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+    <title></title>
+    <link href="./bootstrap.min.css" rel="stylesheet">
+    <style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+
+			.line {
+				height: 1px;
+				width: 100%;
+				background-color: #f2f2f2;
+			}
+
+			.view-text {
+				display: inline-block;
+				white-space: nowrap;
+				width: 95%;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.to_top {
+				width: 0;
+				height: 0;
+				border-bottom: 7px solid #ccc;
+				border-left: 7px solid transparent;
+				border-right: 7px solid transparent;
+			}
+
+			.to_bottom {
+				width: 0;
+				height: 0;
+				border-top: 7px solid #ccc;
+				border-left: 7px solid transparent;
+				border-right: 7px solid transparent;
+			}
+		</style>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+<div ng-repeat="item in showmusicList" class="row" style="border-bottom:solid 1px #f2f2f2;">
+    <div style="width: 30%;float: left;height:141px;text-align: center;">
+        <div>
+            <img ng-src="{{item.img}}" style="width: 50px;height: 50px;margin-top: 20px;border-radius: 30px;" />
+        </div>
+        <div>
+            <label style="margin-top: 12px;font-size: 15px;" ng-bind="item.cat_name"></label>
+        </div>
+        <div>
+            <div style="margin-top:5px;border: 0;font-size: 14px;background: white;" ng-click="hh($event)">更多<span style="position: absolute;margin-top: 5px;" onclick="hh2(this)" class="to_bottom"></span></div>
+        </div>
+    </div>
+    <div style="width: 70%;float: right;background-color: white;">
+        <div ng-if="item.articleList.length>0">
+            <div ng-repeat="item2 in item.articleList | limitTo:3:0" style="{{$last&&$index==2?'':'border-bottom: solid 1px #f2f2f2;'}};height: 47px;">
+                <p class="view-text" style="overflow: hidden;text-overflow: ellipsis;padding-left:5px;height:47px;line-height:47px;font-size:15px" ng-click="toDetail(item2.article_id)">{{item2.title}}</p>
+            </div>
+        </div>
+        <div style="display: none;" class="top">
+            <div ng-repeat="item2 in item.articleList | limitTo:100:3" style="{{$last?'':'border-bottom: solid 1px #f2f2f2;'}};height: 47px;">
+                <p class="view-text" style="padding-left:5px;height:47px;line-height: 47px;font-size:15px" ng-click="toDetail(item2.article_id)" ng-if="item.articleList.length>0">{{item2.title}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./angular.min.js"></script>
+<script src="./jquery.min.js"></script>
+<script src="web_app/js/app.js"></script>
+<script>
+			var app = angular.module("myApp", []);
+			app.controller("myCtrl", function($scope, $http) {
+				$http({
+					url: api_host + "/api/Article/questions"
+				}).then(function(data) {
+					var list = data.data.data.list;
+					for (var i=0;i<list.length;i++){
+						if (list[i].img.indexOf("http://")==-1 && list[i].img.indexOf("https://")==-1){
+							list[i].img += api_host + "/";
+						}
+					}
+					$scope.showmusicList = list;
+				});
+				$scope.hh = function(obj) {
+					$(obj.target).parent().parent().next().find(".top").toggle();
+					if($(obj.target).parent().parent().next().find(".top").is(":hidden")) {
+						$(obj.target).html("更多<span style='position: absolute;margin-top: 5px;'onclick='hh2(this)' class='to_bottom'></span>");
+					} else {
+						$(obj.target).html("收起<span style='position: absolute;margin-top: 5px;'onclick='hh2(this)' class='to_top'></span>");
+						if($(obj.target).parent().parent().next().find(".top").find(".view-text").length <= 0) {
+							alert("没有更多了");
+						}
+					}
+				}
+				$scope.toDetail = function(id) { //					alert(id)
+					localStorage.setItem("id", id);
+					window.location.href = "detail.html";
+				}
+
+			});
+
+			function hh2(obj) {
+				$(obj).parent().parent().parent().next().find(".top").toggle();
+				if($(obj).parent().parent().parent().next().find(".top").is(":hidden")) {
+					$(obj).parent().html("更多<span style='position: absolute;margin-top: 5px;'onclick='hh2(this)' class='to_bottom'></span>");
+				} else {
+					if($(obj).parent().parent().parent().next().find(".top").find(".view-text").length <= 0) {
+						alert("没有更多了");
+					}
+					$(obj).parent().html("收起<span style='position: absolute;margin-top: 5px;'onclick='hh2(this)' class='to_top'></span>");
+				}
+				event.stopPropagation()
+			}
+		</script>
+</body>
+
+</html>

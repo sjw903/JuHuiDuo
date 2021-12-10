@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css">
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+
+	</head>
+	<body style="background-color: #fead62;" class="demo-loadmore-wrap">
+		<template id="app">
+			<mu-container ref="container" class="demo-loadmore-content"
+				style="width: 100%; padding: 0; margin: 0; background: url(img/top_qd_mini_bg.png); background-repeat: no-repeat; background-size: 100%; background-position: top center; ">
+				<!-- 顶部 -->
+
+				<div class="art_header" style="padding-bottom: 0rem;margin-bottom: 1rem;">
+					<div class="art_left" @click="backPress"><i class="iconfont icon-fanhui1"></i></div>
+					<div class="art_title">惠币资金明细</div>
+					<div class="art_right"></div>
+				</div>
+				<jdh_adv idt="make_money_index" :cfg="adv_cfg" ref="jdh_adv_t" refm="jdh_adv_t" style="width: 92%;" class="survey_history_adv" v-show="advertising_height"></jdh_adv>
+				<div class="survey_content">
+					<div class="inner_box" style="padding:  0 1rem;">
+						<mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load"
+							:loaded-all="loading_all">
+							<mu-list v-if="record_list.length>0">
+								<template v-for="item in record_list">
+									<!-- 第一种样式 - 上边文档标题，下边一张大图 -->
+									<mu-row style="margin: .6rem auto .5rem auto;" @click="openDesc(item)" gutter>
+										<mu-col :fill="true" span="1">
+											<span class=""><img src="img/golds2.png" class="img_icon"></span>
+										</mu-col>
+										<mu-col :fill="true" span="7">
+											<div class="survey_line">
+												<span>{{item.action_zh | calcTitle(12)}}</span>
+												<span>{{item.create_time}}</span>
+											</div>
+										</mu-col>
+										<mu-col :fill="true" span="4">
+											<div class="survey_line" style="text-align: right; font-size: 1.2rem;">
+												<span style="color:#FE7454">{{item.action_symbol}}{{item.point_h}} <span style="font-size: .7rem;">惠币</span></span>
+											</div>
+										</mu-col>
+									</mu-row>
+									<mu-divider></mu-divider>
+								</template>
+								<div class="common_loaded_all" v-if="loading_all">已加载全部信息</div>
+							</mu-list>
+							<div class="no_more_data" v-if="refreshing == true">
+								努力加载信息中...
+							</div>
+							<div class="no_more_data" style="padding-bottom: 1rem;" v-if="record_list.length<1 && refreshing != true">
+								暂无更多数据
+							</div>
+						</mu-load-more>
+					</div>
+				</div>
+				<!-- <span class="survey_line"><span class=""><img src="img/gold_coin.png" class="img_icon"></span>666</span> -->
+				<!-- 正常顶部 -->
+				<div class="nospace" style="width: 100%; height: 3rem; display: block;"></div>
+				<div class="bottom_nav">
+					<div class="survey_history_bottom">
+						<div class="survey_history_bottom_left">余额: <span class="color_orange bold"> <span style="font-size: 1.5rem;">{{hui_coins}}</span> 惠币</span></div>
+						<div class="survey_history_bottom_right"><button class="profit_now" @click="openProfit()">提现</button></div>
+					</div>
+				</div>
+			</mu-container>
+		</template>
+	</body>
+
+	<script>
+		localReadLib.require("jdh_adv.js")
+		var vue = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					record_list: [],
+					refreshing: false,
+					loading: false,
+					loading_all: false,
+					page: 0,
+					tabs_list: [{}],
+					hui_coins:0,
+					coin_unit: "惠币",
+					substation_id:0,
+					// 广告配置
+					adv_cfg: [],
+					advertising_height: true
+				}
+			},
+			// 计算后的属性方法
+			computed: {
+
+			},
+			filters: {
+				calcTitle(title, title_len) {
+					if (title == null) return "";
+					if (title.length > title_len) {
+						title = title.substr(0, title_len) + "..."
+					}
+
+					return title;
+				},
+				date2time2(dateTimeString) {
+					return dateTimeString
+					let t = dateTimeString.split(" ");
+					let d = t[0].split("-");
+					let tt = t[1].split(":")
+					return d[1] + "-" + d[2] + " " + tt[0] + ":" + tt[1];
+				}
+			},
+			// 加载的自动执行，相当于onload = function(){}
+			mounted() {
+				/** 根据屏幕宽度计算偷图尺寸 */
+				this.substation_id = getQueryVariable("substation");
+				localReadLib.setAdvStation(false);
+				this.getAppSet();
+				this.getHpointlist();
+				this.getAllHuiCoins();
+				this.getAdvSetting();
+				window.addEventListener('scroll', this.bodyScroll, true);
+				juduohui.countViewPage();
+				if (typeof(juduohui)!=="undefined") juduohui.addEventListen("resume", "this.vue.refresh()")
+			},
+			// 页面内方法
+			methods: {
+				backPress() {
+					//console.log("点击了这里！")
+					backPress();
+				},
+				getAdvSetting(){
+					if (!getAdIsOpen()) return;
+					localReadLib.getAdvCfg("sign_video,make_money_index,videos_money").then(res => {
+						this.adv_cfg = res;
+					})
+				},
+				async heavyAdvertising() {
+					localReadLib.removeAllAdv(); // 移除所有广告
+					localReadLib.setAdvStation(false);
+				},
+				bodyScroll(e) {
+					if (typeof(juduohui) !== "undefined") juduohui.setScrollTop(); // 触发页面滚动的广告定位
+				},
+				openProfit(){
+					openNewActivite("./profit.html?tab_value=1");
+				},
+				activeTab(tab_index) {
+					this.active = tab_index;
+					//console.log(this.active);
+				},
+				async refresh() {
+					this.refreshing = true;
+					this.record_list = [];
+					this.$refs.container.scrollTop = 0;
+					this.page = 0;
+					this.loading_all = false;
+					await this.heavyAdvertising()
+					await this.getHpointlist();
+					this.refreshing = false;
+				},
+				load() {
+					this.loading = true;
+
+					this.getHpointlist();
+				},
+
+				getAppSet() {
+					axios.defaults.withCredentials = true; //开启后服务器才能拿到cookie
+					axios.defaults.crossDomain = true; //配置axios跨域
+					axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8' //配置默认请求头
+					axios.defaults.baseURL = api_host // 基础网址
+					axios.defaults.responseType = 'json'
+				},
+				async getHpointlist() {
+					//console.log("取任务记录",this.substation_id)
+					var data = {
+						"token": getToken(),
+						"page": (this.page = this.page + 1),
+						"per":20,
+					};
+					
+					if (typeof(this.substation_id)!== "boolean") data.distrbution_id = this.substation_id
+
+					await axios.post(api_list.getHpointlist, data).then((res) => {
+						//console.log(res.data.data.list);
+						this.record_list = this.record_list.concat(res.data.data.data);
+						if (res.data.data.data.length < 20) {
+							this.$data.loading_all = true
+						}
+						this.loading = false;
+					}).catch((err) => {
+						alertMessage(err.message)
+					});
+					this.$nextTick(() => {
+						localReadLib.removeAllAdv(); // 移除所有广告
+						localReadLib.setAdvStation(true);
+						this.$refs.jdh_adv_t.loadAdvs();
+						this.advertising_height = true
+					})
+				},
+				getAllHuiCoins(){
+					let that = this
+					var post_data = {
+						token: getToken(),
+					}
+					
+					if (typeof(this.substation_id)!== "boolean") data.distrbution_id = this.substation_id
+					
+					axios.post(api_list.getAllHPoint, {
+						token: getToken()
+					}).then(res => {
+						that.hui_coins = res.data.balance_hui_b
+					}).catch(err => {
+					
+					})
+				},
+				closeBase() {
+					//console.log(this.advertising_height)
+					//console.log('调用页面内的函数')
+					localReadLib.removeAllAdv(); // 移除所有广告
+					localReadLib.setAdvStation(false);
+					this.advertising_height = false
+				},refreshAdvertising() {//jdh_adv.js文件调用
+					localReadLib.removeAllAdv(); // 移除所有广告
+					this.$refs.jdh_adv_t.loadAdvs();
+				}
+			},
+
+		})
+	</script>
+
+</html>

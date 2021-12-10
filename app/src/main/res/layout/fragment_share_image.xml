@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom" />
+    <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/btn_copy"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:textSize="@dimen/font_size14"
+            android:layout_marginLeft="@dimen/margin_size10"
+            android:layout_marginBottom="@dimen/margin_size10"
+            android:layout_marginRight="@dimen/margin_size5"
+            android:textColor="@color/red1"
+            android:text="下载图片"
+            android:gravity="center"
+            android:paddingTop="@dimen/margin_size10"
+            android:paddingBottom="@dimen/margin_size10"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_txt_red"/>
+        <TextView
+            android:id="@+id/btn_invite"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:textSize="@dimen/font_size14"
+            android:textColor="@color/white"
+            android:layout_marginLeft="@dimen/margin_size5"
+            android:layout_marginRight="@dimen/margin_size10"
+            android:layout_marginBottom="@dimen/margin_size15"
+            android:background="@drawable/bg_btn_red"
+            android:text="分享邀请"
+            android:paddingTop="@dimen/margin_size10"
+            android:paddingBottom="@dimen/margin_size10"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <View
+        android:id="@+id/view_zz"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_share"
+        android:background="#86000000"
+        android:visibility="gone"></View>
+
+    <LinearLayout
+        android:id="@+id/ll_share"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#f4f4f4"
+        android:elevation="@dimen/margin_size69"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_size35"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/margin_size15">
+
+            <TextView
+                android:id="@+id/copy_taobao_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:drawablePadding="@dimen/margin_size10"
+                android:gravity="center"
+                android:text="复制链接"
+                android:textSize="@dimen/font_size14"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/copy_friends_cicle_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:drawableTop="@mipmap/icon_share_cicle"
+                android:drawablePadding="@dimen/margin_size10"
+                android:gravity="center"
+                android:text="朋友圈"
+                android:textSize="@dimen/font_size14" />
+
+            <TextView
+                android:id="@+id/copy_friends_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:drawableTop="@mipmap/icon_share_wx"
+                android:drawablePadding="@dimen/margin_size10"
+                android:gravity="center"
+                android:text="微信"
+                android:textSize="@dimen/font_size14" />
+            <TextView
+                android:id="@+id/copy_friends_qq"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:drawableTop="@mipmap/share_qq"
+                android:drawablePadding="@dimen/margin_size10"
+                android:gravity="center"
+                android:text="QQ好友"
+                android:textSize="@dimen/font_size14" />
+
+            <TextView
+                android:id="@+id/copy_friends_cicle_zone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:drawableTop="@mipmap/share_zone"
+                android:drawablePadding="@dimen/margin_size10"
+                android:gravity="center"
+                android:text="QQ空间"
+                android:textSize="@dimen/font_size14" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_finish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light1_gray"
+            android:gravity="center"
+            android:padding="@dimen/margin_size10"
+            android:text="取消"
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size16" />
+    </LinearLayout>
+</RelativeLayout>

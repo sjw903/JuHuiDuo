@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="@drawable/divider_line"
+    android:dividerPadding="0dp"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    android:focusableInTouchMode="true"
+    tools:context=".activity.SetAssistantActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/include_topbar" />
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_ai_setqunliao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+
+                        android:gravity="center_vertical"
+                        android:background="@color/white"
+                        android:paddingLeft="@dimen/margin_size12"
+                        android:text="选择要设置的群聊"
+                        android:textColor="@color/col_title"
+                        android:textSize="14dp" />
+
+                    <org.angmarch.views.NiceSpinner
+                        android:id="@+id/tv_title_yijiesuan"
+                        android:layout_width="230dp"
+                        android:layout_height="match_parent"
+                        android:ellipsize = "marquee"
+                        android:dropDownWidth="200dp"
+                        android:textSize="12dp" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Switch
+                        android:id="@+id/pdd_switchbutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:switchMinWidth="50dp"
+                        android:text="拼多多商品推送" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white">
+
+                    <Switch
+                        android:id="@+id/jd_switchbutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:switchMinWidth="50dp"
+                        android:text="京东商品推送" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:visibility="gone"
+                    android:background="@color/white">
+                    <Switch
+                        android:id="@+id/tb_switchbutton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:switchMinWidth="50dp"
+                        android:text="淘宝商品推送" />
+                </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_ai_sethuanying"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="1dp"
+                        android:background="@color/white"
+                        android:drawableRight="@mipmap/icon_my_user_next"
+                        android:gravity="center_vertical|left"
+                        android:paddingLeft="@dimen/margin_size12"
+                        android:paddingRight="@dimen/margin_size12"
+                        android:text="进群欢迎语"
+                        android:textColor="@color/col_title"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/welcome_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="25dp"
+                        android:text="开启"
+                        android:textColor="#40AB1A"
+                        android:textSize="13dp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_ai_settime"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:drawableRight="@mipmap/icon_my_user_next"
+                    android:gravity="center_vertical|left"
+                    android:paddingLeft="@dimen/margin_size12"
+                    android:paddingRight="@dimen/margin_size12"
+                    android:text="发送商品时间"
+                    android:textColor="@color/col_title"
+                    android:textSize="14dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_ai_tui_youhui"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:gravity="center_vertical|left"
+                        android:paddingLeft="@dimen/margin_size12"
+                        android:paddingRight="@dimen/margin_size12"
+                        android:text="选择推送优惠券商品"
+                        android:textColor="@color/col_title"
+                        android:textSize="14dp" />
+
+                    <org.angmarch.views.NiceSpinner
+                        android:id="@+id/tv_title_tui_youhui"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_toRightOf="@+id/tv_title"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_ai_tui_yongjin"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:gravity="center_vertical|left"
+                        android:paddingLeft="@dimen/margin_size12"
+                        android:paddingRight="@dimen/margin_size12"
+                        android:text="选择推送佣金商品"
+                        android:textColor="@color/col_title"
+                        android:textSize="14dp" />
+
+                    <org.angmarch.views.NiceSpinner
+                        android:id="@+id/tv_title_tui_yongjin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_toRightOf="@+id/tv_title"
+                        android:textSize="12dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_ai_settuiguang"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:drawableRight="@mipmap/icon_my_user_next"
+                    android:gravity="center_vertical|left"
+                    android:paddingLeft="@dimen/margin_size12"
+                    android:paddingRight="@dimen/margin_size12"
+                    android:text="推广设置"
+                    android:textColor="@color/col_title"
+                    android:textSize="14dp" />
+
+                <RadioGroup
+                    android:id="@+id/rg_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_size45"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_my"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_assistant_beow"
+                        android:button="@null"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="8dp"
+                        android:text="待推送"
+                        android:textColor="@drawable/radio_radiogroup_style"
+                        android:textSize="@dimen/font_size12" />
+
+                    <RadioButton
+                        android:id="@+id/rb_next"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/radio_assistant_beow"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="20dp"
+                        android:paddingBottom="8dp"
+                        android:text="历史推送"
+                        android:textColor="@drawable/radio_radiogroup_style"
+                        android:textSize="@dimen/font_size12" />
+                </RadioGroup>
+
+                <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                    android:id="@+id/refresh_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srlAccentColor="@android:color/white"
+                    app:srlPrimaryColor="#444444">
+                    <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+                        <com.android.jdhshop.utils.MyRecyclerView2
+                            android:id="@+id/recyclerView_stay"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                        <com.android.jdhshop.utils.MyRecyclerView2
+                            android:id="@+id/recyclerView_xitong"
+                            android:layout_width="match_parent"
+                            android:layout_below="@+id/recyclerView_stay"
+                            android:layout_height="match_parent" />
+                        <com.android.jdhshop.utils.MyRecyclerView2
+                            android:id="@+id/recyclerView_history"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone" />
+                    </RelativeLayout>
+                    <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/set_weixinqun_fuzhu_ai"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/set_assistant_yuanjiao"
+        android:text="添加商品"
+        android:textColor="#fff"
+        android:textSize="15dp" />
+</RelativeLayout>

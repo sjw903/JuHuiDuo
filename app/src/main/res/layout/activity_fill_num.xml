@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/col_eb">
+    <include layout="@layout/include_topbar"></include>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:textSize="@dimen/font_size14"
+        android:textColor="@color/col_666"
+        android:text="请按下方填写退货快递信息"/>
+    <WebView
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:layout_weight="1"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:textSize="@dimen/font_size14"
+        android:textColor="@color/col_666"
+        android:text="选择物流公司"/>
+    <org.angmarch.views.NiceSpinner
+        android:id="@+id/nice_sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10"
+        android:textSize="@dimen/font_size14"
+        android:textColor="@color/col_666"
+        android:text="填写快递单号"/>
+    <EditText
+        android:id="@+id/et_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:inputType="number"
+        android:padding="@dimen/margin_size15"
+        android:textColor="@color/col_666"
+        android:textSize="@dimen/font_size14"
+        android:hint="快递单号"/>
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:background="@drawable/bg_tv_circle_half_appmain"
+        android:layout_margin="@dimen/margin_size50"
+        android:textSize="@dimen/font_size14"
+        android:textColor="@color/white"
+        android:text="提交单号"
+        android:layout_height="@dimen/dp_40" />
+</LinearLayout>

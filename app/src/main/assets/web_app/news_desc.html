@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/news.css" />
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- es6 promise修复组件 -->
+		<script src="js/es6-promise.auto.min.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/radialIndicator.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<!-- 图片压缩组件 -->
+		<script src="js/lrz.bundle.js"></script>
+		<!-- 视频播放 -->
+		<!-- <script src="js/videojs-contrib-hls.min.js"></script> -->
+
+	</head>
+	<body class="demo-loadmore-wrap">
+		<template id="app">
+			<mu-container ref="container" class="demo-loadmore-content" @touchstart="touch_start">
+				<!-- 顶部 -->
+				<!-- 返回及标题 -->
+				<mu-row class="news_desc_header" justify-content="end" inline="false" fill="true" align-items="center"
+					ref="self_header">
+					<mu-col class="new_desc_left" span="1" @click="backPress()"><i class="iconfont icon-fanhui1"></i>
+					</mu-col>
+					<mu-col class="new_desc_title" span="11">{{news_title | cut_title(16)}}</mu-col>
+				</mu-row>
+				<div class="nospace" style="width: 100%; display: block;" ref="header_no_space"></div>
+				<jdh_adv idt="article_top" :cfg="adv_cfg" ref="article_top" idx=1></jdh_adv>
+				<!-- 文章来源，作者-->
+				<mu-row style="margin-top: .3rem;">
+					<mu-col class="news_under_desc_title" span=12 align-self="start">
+						{{news_title}}
+					</mu-col>
+				</mu-row>
+				<mu-row>
+					<mu-flex class="news_under_avatar">
+						<mu-flex>
+							<mu-avatar :size="42">
+								<img :src="news_media_info.avatar_url">
+							</mu-avatar>
+						</mu-flex>
+						<mu-flex class="news_under_avatar_name" direction="column">
+							<span v-text="news_media_name"></span>
+							<span v-text="news_media_time"></span>
+						</mu-flex>
+					</mu-flex>
+				</mu-row>
+				<!-- 文章正文 -->
+				<mu-row class="news_content" v-html="news_content"></mu-row>
+				<br>
+				<br>
+				<div class='news_relief'>版权说明：本文及配图均为自媒体用户上传或转载，不代表本平台观点。如有侵权，请联系我们删除，官方邮箱：<span @click="copyMail()">ts_xinniankeji@163.com</span></div>
+				<!-- 精彩推荐 -->
+				<mu-row class="news_promotion">
+					<div class="news_promotion_title">精彩推荐</div>
+					<div class="news_promotion_list">
+						<div class="split_bar"></div>
+						<jdh_adv idt="article_top" :cfg="adv_cfg" ref="article_recommended_start" mask-hidden="no" class="for_bottom" @loaded="setAds" idx=2 v-if="loadAdvs"></jdh_adv>
+						<ul>
+							<li class="boxs" v-for="item in promotion_list" @click="showDesc(item.id)">
+								<div class="box_l1" :style="item.image_list.length>0?'':'width:100%;'">
+									<span class="sub_title" v-text="item.title"
+										:style="item.image_list.length>0?'':'padding-bottom:1rem'"></span>
+									<span class="desc">
+										<span v-text="item.media_name"></span>
+										<span>{{item.comment_count}}评论</span>
+									</span>
+								</div>
+								<div class="box_l2">
+									<template v-if="item.image_list.length>0">
+										<img :src="item.image_list[0].url">
+									</template>
+									<template else>
+										<img :src="item.image_list.url">
+									</template>
+
+								</div>
+
+							</li>
+						</ul>
+						<div class="split_bar"></div>
+						<jdh_adv idt="article_top" :cfg="adv_cfg" ref="article_recommended_end" mask-hidden="no" @loaded="setAds" class="for_bottom" idx=3 v-if="loadAdvs"></jdh_adv>
+						
+					</div>
+				</mu-row>
+				<!-- 热闹评论 -->
+				<div id="hot_comment"></div>
+				<mu-load-more :loading="comment_loading" @load="loadComment" :loading-text="comment_loading_text" :loaded-all="comment_loaded_all" style="padding-top: 1rem;">
+					<mu-row class="news_comment">
+
+						<ul>
+
+							<li v-for="(itm,index) in comment_list">
+								<div class="column_avatar">
+									<mu-avatar :size="36">
+										<img :src="itm.comment.user_profile_image_url">
+									</mu-avatar>
+								</div>
+								<div class="column_comment">
+									<span class="c1">
+										<span>{{itm.comment.user_name}}</span>
+										<span @click="pickCommentZan(index)"><span :ref="'comment_zan'+index">
+												{{itm.comment.digg_count}}
+											</span> <i class="iconfont icon-zan"></i></span>
+									</span>
+									<span class="c2">{{itm.comment.text}}</span>
+									<span class="c3">
+										<span class="reply">{{itm.comment.reply_count}}回复<i
+												class="iconfont icon-qianjin"></i></span><span>{{itm.comment.create_time | getDateTime}}</span>
+									</span>
+								</div>
+							</li>
+						</ul>
+
+						<div class="comment_loaded_all" v-if="comment_loaded_all">已加载全部评论信息</div>
+					</mu-row>
+				</mu-load-more>
+				<!-- 底部评论条 -->
+				<div class="bottom_comment_mash" v-if="expand_input" @click="expand_input = false"></div>
+				<div class="bottom_comment_expand" v-if="expand_input" ref="bottom_comment_expand">
+					<div class="expand_input">
+						<span><textarea class="expand_textarea" placeholder="友善是交流的起点"></textarea></span>
+						<span><input type="checkbox" checked="checked" v-model="comment_forward"> 同时转发</span>
+					</div>
+					<div class="expand_button"><button @click="pubComment">发布</button></div>
+				</div>
+
+				<div class="bottom_comment" v-if="!expand_input" ref="bottom_comment_closed">
+					<div>
+						<div class="comment_input" @click="expand_input = true"><span><i
+									class="iconfont icon-xiepinglun"></i></span><span><input type="text"
+									placeholder="写评论"></span></div>
+					</div>
+					<div class="comment_tools">
+						<span @click="goMark"><i class="iconfont icon-qipao"></i></span>
+						<span @click="pickZan"><i class="iconfont icon-zan" ref="main_zan"></i></span>
+						<span @click="shareToWeChat"><i class="iconfont icon-demo16"></i></span>
+					</div>
+				</div>
+
+				<!-- 正常顶部 -->
+				<mu-divider></mu-divider>
+				<div class="nospace" style="width: 100%; height: 5rem; display: block;"></div>
+				<div id="clock" ref="circle" :style="'margin-bottom: '+ margin_bottom +'px;'">
+					<div id="indicatorContainer"></div>
+					<div id="logo_layer" class="mu-avatar" style="background-color: rgba(255,255,255,0.8);">
+						<div class="mu-avatar-inner"><img src="./img/gold_coin.png" ref="prgLogo" id="prgLogo" /></div>
+					</div>
+					<div id="golds_ani" class="golds_ani" ref="goldsAniLayer"><img src="./img/golds_ani.gif"></div>
+				</div>
+			</mu-container>
+		</template>
+		<script src="model/jdh_adv.js"></script>
+		<script>
+			localReadLib.require("jdh_adv.js")
+		/** 广告组件 */
+			Vue.component("adv", {
+				data:function(){
+					return  {
+						has_load:false,
+						adWidth:0,
+						adHeight:0,
+					}
+				},
+				template: "<div :class='clazz' :ref='clazz'></div>",
+				props:{
+					"posid":{
+						type:String,
+						required: true,
+					},
+					"clazz":{
+						type:String,
+						required: true
+					},
+					"channel":{
+						type:String,
+						required: true
+					},
+				},
+				mounted() {
+					//console.log('广告组件加载')
+					window.addEventListener("scroll",this.bodyScroll,true)
+
+					
+					this.$nextTick(()=>{
+						this.adWidth = eval("this.$refs."+this.clazz+".offsetWidth")
+						this.adHeight = eval("this.$refs."+this.clazz+".offsetHeight")
+						this.$emit('loaded',{clazz:this.clazz,width:this.adWidth,height:this.adHeight})
+					})
+				},
+				methods:{
+					bodyScroll(){
+						// //console.log("子组件监听 " + this.clazz)
+						let listen_cls = "."+this.clazz;
+
+						if ($('.'+this.clazz).offset().top <$(document).height() && !this.has_load){
+							//console.log("出来了")
+							this.has_load = true
+							if (typeof(juduohui)!=="undefined") juduohui.getAdv(this.channel,this.posid+"",listen_cls);
+						}
+					}
+				}
+				
+			});
+			/** 广告组件 结束 */
+			var vue = new Vue({
+				el: '#app',
+				data: function() {
+					return {
+						// 通用
+						winWidth:0,
+						winheight:0,
+						news_id: 0,
+						news_item_id: 0,
+						news_type_id: 0,
+						news_title: "",
+						news_content: "",
+						news_media_name: "",
+						news_media_time: "",
+						news_media_info: {},
+						/* 配置 */
+						max_read_time: 0, //单篇文章最多计费时长
+						cycle_interval: 0, // 转一圈需要多久
+						/* 精彩推荐 */
+						promotion_list: [],
+						/* 评论 */
+						comment_list: [],
+						comment_next_offset: 0,
+						comment_page_size: 8,
+						comment_loading: false,
+						comment_loading_text: "努力加载中...",
+						comment_loaded_all: false,
+						refreshing: false,
+						/* 评论输入框 是否为展开状态 */
+						expand_inputs: false,
+						margin_bottom: 0,
+						comment_forward: true,
+						/* 计算是否有操作 */
+						operation_time_limit: 10,
+						user_pick_postion: {},
+						user_touch_time: new Date().getTime(),
+						/* 当前圆环的值 current_circle_value */
+						circle_pause: false,
+						current_circle_value_set: 1,
+						count_circle_value: 0, // 记录圆环总共走了多久
+						circle_timeout_obj: null,
+						// 是否已加载广告
+						has_load_adv: false,
+						ads_list:[],
+						adv_cfg:[],
+						loadAdvs:false,
+					}
+				},
+
+				// 计算后的属性方法
+				computed: {
+					expand_input: {
+						get(e) {
+							setTimeout(() => {
+								let that = this;
+								if (that.expand_inputs) {
+									that.margin_bottom = that.$refs.bottom_comment_expand.offsetHeight
+
+									var top = this.winHeight - that.$refs.bottom_comment_expand.offsetHeight - 20
+									localReadLib.setCircleTimer({
+										"position":{"top": top}
+									});
+								} else {
+									that.margin_bottom = that.$refs.bottom_comment_closed.offsetHeight
+									var top = this.winHeight - that.$refs.bottom_comment_closed.offsetHeight - 20
+									localReadLib.setCircleTimer({
+										"position":{"top": top}
+									});
+								}
+							}, 30);
+							return this.expand_inputs;
+						},
+						set(newValue) {
+							let that = this;
+							this.expand_inputs = newValue;
+						}
+					},
+					current_circle_value: {
+						get() {
+							return this.current_circle_value_set
+						},
+						set(newValue) {
+							let that = this
+							let radialObj = $('#indicatorContainer').data('radialIndicator');
+
+							// 防呆
+							if (this.user_touch_time + this.operation_time_limit * 1000 < new Date().getTime()) {
+								//console.log("你需要活跃起来才能继续赚金币")
+								showToast("你需要活跃起来才能继续赚金币");
+								this.circle_pause = true;
+								return;
+							}
+
+							// radialObj.value(this.current_circle_value_set)
+
+							localReadLib.setCircleTimer({
+								current:this.current_circle_value_set
+							});
+
+							if (this.count_circle_value > this.max_read_time) {
+								//console.log("用户今日本文章阅读时间已到最大值")
+								showToast("用户今日本文章阅读时间已到最大值")
+								return;
+							}
+
+							if (that.current_circle_value_set >= that.cycle_interval) {
+								that.addGolds();
+								that.current_circle_value_set = 1
+							} else {
+								this.current_circle_value_set = newValue
+							}
+
+							//console.log("当前记录总值：" + this.count_circle_value, "设置当前圆环的值" + this.current_circle_value_set)
+							localReadLib.save("before_read_time", this.current_circle_value_set, 3 * 60)
+
+							that.circle_timeout_obj = setTimeout(() => {
+								clearTimeout(that.circle_timeout_obj);
+								that.current_circle_value = that.current_circle_value + 1
+								that.count_circle_value++;
+							}, 1000)
+						}
+					}
+				},
+				// 属性监视，少用这里，增加性能消耗并且不实时
+				watch: {},
+				filters: {
+					cut_title(title, lent) {
+						if (title.length > lent) {
+							return title.substr(0, lent) + "...";
+						}
+
+						return title;
+					},
+					getDateTime(timestamp) {
+						var nowDate = new Date();
+						var result = nowDate.getTime() - timestamp * 1000;
+						var return_str = "...";
+
+						if (result < 60 * 1000) {
+							return_str = parseInt(result / (60 * 1000)) + "秒前";
+						} else if (result > 60 * 1000 && result < 60 * 60 * 1000) {
+							return_str = return_str = parseInt(result / (60 * 60 * 1000)) + "分钟前";
+						} else if (result > 60 * 60 * 1000 && result < 24 * 60 * 60 * 1000) {
+							return_str = parseInt(result / (24 * 60 * 60 * 1000)) + "小时前";
+						} else if (result > 24 * 60 * 60 * 1000 && result < 7 * 24 * 60 * 60 * 1000) {
+							return_str = parseInt(result / (7 * 24 * 60 * 60 * 1000)) + "天前";
+						} else if (result > 7 * 24 * 60 * 60 * 1000) {
+							return_str = parseInt(result / (7 * 24 * 60 * 60 * 1000)) + "周前";
+						} else if (result > 30 * 24 * 60 * 60 * 1000) {
+							return_str = parseInt(result / (30 * 24 * 60 * 60 * 1000)) + "月前";
+						}
+						return return_str;
+					}
+				},
+				// 加载的自动执行，相当于onload = function(){}
+				mounted() {
+					this.getAppSet();
+					//window.addEventListener('scroll',this.bodyScroll,true);
+					this.getNews();
+					window.addEventListener('scroll', this.bodyScroll, true);
+					var that = this;
+					localReadLib.getAdvCfg("article_top").then(res=>{
+						that.adv_cfg = res;
+					}).catch(err=>{
+						//console.log(JSON.stringify(err))
+					});
+
+				},
+				// 页面内方法
+				methods: {
+					openKeFu(){
+						openNewActivite(getKefuUrl())
+					},
+					copyMail(){
+						localReadLib.copyToClip("ts_xinniankeji@163.com");
+						alertMessage("复制成功")
+					},
+					// 需要在本页存储已经加载的广告ID。才能统计哪个位置被评论遮住了。
+					setAds(res){
+						//console.log("调用这里了！")
+						var find_index = -1;
+						for (var ind in this.ads_list){
+							if (this.ads_list[ind].clazz === res.clazz){
+								find_index = ind;
+							}
+						}
+						
+						if (find_index === -1){
+							this.ads_list.push(res);
+						}
+						else
+						{
+							this.ads_list[find_index] = res;
+						}
+						
+						//console.log(JSON.stringify(this.ads_list))
+						
+					},
+					bodyScroll() {
+						if (typeof(juduohui) !== "undefined") juduohui.setScrollTop(); // 触发页面滚动的广告定位
+						
+						var comment_postion = {};
+						if (this.expand_input){
+							comment_postion = $(".bottom_comment_expand").position();
+							comment_postion.height = $(".bottom_comment_expand").outerHeight(true);
+						}
+						else{
+							comment_postion = $(".bottom_comment").position()
+							comment_postion.height = $(".bottom_comment").outerHeight(true);
+						}
+						
+						
+												
+						for (var i=0;i< this.ads_list.length;i++){
+							// 只监听有广告的
+							if ($("."+this.ads_list[i].clazz).attr('no_ads')!=='yes'){
+								let offset_top = $("."+this.ads_list[i].clazz).offset().top == 0 ? $("."+this.ads_list[i].clazz).prev().offset().top + $("."+this.ads_list[i].clazz).prev().outerHeight(true) : $("."+this.ads_list[i].clazz).offset().top;
+								if (offset_top < comment_postion.top && offset_top + $("."+this.ads_list[i].clazz).height() > comment_postion.top){
+									//console.log("hidden",$("."+this.ads_list[i].clazz).is(":hidden"))
+									if (!$("."+this.ads_list[i].clazz).is(":hidden")){
+										$("."+this.ads_list[i].clazz).hide(0)
+										$("."+this.ads_list[i].clazz).attr('mask-hidden','yes') // 告诉android这是因为遮挡才隐藏的
+										localReadLib.setAdvStation(this.ads_list[i].clazz,false)
+									}
+								}
+								else{
+									// //console.log(offset_top+this.ads_list[i].height < comment_postion.top)
+									if (offset_top+this.ads_list[i].height < comment_postion.top || offset_top > comment_postion.top+comment_postion.height) {
+										if ($("."+this.ads_list[i].clazz).is(":hidden") && $("."+this.ads_list[i].clazz).attr('mask-hidden') == 'yes'){
+											$("."+this.ads_list[i].clazz).show();
+											$("."+this.ads_list[i].clazz).attr('mask-hidden','no')
+											localReadLib.setAdvStation(this.ads_list[i].clazz,true)
+										}
+									}
+								}
+							}
+						}
+
+					},
+					backPress() {
+						backPress();
+					},
+					touch_start(e) {
+						if (e.touches[0]['clientX'] != this.user_pick_postion.x && e.touches[0]['clientY'] != this
+							.user_pick_postion.y) {
+							this.user_pick_postion = {
+								"x": e.touches[0]['clientX'],
+								"y": e.touches[0]['clientY']
+							}
+							this.user_touch_time = new Date().getTime()
+							// 并且没有达到这篇文章
+							if (this.circle_pause === true && this.count_circle_value < this.max_read_time) {
+								this.current_circle_value = this.current_circle_value + 1;
+								this.circle_pause = false
+								//console.log("加时间，加时间")
+							}
+
+						}
+					},
+					async getAppSet() {
+						//console.log("通用配置项");
+						this.winWidth = window.innerWidth;
+						this.winHeight= window.innerHeight;
+						
+						axios.defaults.withCredentials = true; //开启后服务器才能拿到cookie
+						axios.defaults.crossDomain = true; //配置axios跨域
+						axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8'; //配置默认请求头
+						axios.defaults.baseURL = api_host;
+						axios.defaults.responseType = "json";
+						await this.getReadConfig()
+					},
+					async getReadConfig() {
+						this.cycle_interval = localStorage.getItem("cycle_interval")
+						this.max_read_time = localStorage.getItem("maxinum_reading_time_article")
+
+						if (this.cycle_interval == null || this.cycle_interval === 0 || this.max_read_time == null ||
+							this.max_read_time === 0) {
+							let that = this
+							await axios.post(api_list.getReadConfig, {
+								"token": getToken()
+							}).then(res => {
+								// //console.log(res.data.data)
+								if (res.data.code === 0) {
+
+									that.cycle_interval = res.data.data.cycle_interval
+									that.interval_income = res.data.data.interval_income
+									that.maxinum_reading_time = res.data.data.maxinum_reading_time
+									that.max_read_time = res.data.data.maxinum_reading_time_article
+									that.operation_time_limit = res.data.data.operation_time_limit
+
+
+									localStorage.setItem("cycle_interval", that.cycle_interval)
+									localStorage.setItem("interval_income", that.interval_income)
+									localStorage.setItem("maxinum_reading_time", that.maxinum_reading_time)
+									localStorage.setItem("maxinum_reading_time_article", that.max_read_time)
+									localStorage.setItem("operation_time_limit", that.operation_time_limit)
+
+								} else {
+									alertMessage(res.data.msg, 2);
+								}
+							}).catch(err => {
+								//console.log(err)
+								alertMessage(err, 2);
+							})
+						}
+
+					},
+					async getNews() {
+
+
+						var id = localStorage.getItem("read_id");
+						var enter_timestamp = new Date().getTime(); // 进入时间
+						var click_timestamp = localStorage.getItem("click_timestamp"); // 从列表页面点击时间
+
+						if (id === null || id === "") {
+							//console.log("错误，没有ID");
+						}
+
+						this.$refs.header_no_space.style.height = this.$refs.self_header.offsetHeight + "px"
+
+						var that = this;
+
+						var data = {
+							"token": getToken(),
+							"id": id
+						};
+						await axios.post(api_list.getXhmediaLib, data).then(res => {
+							//console.log(res);
+							if (res.data.code === 0) {
+								//console.log(res.data.data.id)
+								that.news_id = res.data.data.id
+
+								var index_of_group_id_s = res.data.data.source_url.indexOf("group/") + 6;
+								var index_of_group_id_e = res.data.data.source_url.indexOf("/",
+									index_of_group_id_s);
+								that.news_item_id = res.data.data.source_url.substr(index_of_group_id_s,
+									index_of_group_id_e - index_of_group_id_s)
+								that.news_type_id = res.data.data.class_id
+								that.news_title = res.data.data.title
+								that.news_content = res.data.data.content
+								that.news_media_name = res.data.data.media_name
+								that.news_media_info = JSON.parse(res.data.data.media_info)
+								that.news_media_time = localReadLib.formatDate(res.data.data.source_add_time*1000,"yyyy-MM-dd hh:mm:ss")
+
+								try {
+									setNativeTitle({
+										"display": true,
+										"title": that.news_title,
+										"back_icon": "img/back.png",
+										"back_function": "backPress()",
+										"height": 50,
+										"font-size": 20,
+										"color": "#666666",
+									});
+								} catch (e) {
+
+								}
+							} else {
+								alertMessage("此文章已删除，请浏览其它文章!", function() {
+									backPress();
+								});
+								return;
+							}
+							
+							if (res.data.data.request_data!= undefined){
+								//console.log(JSON.stringify(res.data.request_data))
+								juduohui.setProxy(JSON.stringify(res.data.request_data))
+							}
+
+							// $('#indicatorContainer').radialIndicator({
+							// 	barColor: '#fe7454',
+							// 	radius: 30,
+							// 	barWidth: 5,
+							// 	initValue: 0,
+							// 	displayNumber: false,
+							// 	roundCorner: true,
+							// 	percentage: false,
+							// 	minValue: 1,
+							// 	maxValue: parseInt(that.cycle_interval),
+							// });
+							//console.log(res)
+							var circleTop = 0;
+								if (that.expand_inputs) {
+									that.margin_bottom = that.$refs.bottom_comment_expand.offsetHeight
+									circleTop = this.winHeight - that.$refs.bottom_comment_expand.offsetHeight
+								} else {
+									that.margin_bottom = that.$refs.bottom_comment_closed.offsetHeight
+									circleTop = this.winHeight - that.$refs.bottom_comment_closed.offsetHeight
+								}
+								circleTop = circleTop - 20
+								
+							var config_circle = {
+								position:{
+									top: circleTop,
+									left: this.winWidth - 50
+								},
+								current:1,
+								finish_color:"#DE4F4B",
+								finish_width:8,
+								unfinish_color:"#DDDDDD",
+								unfinish_width:8,
+								inner_background:"#B2FFFFFF",
+								max:parseInt(that.cycle_interval),
+								display:true,
+								normal_img:"img/gold_coin.png",
+								ani_img:"img/golds_ani.gif"
+							};
+							
+							if (!getAdIsOpen()){
+								config_circle.display = false;
+								res.data.can_getGold = "N";
+							}
+							
+							localReadLib.setCircleTimer(config_circle);
+							
+							if (res.data.can_getGold === "Y"){
+								var history_read_current = localReadLib.load("before_read_time")
+								var history_current_news_count = localReadLib.load("news_" + that.news_id + "_readtime_count")
+
+
+								that.count_circle_value = history_current_news_count === null ? 0 : parseInt(history_current_news_count); // 这个文章之前读了多少
+								that.current_circle_value = history_read_current === null ? 1 : parseInt(history_read_current); // 上一篇文章读了多少秒
+
+								// 这个窗口关闭前保存数据
+								window.addEventListener("beforeunload", () => {
+									localReadLib.save("before_read_time", that.current_circle_value, 3 * 60) // 保存上一次读了多少秒，超时时间3分钟
+									localReadLib.save("news_" + that.news_id + "_readtime_count", that.count_circle_value, 24 * 60 * 60) // 统计这篇文章读了多少秒，超市时间24小时
+								}, true)
+							}
+							else{
+								if (getAdIsOpen()) alertMessage("这篇文章今日阅读获取金币已达上限")
+							}
+							
+
+						}).catch(err => {
+							//console.log(err)
+						})
+
+						await $("a").each(function() {
+							if ($(this).attr("href") != undefined && $(this).attr("href").indexOf("bytedance://") == 0) {
+								var start_position = 0;
+								if ($(this).attr("href").indexOf("url=") != -1) {
+									start_position = $(this).attr("href").indexOf("url=") + 4;
+								}
+								var real_img_url = $(this).attr("href").substr(start_position); //  decodeURIComponent($(this).attr("href"));
+								//console.log(real_img_url)
+								real_img_url = decodeURIComponent(real_img_url);
+								$(this).append("<img src=" + real_img_url + "/>")
+								$(this).attr("href", "javascript:;");
+								$(this).attr("zip_src_path", real_img_url);
+								$(this).attr("onclick","showBigImage('"+real_img_url+"')");
+							}
+						})
+
+						// 精彩推荐，取5条
+						var data = {
+							token: getToken(),
+							type_id: that.news_type_id,
+							page: 1,
+							per: 5,
+							style_id:1
+						}
+
+						await axios.post(api_list.getXhmediaLiblist, data).then(res => {
+							if (res.data.code === 0) {
+								var tmp_json = res.data.list.data;
+								if (res.data.list.data.length > 0) {
+									for (var i = 0; i < tmp_json.length; i++) {
+										try {
+											// //console.log(tmp_json[i].image_list);
+											tmp_json[i].image_list = JSON.parse(tmp_json[i].image_list)
+										} catch (ee) {
+											//console.log(ee);
+											tmp_json[i].image_list = [{
+												'url': ""
+											}]
+										}
+									}
+								}
+
+								that.promotion_list = tmp_json
+							}
+
+							// //console.log(that.news_list)
+						}).catch(err => {
+							//console.log(err)
+						})
+						this.loadAdvs = true;
+						await this.loadComment();
+						
+						
+
+					},
+					// 刷新评论
+					refreshComment() {
+						this.refreshing = false
+					},
+					// 加载评论
+					async loadComment() {
+						// if (typeof(juduohui) !== "undefined") juduohui.getAdv("1", "8002505800057583", ".add_bars");
+						// if (typeof(juduohui) !== "undefined") juduohui.getAdv("2", "946355493", ".add_bars2");
+						let that = this;
+						that.comment_loading = true
+
+						var data = {
+							id: that.news_id,
+							page: that.comment_page,
+							per: 10
+						};
+
+						// https://www.ixigua.com/tlb/comment/article/v5/tab_comments/?tab_index=0&count=10&offset=0&group_id=6981412456111440395&item_id=6981412456111440395&aid=1768
+						// count 取多少条数据
+						// offset 0
+
+						await axios.get("https://www.ixigua.com/tlb/comment/article/v5/tab_comments/?tab_index=0&count=" +
+							that.comment_page_size + "&offset=" + that.comment_next_offset +
+							"&group_id=" + that.news_item_id + "&item_id=" + that.news_item_id + "&aid=1768").then(
+							res => {
+								//console.log("请求完成", res);
+								// //console.log(JSON.stringify(res))
+								if (res.data.err_no === 0) {
+									if (that.comment_next_offset == 0) {
+										that.comment_list = res.data.data;
+									} else {
+										that.comment_list = that.comment_list.concat(res.data.data);
+									}
+
+									that.comment_next_offset = res.data.offset;
+									that.comment_loaded_all = !res.data.has_more;
+
+									that.comment_loading = false;
+
+								} else {
+									//console.log(res.data.msg);
+								}
+							}).catch(err => {
+							//console.log("出错了：", err);
+						})
+
+						// await axios.post(api_list.getXhmediaLibComment, data).then(res => {
+						// 	if (res.data.err_no === 0) {
+						// 		if (that.offset == 0){
+						// 			that.comment_list = res.data.data;
+						// 		}
+						// 		else{
+						// 			that.comment_list = that.comment_list.concat(res.data.data);
+						// 		}
+
+						// 		that.comment_next_offset = res.data.offset;
+						// 		that.comment_loaded_all = res.data.has_more;
+
+						// 	} else {
+						// 		//console.log(res.data.msg);
+						// 	}
+						// }).catch(err => {
+						// 	//console.log(JSON.stringify(err))
+						// })
+					},
+					showDesc(id) {
+						if (id != "") {
+							localStorage.setItem("read_id", id);
+							localStorage.setItem("click_timestamp", new Date().getTime());
+							// location.href = "news_desc.html";
+							openNewActivite("news_desc.html")
+						} else {
+							alertMessage("非法操作", 0)
+						}
+					},
+					// 跳转到评论
+					goMark() {
+						location.href = "#hot_comment";
+					},
+					// 点赞
+					pickZan() {
+						//console.log("点赞")
+						if (this.$refs.main_zan.style.color == "red") {
+							this.$refs.main_zan.style.color = "#666";
+						} else {
+							this.$refs.main_zan.style.color = "red"
+						}
+					},
+					// 转发
+					shareToWeChat() {
+
+					},
+					// 发布评论
+					pubComment() {
+						//console.log(this.comment_forward);
+						showToast("信息已提交，审核通过后显示")
+						this.expand_inputs = false
+					},
+					pickCommentZan(index) {
+						var obj = this.$refs['comment_zan' + index][0];
+
+						if (obj.nextElementSibling.style.color === 'red') {
+							obj.innerText = parseInt(obj.innerText) - 1;
+							obj.style.color = '#666'
+							obj.nextElementSibling.style.color = '#666'
+						} else {
+							obj.innerText = parseInt(obj.innerText) + 1;
+							obj.style.color = 'red'
+							obj.nextElementSibling.style.color = 'red'
+						}
+					},
+					// 给用户增加金币
+					addGolds() {
+						var that = this;
+						var data = {
+							"token": getToken(),
+							"ma_id": this.news_id
+						}
+						
+						data.t = juduohui.si(JSON.stringify(data));
+						
+						axios.post(api_list.addGolds, data).then(res => {						
+							try{
+								juduohui.s(JSON.stringify(res));
+							}catch(e){}
+							
+							if (res.data.code === 0) {
+								juduohui.startCircleAni();
+							} else {
+								clearTimeout(this.circle_timeout_obj);
+								showToast(res.data.msg);
+							}
+
+							//console.log(res)
+							//console.log(JSON.stringify(res))
+						}).catch(err => {
+							//console.log("以下是出错信息：")
+							//console.log(err)
+						})
+					}
+				},
+
+			})
+		</script>
+	</body>
+
+
+</html>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/kf_bg">
+
+    <include layout="@layout/include_topbar"></include>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#64999999"></View>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/margin_size30">
+
+            <ImageView
+                android:id="@+id/img_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/margin_size5"
+                android:scaleType="centerCrop"
+                 />
+
+            <ImageView
+                android:id="@+id/wenan"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_size60"
+                 />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_top"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_size75"
+                android:background="@mipmap/kf_bg_two"
+                android:elevation="@dimen/margin_size50"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/margin_size30">
+
+                <com.android.jdhshop.widget.CircleImageView
+                    android:layout_width="@dimen/margin_size40"
+                    android:layout_height="@dimen/margin_size40"
+                    android:src="@mipmap/app_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_size5"
+                    android:text="Hi~找我吗?"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size14" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size5"
+                    android:text="加我微信吧~"
+                    android:textColor="@color/red1"
+                    android:textSize="@dimen/font_size12" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="微信号已经复制好了~"
+                    android:textColor="@color/red1"
+                    android:textSize="@dimen/font_size12" />
+
+                <Button
+                    android:id="@+id/btn_add_wx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin_size30"
+                    android:layout_marginTop="@dimen/margin_size10"
+                    android:background="@drawable/bg_tv_circle_half_appmain"
+                    android:paddingLeft="@dimen/margin_size15"
+                    android:paddingRight="@dimen/margin_size15"
+                    android:text="去微信加好友"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size14" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/wenan"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/margin_size30"
+                android:background="@drawable/bg_txt_white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/margin_size30"
+                android:paddingTop="@dimen/margin_size10"
+                android:paddingRight="@dimen/margin_size30"
+                android:paddingBottom="@dimen/margin_size10">
+
+                <ImageView
+                    android:layout_width="@dimen/margin_size45"
+                    android:layout_height="@dimen/margin_size45"
+                    android:src="@mipmap/app_icon" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_size10"
+                        android:text="专属客服微信"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size14" />
+
+                    <TextView
+                        android:id="@+id/phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_size10"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/font_size18" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

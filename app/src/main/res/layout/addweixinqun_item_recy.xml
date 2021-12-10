@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/add_relat"
+        android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/set_weixinqunadd1_yuanjiao"
+        android:layout_height="40dp">
+        <TextView
+            android:id="@+id/tv_ai_sethuanying"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/margin_size1"
+            android:layout_marginLeft="10dp"
+            android:paddingRight="@dimen/margin_size12"
+            android:text="群名称:京东–拼多多内购优惠群14629035"
+            android:textColor="#000"
+            android:textSize="15dp" />
+    </RelativeLayout>
+</LinearLayout>

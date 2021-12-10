@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+    <com.android.jdhshop.widget.indicator.MagicIndicator
+        android:id="@+id/magic_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="@color/white"></com.android.jdhshop.widget.indicator.MagicIndicator>
+   <View
+       android:layout_width="match_parent"
+       android:layout_height="1dp"
+       android:background="@color/col_e9"></View>
+    <android.support.v4.view.ViewPager
+        android:background="@color/col_f7"
+        android:id="@+id/view_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+    </LinearLayout>
+    <View
+        android:id="@+id/view_zz"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/ll_share"
+        android:background="#86000000"
+        android:visibility="gone"></View>
+
+
+    <LinearLayout
+        android:id="@+id/ll_share"
+        android:visibility="gone"
+        android:elevation="@dimen/margin_size69"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:background="@color/col_f7"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_size10">
+        <TextView
+            android:id="@+id/copy_friends_cicle_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:drawableTop="@mipmap/icon_share_cicle"
+            android:drawablePadding="@dimen/margin_size10"
+            android:gravity="center"
+            android:text="朋友圈"
+            android:textSize="@dimen/font_size14" />
+
+        <TextView
+            android:id="@+id/copy_friends_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:drawableTop="@mipmap/icon_share_wx"
+            android:drawablePadding="@dimen/margin_size10"
+            android:gravity="center"
+            android:text="微信"
+            android:textSize="@dimen/font_size14" />
+        <TextView
+            android:id="@+id/copy_friends_qq"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:drawableTop="@mipmap/share_qq"
+            android:drawablePadding="@dimen/margin_size10"
+            android:gravity="center"
+            android:text="QQ好友"
+            android:textSize="@dimen/font_size14" />
+        <TextView
+            android:id="@+id/copy_friends_cicle_zone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:drawableTop="@mipmap/share_zone"
+            android:drawablePadding="@dimen/margin_size10"
+            android:gravity="center"
+            android:text="QQ空间"
+            android:textSize="@dimen/font_size14" />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/share_fl"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/margin_size50"
+        android:layout_marginTop="@dimen/margin_size30"
+        android:layout_marginRight="@dimen/margin_size50"
+        android:layout_marginBottom="@dimen/dp_150"
+        android:background="@color/white"
+        android:elevation="@dimen/margin_size80">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title_share_tv"
+                style="@style/textTitleContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_size5"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/margin_size10"
+                android:layout_marginRight="@dimen/margin_size15"
+                android:layout_marginBottom="@dimen/margin_size10"
+                android:ellipsize="end"
+                android:maxLines="2"
+                tools:text="" />
+
+            <com.android.jdhshop.utils.RoundImageView
+                android:id="@+id/iv"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:background="@drawable/bg_ad2"
+                android:scaleType="fitXY" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/margin_size10"
+                android:paddingTop="@dimen/margin_size10"
+                android:paddingRight="@dimen/margin_size10">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/textContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="券后价:"
+                                android:textColor="@color/red1"
+                                android:textSize="@dimen/font_size14" />
+
+                            <TextView
+                                android:id="@+id/after_coupon_share_tv"
+                                style="@style/textRedContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_size5"
+                                android:textSize="@dimen/font_size16"
+                                tools:text="" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/price_share_tv"
+                            style="@style/textHindContent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_for_share"
+                    style="@style/textRedTitleContent"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_size5"
+                    android:layout_marginTop="-2dp"
+                    android:background="@mipmap/home_couponbox"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/margin_size30"
+                    android:paddingRight="4dp"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size13"
+                    tools:text="19.58" />
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_size5">
+
+                <ImageView
+                    android:id="@+id/erweima_tv"
+                    android:layout_width="@dimen/margin_size69"
+                    android:layout_height="@dimen/margin_size69"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/light1_gray" />
+
+                <TextView
+                    android:id="@+id/hh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size5"
+                    android:layout_marginRight="@dimen/margin_size5"
+                    android:layout_toLeftOf="@id/hh2"
+                    android:text="省钱赚钱就在"
+                    android:textSize="@dimen/font_size14" />
+                <TextView
+                    android:id="@+id/hh2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size3"
+                    android:layout_marginRight="@dimen/margin_size5"
+                    android:layout_toLeftOf="@id/erweima_tv"
+                    android:text="聚多惠"
+                    android:textColor="@color/red1"
+                    android:textSize="@dimen/font_size16" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/hh"
+                    android:layout_marginTop="@dimen/margin_size5"
+                    android:layout_marginRight="@dimen/margin_size5"
+                    android:layout_toLeftOf="@id/erweima_tv"
+                    android:text="长按图片，扫码领取优惠券"
+                    android:textSize="@dimen/font_size12" />
+            </RelativeLayout>
+        </LinearLayout>
+    </FrameLayout>
+</RelativeLayout>

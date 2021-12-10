@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_size10"
+        android:layout_marginRight="@dimen/margin_size10"
+        android:background="@drawable/shape_ll"
+        android:layout_marginBottom="@dimen/margin_size10"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_size10">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="@dimen/margin_size110"
+            android:layout_height="@dimen/margin_size110"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_size10"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/shop_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_size2"
+                    android:layout_marginRight="@dimen/margin_size2"
+                    android:adjustViewBounds="true"
+                    android:src="@mipmap/home_taobao"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/title_child"
+                    style="@style/textTitleContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/font_size16"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    tools:text="产品名称" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size5"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/orange"
+                    android:text="到手价:¥"
+                    android:textSize="@dimen/font_size14"/>
+                <TextView
+                    android:id="@+id/tx2"
+                    style="@style/textRedContent"
+                    android:textColor="#FE6803"
+                    android:textScaleX="0.8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_size25"
+                    android:text="20.00" />
+
+                <TextView
+                    android:id="@+id/tx2_2"
+                    style="@style/textHindContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_size14"
+                    android:layout_marginLeft="@dimen/margin_size5"
+                    android:layout_toRightOf="@id/tx2"
+                    tools:text="¥30.00" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size5"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tx4"
+                    style="@style/textAppColorContent"
+                    android:background="@drawable/buti"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="@dimen/margin_size15"
+                    android:paddingRight="@dimen/margin_size15"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/font_size14"
+                    android:layout_marginRight="@dimen/margin_size10"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    tools:text="5.0元" />
+                <TextView
+                    android:id="@+id/tx3"
+                    style="@style/textAppColorContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/home_couponbox"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/margin_size30"
+                    android:paddingRight="4dp"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    tools:text="5.0元" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

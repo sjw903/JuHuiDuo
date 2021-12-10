@@ -1,0 +1,344 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'com.huawei.agconnect'
+
+buildscript {
+    repositories {
+        maven { url "https://maven.aliyun.com/repository/central" }
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven { url "https://maven.aliyun.com/repository/google" }
+        maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+        mavenCentral()
+        maven { url 'http://developer.huawei.com/repo/' }
+    }
+    dependencies {
+        classpath 'com.huawei.agconnect:agcp:1.4.2.300'
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url "https://maven.aliyun.com/repository/central" }
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven { url "https://maven.aliyun.com/repository/google" }
+        maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+        //jcenter()
+//        maven { url "https://www.jitpack.io" }
+        maven {
+            url "http://repo.baichuan-android.taobao.com/content/groups/BaichuanRepositories/"
+        }
+        maven { url "https://jitpack.io" }
+        maven { url 'https://artifact.bytedance.com/repository/pangle' }
+
+    }
+}
+
+
+android {
+
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.android.jdhshop"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1750
+        versionName '1.7.5.0'
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86'
+        }
+        flavorDimensions "versionCode"
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : "com.android.jdhshop",
+                JPUSH_APPKEY  : "21b6a92c65b3463c75e18523", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL : "developer-default",
+
+                MEIZU_APPKEY  : "MZ-魅族的APPKEY",
+                MEIZU_APPID   : "MZ-魅族的APPID",
+                XIAOMI_APPID  : "MI-2882303761519996430",
+                XIAOMI_APPKEY : "MI-5911999646430",
+                OPPO_APPKEY   : "OP-739171188b3e4c34a3bd5d986f72e0b2",
+                OPPO_APPID    : "OP-30523927",
+                OPPO_APPSECRET: "OP-cf0ca0babed44df1b0b09e563e18320b",
+                VIVO_APPKEY   : "b606c8323ee0bbabb12cccabcd10fd88",
+                VIVO_APPID    : "105500552"
+
+        ]
+        multiDexEnabled true
+    }
+    greendao {
+        schemaVersion 2
+        daoPackage 'com.android.jdhshop.dao'
+        targetGenDir 'src/main/java/'
+    }
+    signingConfigs {
+        key {  //签名配置
+            storeFile file('../hkx.jks')//这个文件是我的,改成你自己的release签名文件
+            storePassword 'huoxingren'   //密码改成自己的
+            keyAlias 'key0'         //再改成你自己的
+            keyPassword 'jindaohang'     //再改成你自己的
+        }
+    }
+    productFlavors {
+        bd { manifestPlaceholders = [JDH_RESOURCE_CODE: "bd"] }
+        _360 { manifestPlaceholders = [JDH_RESOURCE_CODE: "360"] }
+        xm { manifestPlaceholders = [JDH_RESOURCE_CODE: "xm"] }
+        ali { manifestPlaceholders = [JDH_RESOURCE_CODE: "ali"] }
+        oppo { manifestPlaceholders = [JDH_RESOURCE_CODE: "oppo"] }
+        vivo { manifestPlaceholders = [JDH_RESOURCE_CODE: "vivo"] }
+        hw { manifestPlaceholders = [JDH_RESOURCE_CODE: "hw"] }
+        yyb { manifestPlaceholders = [JDH_RESOURCE_CODE: "yyb"] }
+    }
+
+
+    buildTypes {
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false" //不显示log
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            signingConfig signingConfigs.key
+        }
+        debug {
+//            minifyEnabled true
+//            shrinkResources true
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.key
+            renderscriptDebuggable true
+            jniDebuggable = true
+            debuggable = true
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+    aaptOptions {
+
+        cruncherEnabled = false
+
+        useNewCruncher = false
+
+    }
+    android {
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+    buildToolsVersion '27.0.3'
+    configurations {
+        cleanedAnnotations
+        compile.exclude group: 'org.jetbrains', module: 'annotations'
+    }
+}
+
+configurations.all {
+//    resolutionStrategy.force 'com.android.support:support-annotations:27.1.1'
+    resolutionStrategy.force 'com.android.support:support-annotations:28.0.0'
+}
+dependencies {
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.android.support:cardview-v7:26.+'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:support-v4:26.1.0'
+    implementation files('libs/jsoup-1.14.1.jar')
+
+//    implementation fileTree(dir: 'D:\\workspace\\jdhshop\\app\\libs', include: ['*.aar', '*.jar'], exclude: [])
+    implementation 'junit:junit:4.12'
+
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //material风格对话框
+    implementation 'me.drakeet.materialdialog:library:1.3.1'
+
+    //    compile 'com.github.jdsjlzx:LRecyclerView:1.3.0'
+
+    //视图注入框架
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    //网络框架
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+
+    //android6.0以上动态申请敏感权限
+    implementation 'com.mylhyl:acp:1.1.5'
+
+
+    implementation 'com.github.iwgang:countdownview:2.1.6'
+    implementation 'com.airbnb.android:lottie:2.7.0'
+
+    //recyclerView adapter万能适配器
+    implementation 'com.zhy:base-rvadapter:3.0.3'
+    implementation files('libs/alipaySdk-15.7.4-20200228192319-noUtdid.aar')
+    //ListView GridView adapter万能适配器
+    implementation 'com.zhy:base-adapter:3.0.3'
+
+    //LoadingLayout依赖（加载中、无网络、无数据、出错）四种情况
+    implementation 'com.lai.weavey:loadinglayout:1.3.1'
+
+    //轮播导航栏
+    implementation 'com.youth.banner:banner:1.4.10'
+
+    //刷新控件
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-12'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-12'
+
+    //没有使用特殊Header，可以不加这行
+
+    //时间选择器
+    implementation 'com.contrarywind:Android-PickerView:4.1.5'
+
+    //图片框架
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+    //    implementation 'com.libin.imageloader:ImageLoader:1.0.3'
+
+    //腾讯X5内核
+//    implementation files('libs/tbs_sdk_thirdapp_v3.2.0.1104_43200_sharewithdownload_withfilereader_withoutGame_obfs_20170609_115346.jar')
+
+    //省市区三级联动选择
+    implementation 'liji.library.dev:citypickerview:3.1.8'
+
+    //二维码使用
+    implementation 'com.google.zxing:core:3.2.1'
+    //Android 版本
+    implementation 'com.king.zxing:zxing-lite:1.1.3'
+    //zxing核心依赖
+    implementation 'com.journeyapps:zxing-android-embedded:3.3.0'
+
+    //生成二维码依赖
+
+    //微信分享功能
+//    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
+
+    //版本更新库
+    implementation 'com.allenliu.versionchecklib:library:2.0.5'
+
+    //标签
+    implementation 'com.zhy:flowlayout-lib:1.0.3'
+    implementation 'com.github.yaming116:UpdateApp:1.0.4'
+    implementation 'com.alibaba:fastjson:1.2.9'
+//    implementation 'com.alibaba.alipay:alipaySingle:20160825@jar'
+
+    //    implementation 'com.ali.auth.sdk:alibabauth_core:1.4.3@jar'
+
+    //    implementation 'com.ali.auth.sdk:alibabauth_ui:1.4.3@aar'
+
+    //    implementation 'com.ali.auth.sdk:alibabauth_ext:1.4.3@jar'
+    implementation 'com.ali.auth.sdk:alibabauth_core:2.0.0.6@aar'
+    implementation 'com.ali.auth.sdk:alibabauth_ui:2.0.0.6@aar'
+    implementation 'com.ali.auth.sdk:alibabauth_ext:2.0.0.6@aar'
+    implementation 'me.panpf:sketch:2.7.1'
+    implementation 'me.panpf:sketch-gif:2.7.1'
+    //安全组件
+    implementation 'com.taobao.android:securityguardaar3:5.4.171@aar'
+    implementation 'com.taobao.android:securitybodyaar3:5.4.99@aar'
+    implementation 'com.taobao.android:avmpaar3:5.4.36@aar'
+    implementation 'com.taobao.android:sgmiddletieraar3:5.4.9@aar'
+
+    //Mtop
+    implementation 'com.taobao.android:mtopsdk_allinone_open:3.1.2.5@jar'
+
+    implementation 'com.alibaba.sdk.android:alibc_link_partner:4.1.15@aar'
+    implementation 'com.taobao.android:utdid4all:1.1.5.3_proguard'
+    implementation 'com.alibaba.mtl:app-monitor-sdk:2.6.4.5_for_bc'
+    implementation 'com.alibaba.sdk.android:AlibcTradeCommon:4.0.0.2@aar'
+    implementation 'com.alibaba.sdk.android:AlibcTradeBiz:4.0.0.2@aar'
+    implementation 'com.alibaba.sdk.android:nb_trade:4.0.0.2@aar'
+    implementation 'com.android.support:multidex:1.0.3'
+    // https://github.com/anzewei/ParallaxBackLayout/blob/master/README_ZH.md
+    implementation 'com.github.anzewei:parallaxbacklayout:1.1.9'
+    // 裁剪
+    implementation 'com.edmodo:cropper:1.0.1'
+    // 视频播放
+    implementation 'fm.jiecao:jiecaovideoplayer:5.5.2'
+    implementation files('libs/open_sdk_r6019_lite.jar')
+    implementation files('libs/oaid_sdk_1.0.30.aar')
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.github.arcadefire:nice-spinner:1.3.4'
+    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+    implementation files('libs/jd-cps-client-1.0.jar')
+    implementation files('libs/jackson.jar')
+    implementation files('libs/jackson-databind-2.9.7.jar')
+    implementation files('libs/jackson-core-2.9.7.jar')
+    implementation files('libs/jackson-annotations-2.9.7.jar')
+    implementation project(':adlibrary')
+    implementation files('libs/commons-lang3-3.8.1.jar')
+    implementation 'pub.devrel:easypermissions:0.3.0'
+
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+
+    //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.7'
+
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
+
+    implementation project(':jdsdk')
+    implementation 'com.github.pinguo-zhouwei:MZBannerView:v2.0.2'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    implementation project(':library')
+    implementation 'jp.wasabeef:glide-transformations:2.0.1'
+    implementation 'com.gcssloop.recyclerview:pagerlayoutmanager:2.3.8'
+//    implementation(name:'pailitao_open-2.2.4.4',ext: 'aar')
+    implementation 'com.zaaach:citypicker:2.0.3'
+    implementation 'com.amap.api:location:3.6.1'
+    implementation('com.allenliu.versionchecklib:library:2.2.0') {
+        exclude group: 'com.squareup.okhttp3'
+    }
+    implementation 'com.github.lovetuzitong:MultiImageSelector:1.2'
+    //吐司样式
+    implementation 'com.github.mengpeng920223:ToastUtils:v1.0.3'
+    //开关选择器
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+
+    //时间选择器
+    implementation 'com.contrarywind:Android-PickerView:4.1.6'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.github.yhaolpz:FloatWindow:1.0.6'
+    implementation 'com.7heaven.ioswidget:iosswitch:0.6'
+
+    //穿山甲,改用aar形式引入
+//    implementation 'com.pangle.cn:ads-sdk:+'
+    implementation 'com.pangle.cn:ads-sdk-pro:4.0.1.1'
+    //优量汇
+    implementation 'com.qq.e.union:union:4.420.1290'
+    // 快手
+    implementation files("libs\\kssdk-all-3.3.23-publishRelease-b24448fc1.aar")
+    // 百度
+    implementation files("libs\\open_ad_5.3.2.0_952386b6g.jar")
+    // 小米
+    implementation files("libs\\mimo-ad-sdk.aar")
+    // 倒计时
+    implementation 'com.github.lzyzsd:circleprogress:1.0.0@aar'
+
+    // 极光核心
+//    implementation 'cn.jiguang.sdk:jcore:1.2.5'
+    // 极光统计
+    implementation 'cn.jiguang.sdk:janalytics:1.1.1'
+    // 极光推送融合
+    implementation project(path: ':jiguang')
+
+
+    /*
+    原添加的极光推送相关
+    // 此处以JPush 3.0.0 版本为例。
+    implementation 'cn.jiguang.sdk:jpush:3.1.6'
+    // 此处以JCore 1.0.0 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:1.2.5'
+    implementation 'cn.jiguang.sdk:janalytics:1.1.1'
+    // 此处以JAnalytics 1.1.1 版本为例。
+    implementation 'cn.jiguang.sdk:jcore:1.1.2'
+
+    // 此处以JCore 1.1.2 版本为例。
+    */
+    implementation 'com.github.CodeWrt:RTMultiCheckDialog:1.2'
+    implementation 'com.github.SheHuan:NiceDialog:1.2.0'
+    implementation 'com.blankj:utilcode:1.30.6'
+}

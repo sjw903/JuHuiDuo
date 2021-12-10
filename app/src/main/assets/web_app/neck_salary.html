@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/neck_salary.css">
+    <!-- 公用APP配置 -->
+    <script src="js/app.js"></script>
+    <!-- es6 promise修复组件 -->
+    <script src="js/es6-promise.auto.min.js"></script>
+    <!-- import Vue before Element -->
+    <script src="js/vue.min.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/muse-ui.js"></script>
+    <!-- import JavaScript -->
+    <!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/layer/layer.js"></script>
+    <!-- 图片压缩组件 -->
+    <script src="js/lrz.bundle.js"></script>
+    <!-- 二维码 -->
+    <script src="js/qrcode.js"></script>
+
+</head>
+<body class="demo-loadmore-wrap" >
+<template id="app">
+    <mu-container ref="container" style=" margin: 0;padding: 0" class="demo-loadmore-content">
+        <div class="top_refresh" ref="top_refresh">
+            <div class="reload_icon">
+                <i class="iconfont icon-shuaxin" :style="'transform:rotateZ('+deg+'deg);font-size: 1.5rem;color: #CCCCCC'"></i>
+                <!--                <img src="img/reload.png" :style="'transform:rotateZ('+deg+'deg)'" />-->
+            </div>
+            <div class="reload_text" ref="reload_text" style="color: #CCCCCC">松开刷新</div>
+        </div>
+<!--        头部返回-->
+        <div class="head">
+            <div class="my_header head_flex">
+                <div class="col-1 my_data_header_left" style="color: #fff;" >
+<!--                    <i class="iconfont icon-fanhui1 back"></i>-->
+                </div>
+<!--                <div class="head_center">-->
+<!--                    领工资-->
+<!--                </div>-->
+                <div class="head_center_bottom">
+                    <span style="font-size: 1.5rem;color: red;font-weight: bold;">{{salary}}元</span>
+                    <span style="color: #a09b9b;font-size: .55rem;">(待领取)</span>
+                </div>
+                <div class="" style="line-height: 2rem;color: #a09b9b;">
+                    <div @click="openHistory(2)">资金明细 ></div>
+                </div>
+            </div>
+        </div>
+        <mu-tabs :value.sync="active2" style="background: rgb(245, 245, 245);justify-content: space-around;" indicator-color="#f3efed" :ripple="false" >
+            <mu-tab @click="heavyAdvertising"><div style="width: 100%;text-align: center;"><i style="margin-right: 2%;font-size: 1.2rem;vertical-align: middle;" class="iconfont icon-zhuanqian-copy"></i>待领红包</div></mu-tab>
+            <mu-tab @click="heavyAdvertising"><div style="width: 100%;text-align: center;"><i style="font-size: 1.6rem;vertical-align: middle;margin-right: 2%;" class="iconfont icon-yiguoqi"></i>过期红包</div></mu-tab>
+        </mu-tabs>
+        <jdh_adv idt="make_money_index" :cfg="adv_cfg" ref="jdh_adv_t" refm="jdh_adv_t" class="for_bottom" v-show="advertising_height"></jdh_adv>
+        <div class="demo-text" v-if="active2 === 0">
+            <div class="list_back">
+                <div v-for="(item,key) in payroll_info" class="list_data">
+                    <div class="list_head">
+                        <span class="list_head_text">{{item['title']}}</span>
+                        <i @click="openGuiZe(item.article_id)" class="iconfont icon-help list_head_icon"></i>
+                        <span style="float: right;" v-show="bottom_hint_empty[key]">暂无</span>
+                    </div>
+                    <mu-load-more :loaded-all="bottom_hint[key]"  :loading="loading[key]" @load="load(key,0)" class="list_load">
+                        <div v-for="(i,k) in item.list" class="list_load_back">
+                            <div style="width: 17%;">
+                                <img v-if="i.avatar != '' && i.avatar != undefined && i.avatar != null" :src="i.avatar" class="account_manage_list_invite_success_top_left_img">
+                                <img v-else :src="default_logo" class="account_manage_list_invite_success_top_left_img">
+                            </div>
+                            <div style="width: 60%">
+                                <div style="width: 100%;display: flex;">
+                                    <span class="list_nickname">{{i.nickname}}{{item.title_icon}}</span>
+                                    <span class="list_hui_num">{{i.point_h}}惠币</span>
+                                </div>
+                                <div style="font-size: .75rem;">倒计时：<span>{{i.dtimel}}</span></div>
+                            </div>
+                            <div style="width: 23%;text-align: right">
+                                <span @click="receiveHui(i.id,i.point_h)" class="draw_hui">领取</span>
+                            </div>
+                        </div>
+                    </mu-load-more>
+                </div>
+            </div>
+        </div>
+        <div class="demo-text" v-if="active2 === 1">
+            <div class="list_back">
+                <div v-for="(item,key) in payroll_info_lose" class="list_data">
+                    <div class="list_head">
+                        <span class="list_head_text">{{item['title']}}</span>
+                        <i @click="openGuiZe(item.article_id)" class="iconfont icon-help list_head_icon"></i>
+                        <span style="float: right;" v-show="bottom_hint_empty_lose[key]">暂无</span>
+                    </div>
+                    <mu-load-more :loaded-all="bottom_hint_lose[key]"  :loading="loading_lose[key]" @load="load(key,1)" class="list_load">
+                        <div v-for="(i,k) in item.list" class="list_load_back">
+                            <div style="width: 17%;">
+                                <img v-if="i.avatar != '' && i.avatar != undefined && i.avatar != null" :src="i.avatar" class="account_manage_list_invite_success_top_left_img">
+                                <img v-else :src="default_logo" class="account_manage_list_invite_success_top_left_img">
+                            </div>
+                            <div style="width: 60%">
+                                <div style="width: 100%;display: flex;">
+                                    <span class="list_nickname">{{i.nickname}}{{item.title_icon}}</span>
+                                    <span class="list_hui_num">{{i.point_h}}惠币</span>
+                                </div>
+                                <div style="font-size: .75rem;">失效时间：<span>{{i.create_time | dateTransition}}</span></div>
+                            </div>
+                            <div style="width: 17%;">
+                            </div>
+                        </div>
+                    </mu-load-more>
+                </div>
+            </div>
+        </div>
+
+
+    </mu-container>
+</template>
+
+</body>
+
+<script src="model/isFollow.js" type="text/javascript" async="async"></script>
+<script>
+    localReadLib.require("jdh_adv.js")
+
+    var vue = new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                headerHeight: 0,
+                headerWidth: 320,
+                sign_box_width: 0,
+                sign_box_height: 0,
+                sign_box_top: 0,
+                auto_policy_check: false,
+                salary: 0,//待领工资钱数
+                payroll_info: [],//列表待领取数据
+                page_id:[],//存储记录表id，用于分页
+                bottom_hint: [],//底部没有记录提示控制显示
+                payroll_info_lose: [],
+                page_id_lose: [],
+                bottom_hint_lose: [],
+                bottom_hint_empty: [],
+                bottom_hint_empty_lose:[],
+                // 广告配置
+                adv_cfg: [],
+                num: 10,
+                refreshing: false,
+                loading: [],
+                loading_lose: [],
+                text: 'List',
+                //刷新
+                deg: 0,
+                last_top: 0,
+                refresh_whether: true,//是否允许刷新，有弹窗时不允许刷新
+                active2: 0,//tab栏切换
+                advertising_height: true,
+                on_resume_state: false,
+                default_logo: api_host+ "/static/admin/img/logo.png"
+            }
+        },
+        // 计算后的属性方法
+        computed: {
+            checkTimeout: {
+                get() {
+                    return this.timeouts;
+                },
+                set(newValue) {
+                    this.timeouts = newValue;
+                    for (let i = 0; i < this.payroll_info.length; i++){
+                        for (let y = 0; y < this.payroll_info[i]['list'].length; y++){
+                            this.payroll_info[i]['list'][y]['dtime'] -= 1;
+                            if (this.payroll_info[i]['list'][y]['dtime'] < 1) {
+                                this.payroll_info[i]['list'].splice(y,1);
+                            }
+                            let h = Math.floor(this.payroll_info[i]['list'][y]['dtime'] / 3600) < 10 ? '0' + Math.floor(this.payroll_info[i]['list'][y]['dtime'] / 3600) : Math.floor(this.payroll_info[i]['list'][y]['dtime'] / 3600);
+                            let m = Math.floor((this.payroll_info[i]['list'][y]['dtime'] / 60 % 60)) < 10 ? '0' + Math.floor((this.payroll_info[i]['list'][y]['dtime'] / 60 % 60)) : Math.floor((this.payroll_info[i]['list'][y]['dtime'] / 60 % 60));
+                            let s = Math.floor((this.payroll_info[i]['list'][y]['dtime'] % 60)) < 10 ? '0' + Math.floor((this.payroll_info[i]['list'][y]['dtime'] % 60)) : Math.floor((this.payroll_info[i]['list'][y]['dtime'] % 60));
+                            this.payroll_info[i]['list'][y]['dtimel'] = h + ":" + m + ":" + s;
+                        }
+                    }
+                    let that = this;
+                    setTimeout(function() {
+                        that.checkTimeout = 1
+                    }, 1000)
+
+                }
+            },
+        },
+        watch: {
+
+        },
+        beforeCreate: function () {
+            that = this
+        },
+        filters: {
+            dateTransition(time) {
+                let date = new Date(time)
+                return that.getLocalTime(parseInt(date.getTime()) / 1000+86400)
+
+            }
+        },
+        // 加载的自动执行，相当于onload = function(){}
+        mounted() {
+            this.auto_policy_check = localReadLib.load("auto_policy_check") == null ? false : true;
+            if (localReadLib.load("news_read_type_id") == null)  {localReadLib.save("news_read_type_id",0);}
+            /** 根据屏幕宽度计算偷图尺寸 */
+            let img = new Image();
+            let windowWidth = window.innerWidth;
+            let windowHeight = window.innerHeight;
+            // juduohui.countViewPage();
+
+            this.$nextTick(() => {
+                this.$refs.top_refresh.style.top = "-" + this.$refs.top_refresh.scrollHeight + "px"
+                this.last_top = this.$refs.top_refresh.offsetTop
+            })
+            localReadLib.setAdvStation(false);
+            this.getAppSet();
+
+            window.addEventListener('scroll', this.bodyScroll, true);
+            window.addEventListener("touchstart", this.touchstart, true);
+            window.addEventListener("touchmove", this.touchmove, true);
+            window.addEventListener("touchend", this.touchend, true);
+            if (typeof(juduohui) !== "undefined") juduohui.addEventListen("resume", "this.vue.onResume()")
+            that.checkTimeout = new Date().getTime();
+        },
+        // 页面内方法
+        methods: {
+            getLocalTime(nS) {
+                return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');
+            },
+            getAppSet(){
+                //console.log("取配置！");
+                axios.defaults.withCredentials = true; //开启后服务器才能拿到cookie
+                axios.defaults.crossDomain = true; //配置axios跨域
+                axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8' //配置默认请求头
+                axios.defaults.baseURL = api_host
+                axios.defaults.responseType = "json"
+                this.getAdvSetting();
+                this.getPayAll();
+            },
+            touchmove(e) {
+                /* 头部下拉刷新页面 */
+                if (this.touch_start_point !== [] && this.refresh_whether) {
+                    var move_length = (this.last_top + (e.changedTouches[0].screenY - this.touch_start_point[1]))
+                    var move_max_height = 0
+                    if (move_length >= move_max_height) {
+                        move_length = move_max_height
+                        this.last_status = true
+                        this.$refs.reload_text.innerText = '松开刷新'
+                    } else {
+                        this.$refs.reload_text.innerText = '下拉刷新'
+                        this.last_status = false
+                    }
+
+                    this.$refs.top_refresh.style.top = move_length + "px"
+                    this.deg = 360 - Math.abs(move_length)
+                }
+                /* 结束 */
+            },
+            touchend(e) {
+                var timeout_c = 0;
+                if (this.last_status) {
+                    this.onResume()
+                    timeout_c = 500
+                }
+                var that = this;
+                this.last_status = false;
+                setTimeout(() => {
+                    that.last_obj = setInterval(() => {
+                        if (that.$refs.top_refresh.offsetTop >= 0 - that.$refs.top_refresh
+                            .scrollHeight) {
+                            that.$refs.top_refresh.style.top = (that.$refs.top_refresh.offsetTop -
+                                35) + "px"
+                            that.deg = 360 - Math.abs(Math.abs(that.$refs.top_refresh.offsetTop -
+                                5))
+                        } else {
+                            clearInterval(that.last_obj)
+                            that.last_obj = null
+                        }
+                    }, 3);
+                }, timeout_c);
+
+            },
+            touchstart(e) {
+                this.touch_start_point = [e.touches[0].screenX, e.touches[0].screenY];
+                var find_load_more = false;
+                if (this.last_obj != null) clearInterval(this.last_obj)
+
+                for (var i = 0; i < e.path.length; i++) {
+                    if (e.path[i].className != undefined && (e.path[i].className.indexOf("mu-load-more") >= 0 || e
+                        .path[i].className.indexOf("react-pull-refresh") >= 0)) {
+                        find_load_more = true;
+                        break;
+                    }
+                }
+                if (find_load_more) {
+                    this.touch_start_point = [];
+                }
+            },
+            bodyScroll(e) {
+                var scrollTop = e.target.scrollTop;
+                if (scrollTop > 150 && this.normalHeadervisible != false) {
+                    this.normalHeadervisible = false;
+                }
+
+                if (scrollTop > 500) {
+                    if($(".go_to_top:hidden").length>0){
+                        $(".go_to_top").show(235);
+                    }
+                }
+                else{
+                    if($(".go_to_top:visible").length>0){
+                        $(".go_to_top").hide(235);
+                    }
+                }
+
+                if (typeof(juduohui) !== "undefined") juduohui.setScrollTop(); // 触发页面滚动的广告定位
+            },
+            getAdvSetting(){
+                if (!getAdIsOpen()) return;
+                localReadLib.getAdvCfg("sign_video,make_money_index,videos_money").then(res => {
+                    this.adv_cfg = res;
+                }).then(async () => {
+                    if (this.adv_cfg == undefined || this.adv_cfg.place_list == undefined) return;
+                    for (var itm in this.adv_cfg.place_list) {
+                        if (this.adv_cfg.place_list[itm].identify === "videos_money") {
+                            this.ads_show_video_cfg = this.adv_cfg.place_list[itm];
+                            break;
+                        }
+                    }
+
+                    for (var itm in this.adv_cfg.place_list) {
+                        if (this.adv_cfg.place_list[itm].identify === "sign_video") {
+                            this.signShowVideoCfg = this.adv_cfg.place_list[itm];
+                            break;
+                        }
+                    }
+                });
+            },
+            openHistory(toType) {
+                if (toType === 1) {
+
+                } else {
+                    openNewActivite("./profit_history.html")
+                }
+            },
+            refresh () {
+                this.refreshing = true;
+                this.$refs.container.scrollTop = 0;
+                setTimeout(() => {
+                    this.refreshing = false;
+                    this.text = this.text === 'List' ? 'Menu' : 'List';
+                    this.num = 10;
+                }, 2000)
+            },
+            async load (key,state) {
+                let loading = true;
+                if (state == 0){
+                    loading = this.loading[key];
+                }else{
+                    loading = this.loading_lose[key];
+                }
+                if (loading == false){
+                    let that = this
+                    if (state == 0){
+                        this.loading[key] = true;
+                    }else{
+                        this.loading_lose[key] = true;
+                    }
+                    this.$forceUpdate()
+                    let data = {
+                        token: getToken(),
+                        action: this.payroll_info[key]['action_id'],
+                        state: state,
+                        id: state == 0? this.page_id[key]:this.page_id_lose[key]
+                    }
+                    await axios.post(api_list.getPayInfo,data).then(res=>{
+                        if (state == 0){
+                            that.payroll_info[key]['list'] = that.payroll_info[key]['list'].concat(res.data.list)
+                            if (res.data.list.length >= 10){
+                                that.page_id[key] = res.data.list[res.data.list.length - 1]['id']
+                            }else{
+                                that.bottom_hint[key] = true;
+                            }
+                            this.loading[key] = false;
+                        }else{
+                            that.payroll_info_lose[key]['list'] = that.payroll_info_lose[key]['list'].concat(res.data.list)
+                            if (res.data.list.length >= 10){
+                                that.page_id_lose[key] = res.data.list[res.data.list.length - 1]['id']
+                            }else{
+                                that.bottom_hint_lose[key] = true;
+                            }
+                            this.loading_lose[key] = false;
+                        }
+                        this.$forceUpdate()
+                    })
+                }
+
+            },
+            async onResume() {
+                if (this.on_resume_state == false){
+                    this.on_resume_state = true;
+                    showLoading();
+                    localReadLib.removeAllAdv(); // 移除所有广告
+                    localReadLib.setAdvStation(false); // 暂停广告位
+                    //console.log("网页内的onResume功能实现")
+                    this.loading = [];
+                    this.page_id = [];
+                    this.bottom_hint = [];
+                    this.bottom_hint_empty = [];
+                    this.loading_lose = [];
+                    this.page_id_lose = [];
+                    this.bottom_hint_lose = [];
+                    this.bottom_hint_empty_lose = [];
+                    // this.getAdvSetting();
+                    this.getPayAll();
+                }
+            },
+            async heavyAdvertising() {
+                localReadLib.removeAllAdv(); // 移除所有广告
+                localReadLib.setAdvStation(true);
+                this.$refs.jdh_adv_t.loadAdvs();
+                this.advertising_height = true
+            },
+            async receiveHui(id,money) {
+                let data = {
+                    token: getToken(),
+                    id: id
+                }
+                let that = this
+                await axios.post(api_list.getPaidHPoint,data).then(res=>{
+                    //console.log(res)
+                    if (res.data.code == 0){
+                        alertAddGolds("+",money,"惠币",'领取成功','','');
+                        that.heavyAdvertising()
+                        for (let i = 0; i < that.payroll_info.length; i++){
+                            for (let y = 0; y < that.payroll_info[i]['list'].length; y++){
+                                if (that.payroll_info[i]['list'][y]['id'] == id){
+                                    that.payroll_info[i]['list'].splice(y,1);
+                                    if (that.payroll_info[i]['list'].length == 0){
+                                        that.onResume();
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        that.updateHuiSum()
+                    }else{
+                        alertMessage(res.data.msg)
+                    }
+
+
+                })
+            },
+            async getPayAll() {
+                //console.log('获取数据')
+                let data = {
+                    token: getToken()
+                }
+                let that = this
+                await axios.post(api_list.getpayAll,data).then(res=>{
+                    //console.log(JSON.stringify(res))
+                    that.salary = res.data.hpoint_num
+                    that.payroll_info = res.data.payroll_info
+                    for (let i = 0; i < that.payroll_info.length; i++){
+                        that.loading.push(false)
+                        if (that.payroll_info[i]['list'].length >= 10){
+                            that.page_id.push(that.payroll_info[i]['list'][that.payroll_info[i]['list'].length-1]['id'])
+                            that.bottom_hint.push(false)
+                        }else{
+                            that.page_id.push(0)
+                            that.bottom_hint.push(true)
+                        }
+                        if (that.payroll_info[i]['list'].length <= 0){
+                            that.bottom_hint_empty.push(true)
+                        }else{
+                            that.bottom_hint_empty.push(false)
+                        }
+                    }
+                }).catch(err=>{
+                    //console.log(JSON.stringify(err))
+                })
+                data = {
+                    token: getToken(),
+                    state: 1
+                }
+                await axios.post(api_list.getpayAll,data).then(res=>{
+                    that.payroll_info_lose = res.data.payroll_info
+                    for (let i = 0; i < that.payroll_info_lose.length; i++){
+                        that.loading_lose.push(false)
+                        if (that.payroll_info_lose[i]['list'].length >= 10){
+                            that.page_id_lose.push(that.payroll_info_lose[i]['list'][that.payroll_info_lose[i]['list'].length-1]['id'])
+                            that.bottom_hint_lose.push(false)
+                        }else{
+                            that.page_id_lose.push(0)
+                            that.bottom_hint_lose.push(true)
+                        }
+                        if (that.payroll_info_lose[i]['list'].length <= 0){
+                            that.bottom_hint_empty_lose.push(true)
+                        }else{
+                            that.bottom_hint_empty_lose.push(false)
+                        }
+                    }
+                    closeLoading();
+                }).catch(err=>{
+                    closeLoading();
+                })
+                this.$nextTick(() => {
+                    localReadLib.removeAllAdv(); // 移除所有广告
+                    localReadLib.setAdvStation(true);
+                    this.$refs.jdh_adv_t.loadAdvs();
+                    this.advertising_height = true
+                    closeLoading();
+                    this.on_resume_state = false;
+                })
+            },
+            openGuiZe(id) {
+                openNewActivite("./policy.html?id="+id);
+
+            },
+            async updateHuiSum() {
+                let data = {
+                    token: getToken()
+                }
+                let that = this
+                await axios.post(api_list.getpayAll,data).then(res=>{
+                    that.salary = res.data.hpoint_num
+                }).catch(err=>{})
+            },
+            closeBase() {//jdh_adv.js文件调用
+                //console.log(this.advertising_height)
+                //console.log('调用页面内的函数')
+                localReadLib.removeAllAdv(); // 移除所有广告
+                localReadLib.setAdvStation(false);
+                this.advertising_height = false
+            },
+            refreshAdvertising() {//jdh_adv.js文件调用
+                localReadLib.removeAllAdv(); // 移除所有广告
+                this.$refs.jdh_adv_t.loadAdvs();
+            }
+        },
+
+    })
+</script>
+
+</html>

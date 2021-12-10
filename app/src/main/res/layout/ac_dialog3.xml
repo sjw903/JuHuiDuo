@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_ll"
+    android:layout_marginLeft="@dimen/margin_size30"
+    android:layout_marginRight="@dimen/margin_size30"
+    >
+
+    <LinearLayout
+        android:id="@+id/lllll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_ll"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/txt_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_orange"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="@string/dialog3_title"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size14" />
+
+        <TextView
+            android:id="@+id/ss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:lineSpacingMultiplier="1.2"
+            android:padding="@dimen/margin_size15"
+            android:text="@string/qq1"
+            android:textColor="@color/col_666"
+            android:textSize="@dimen/font_size14" />
+
+        <com.zhy.view.flowlayout.FlowLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/margin_size5"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="@dimen/dp_10">
+
+            <TextView
+                android:id="@+id/txt_agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/agree_text"
+                android:textColor="@color/red1"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/txt_agreement2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/policy_text"
+                android:textColor="@color/red1"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/txt_agreement3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/third_text"
+                android:textColor="@color/red1"
+                android:textSize="@dimen/sp_14" />
+        </com.zhy.view.flowlayout.FlowLayout>
+
+        <LinearLayout
+            android:id="@+id/www"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape_ll"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/margin_size5"
+            android:paddingBottom="@dimen/dp_10">
+
+            <RadioGroup
+                android:id="@+id/rdgrop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp">
+
+                <RadioButton
+                    android:id="@+id/gouxuanrd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:checked="false"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@string/must_read"
+                    android:textAlignment="viewStart"
+                    android:buttonTint="#FF0000"
+                    android:buttonTintMode="src_in"
+                    android:textSize="@dimen/sp_14"
+                    tools:ignore="RtlCompat" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/img_t"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/ic_t" />
+
+            <ImageView
+                android:id="@+id/img_d"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/ic_d" />
+
+            <ImageView
+                android:id="@+id/img_p"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:src="@drawable/ic_p" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/col_eb"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_cancle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/font_size10"
+                android:text="不同意"
+                android:textColor="@color/col_666"
+                android:textSize="@dimen/font_size14" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/col_eb"></View>
+
+            <TextView
+                android:id="@+id/txt_ok"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/margin_size10"
+                android:text="同意"
+                android:textColor="@color/col_666" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lllll2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_ll"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_orange"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/dp_10"
+                android:text="系统初始化 ..."
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size14" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/download_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size10"
+            android:gravity="center"
+            android:padding="@dimen/margin_size10"
+            android:text="文件正在初始化中 ..."
+            android:textColor="@color/black"
+            android:textSize="@dimen/font_size16" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/pb_progressbar1"
+                style="@style/StyleProgressBarMini"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/margin_size5"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_size30"
+                android:layout_marginTop="@dimen/margin_size8"
+                android:layout_marginBottom="@dimen/margin_size15"
+
+                android:layout_weight="0.8"
+                android:background="@drawable/shape_progress_bg"
+                android:max="100"
+                android:progress="0" />
+
+            <TextView
+                android:id="@+id/jindu_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.2"
+                android:text=""
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/send_log"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/font_size10"
+                android:text="上报日志"
+                android:textColor="@color/tt_ssxinmian7"
+                android:textSize="@dimen/font_size14" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/col_eb"></View>
+
+            <TextView
+                android:id="@+id/call_customer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/margin_size10"
+                android:text="联系客服"
+                android:textColor="@color/tt_ssxinmian7" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/shape_ll"
+        android:id="@+id/lllll3"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/txt_tip_tishi"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size14"
+            android:background="@drawable/shape_orange"
+            android:layout_height="wrap_content"
+            android:text="温馨提示"/>
+        <TextView
+            android:id="@+id/ss_tishi"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:padding="@dimen/margin_size5"
+            android:lines="3"
+            android:ellipsize="end"
+            android:textColor="@color/col_666"
+            android:textSize="@dimen/font_size14"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_height="wrap_content"
+            android:text="您当前使用的是流量上网，进入APP时会下载十几兆资源"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/col_eb"></View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/txt_cancle_tishi"
+                android:layout_width="0dp"
+                android:textSize="@dimen/font_size14"
+                android:textColor="@color/col_666"
+                android:text="不同意"
+                android:gravity="center"
+                android:padding="@dimen/font_size10"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <View
+                android:layout_width="1dp"
+                android:background="@color/col_eb"
+                android:layout_height="match_parent"></View>
+            <TextView
+                android:id="@+id/txt_ok_tishi"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="同意"
+                android:textColor="@color/col_666"
+                android:padding="@dimen/margin_size10"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/home_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_240"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_home_bg" />
+
+    <com.youth.banner.Banner
+        android:id="@+id/main_banner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_150"
+        android:padding="@dimen/dp_10"
+        app:image_scale_type="fit_xy"></com.youth.banner.Banner>
+
+    <com.android.jdhshop.utils.MyRecyclerView2
+        android:id="@+id/home_grid"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_190"
+        android:layout_below="@id/main_banner"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@drawable/shape_ll"
+        android:paddingRight="@dimen/margin_size5"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingBottom="@dimen/margin_size7"
+        android:paddingLeft="@dimen/margin_size5">
+
+    </com.android.jdhshop.utils.MyRecyclerView2>
+    <RadioGroup
+        android:id="@+id/page_rg"
+        android:layout_below="@id/home_grid"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"></RadioGroup>
+<!--    <com.android.jdhshop.utils.ScrollBanner-->
+<!--        android:id="@+id/main_scroll"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/page_rg"-->
+<!--        android:layout_marginLeft="@dimen/margin_size10"-->
+<!--        android:layout_marginRight="@dimen/margin_size20"-->
+<!--        android:paddingLeft="@dimen/margin_size50" />-->
+    <LinearLayout
+            android:id="@+id/list_adv"
+            android:layout_below="@id/page_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:background="#FFFFFF"
+            android:padding="5dp"
+            android:orientation="vertical"/>
+    <LinearLayout
+        android:id="@+id/ll_tm"
+        android:layout_width="match_parent"
+        android:layout_below="@id/list_adv"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:orientation="vertical">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/ac_recy"></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+    <com.zhouwei.mzbanner.MZBannerView
+        android:id="@+id/home_ad"
+        android:src="@mipmap/home_ad"
+        android:layout_marginTop="@dimen/margin_size5"
+        android:layout_below="@id/ll_tm"
+        android:layout_marginLeft="@dimen/font_size10"
+        android:layout_marginRight="@dimen/font_size10"
+        android:layout_width="wrap_content"
+        app:open_mz_mode="false"
+        android:layout_height="@dimen/dp_120"></com.zhouwei.mzbanner.MZBannerView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_size5"
+        android:layout_below="@id/home_ad">
+        <include layout="@layout/home_bankuai"
+            ></include>
+    </LinearLayout>
+</RelativeLayout>

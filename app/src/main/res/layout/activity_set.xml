@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:divider="@drawable/divider_line"
+    android:showDividers="middle"
+    android:background="@color/col_eb"
+    android:dividerPadding="0dp"
+    android:orientation="vertical">
+    <include layout="@layout/include_topbar"></include>
+    <TextView
+        android:id="@+id/tv_tb"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:drawableRight="@mipmap/icon_my_user_next"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/margin_size12"
+        android:paddingRight="@dimen/margin_size12"
+        android:text="绑定淘宝号"
+        android:textColor="@color/col_title"
+        android:textSize="@dimen/font_size15" />
+    <TextView
+        android:id="@+id/tv_zfb"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:drawableRight="@mipmap/icon_my_user_next"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/margin_size12"
+        android:paddingRight="@dimen/margin_size12"
+        android:text="绑定支付宝"
+        android:textColor="@color/col_title"
+        android:textSize="@dimen/font_size15" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_bang_phone"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:drawableRight="@mipmap/icon_my_user_next"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/margin_size12"
+        android:paddingRight="@dimen/margin_size12"
+        android:text="绑定手机号"
+        android:textColor="@color/col_title"
+        android:textSize="@dimen/font_size15" />
+        <TextView
+            android:id="@+id/xianshi_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:textSize="@dimen/font_size15"
+            android:text=""
+            />
+    </RelativeLayout>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_phone"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:drawableRight="@mipmap/icon_my_user_next"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/margin_size12"
+        android:paddingRight="@dimen/margin_size12"
+        android:text="修改手机号"
+        android:textColor="@color/col_title"
+        android:textSize="@dimen/font_size15" />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_seven"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:drawableRight="@mipmap/icon_my_user_next"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/margin_size12"
+        android:paddingRight="@dimen/margin_size12"
+        android:text="修改密码"
+        android:textColor="@color/col_title"
+        android:textSize="@dimen/font_size15" />
+    <!--清理缓存-->
+    <TextView
+        android:id="@+id/tv_eight"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:drawableRight="@mipmap/icon_my_user_next"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/margin_size12"
+        android:paddingRight="@dimen/margin_size12"
+        android:text="清理缓存"
+        android:textColor="@color/col_title"
+        android:textSize="@dimen/font_size15" />
+    <!--检测版本-->
+    <TextView
+        android:id="@+id/tv_nine"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:drawableRight="@mipmap/icon_my_user_next"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/margin_size12"
+        android:paddingRight="@dimen/margin_size12"
+        android:text="检测版本"
+        android:textColor="@color/col_title"
+        android:textSize="@dimen/font_size15" />
+    <TextView
+        android:id="@+id/tv_quanxian"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:drawableRight="@mipmap/icon_my_user_next"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/margin_size12"
+        android:paddingRight="@dimen/margin_size12"
+        android:text="权限设置"
+        android:textColor="@color/col_title"
+        android:textSize="@dimen/font_size15" />
+    <TextView
+        android:id="@+id/tv_pushlog"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:drawableRight="@mipmap/icon_my_user_next"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/margin_size12"
+        android:paddingRight="@dimen/margin_size12"
+        android:text="提交Log"
+        android:textColor="@color/col_title"
+        android:textSize="@dimen/font_size15" />
+
+    <TextView
+        android:id="@+id/tv_zhuxiao"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:drawableRight="@mipmap/icon_my_user_next"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="@dimen/margin_size12"
+        android:paddingRight="@dimen/margin_size12"
+        android:text="账户注销"
+        android:textColor="@color/col_title"
+        android:textSize="@dimen/font_size15" />
+    <!--退出登录-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/tv_ten"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="退出登录"
+            android:layout_margin="@dimen/margin_size50"
+            android:background="@drawable/bg_btn_red"
+            android:textSize="@dimen/font_size14"
+            android:textColor="@color/white"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center">
+            <TextView
+                android:id="@+id/txt_q"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="《用户协议》"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/txt_w"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_size15"
+                android:text="《隐私政策》"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp_14" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

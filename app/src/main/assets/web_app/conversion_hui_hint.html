@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/news.css">
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- es6 promise修复组件 -->
+		<script src="js/es6-promise.auto.min.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<!-- 图片压缩组件 -->
+		<script src="js/lrz.bundle.js"></script>
+	</head>
+	<style>
+		.mu-radio-label{
+			font-size: .75rem;
+		}
+	</style>
+	<body style="height: 11rem;">
+	<template id="app">
+		<mu-container style="padding: 0;margin: 0;">
+			<mu-scale-transition style="padding: 0;margin: 0;">
+					<mu-container class="mExchangeContents" style="border-radius: .5rem;padding: 0;margin: 0;">
+						<mu-row class="form_title">
+							<mu-col fill='true' style="text-align: center;font-size: 1rem;color: #000000;font-weight: bold;">兑换惠币</mu-col>
+						</mu-row>
+						<mu-row>
+							<mu-col class="mExchangeCloseButton">
+<!--								<div class="guanbi_button"><i class="iconfont icon-guanbi manbeijing" @click=""></i></div>-->
+							</mu-col>
+						</mu-row>
+						<mu-row gutter class='mExchangeColumn' style="width: 100%;">
+							<mu-col span="10" md="10" order=1 class='mExchangeRight' style="margin: 0 auto;display: flex;">
+								<i class="iconfont icon-jianhao" style="color: #d81e06;font-size: 1.5rem;" @click="hui_sunstract"></i>
+								<div class="mExchangeInputBox" style="width: 100%;margin: 0 .75rem;background: rgba(183, 178, 178, 0.3);">
+									<span style="flex-grow:1"><input v-model="huibi_number" type="number" min="1" class="mExchangeInputText" style="text-align: center;"></span>
+								</div>
+								<i class="iconfont icon-jiahao1" style="color: #d81e06;font-size: 1.5rem;" @click="hui_add"></i>
+							</mu-col>
+						</mu-row>
+						<mu-row gutter class='mExchangeColumn' style="width: 100%;">
+							<mu-col span="10" md="10" order=1 class='mExchangeRight' style="margin: 0 auto;display: flex;">
+								<div style="font-size: .75rem;width: 80%;color: rgb(197, 197, 197)">
+									金币余额  {{sum_gold}}个
+								</div>
+								<div style="font-size: .75rem;width: 65%;text-align: right;color: rgb(197, 197, 197)">
+									兑换比例  1:{{gold_exchange_hpoint}}
+								</div>
+							</mu-col>
+						</mu-row>
+						<mu-row>
+							<mu-col fill='true' class='mExchangeButtons' style="padding-bottom: 0;">
+								<mu-button color="#FF5700" @click="exchangeHuiBi" style="width: 90%;">立即兑换</mu-button>
+							</mu-col>
+						</mu-row>
+					</mu-container>
+			</mu-scale-transition>
+		</mu-container>
+	</template>
+	</body>
+	<script>
+		var vue = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					gold_exchange_hpoint: 0,
+					sum_gold:0,
+					huibi_number_ed:0
+				}
+			},
+			// 计算后的属性方法
+			computed: {
+				huibi_number:{
+					get(){
+						this.huibi_number_ed = Number(this.huibi_number_ed)
+						return parseInt(this.huibi_number_ed) > Math.floor(this.sum_gold / this.gold_exchange_hpoint) ? Math.floor(this.sum_gold / this.gold_exchange_hpoint) : parseInt(this.huibi_number_ed)
+					},
+					set(val){
+						val = (val+"").toString().replace("+","").replace("-","")
+						this.huibi_number_ed = val
+						if (typeof(val) === "string" && val.indexOf(".")!=-1) {
+							showToast("请输入整数")
+						}
+					}
+				}
+			},
+			// 变量监听，少用
+			watch: {
+
+			},
+			// 加载的自动执行，相当于onload = function(){}
+			mounted() {
+				commonAppSetting()
+				this.gold_exchange_hpoint = localReadLib.load('gold_exchange_hpoint')
+				this.sum_gold = localReadLib.load('sum_gold')
+				this.huibi_number = localReadLib.load('huibi_number')
+				localReadLib.del('gold_exchange_hpoint')
+				localReadLib.del('sum_gold')
+				localReadLib.del('huibi_number')
+			},
+			methods: {
+				async exchangeHuiBi() {
+					let that = this;
+
+					if (this.huibi_number < 1) {
+						alertMessage("请正确输入惠币数量", function() {
+							that.$data.huibi_number = 0
+						})
+						return;
+					}
+
+					if (this.huibi_number > Math.floor(this.sum_gold / this.gold_exchange_hpoint) ) {
+
+						alertMessage("金币余额不足", function() {
+							that.huibi_number = 0
+						})
+						return;
+					}
+
+					var is_success = false;
+					await axios.post(api_list.goldExchangeToHB, {
+						"token": getToken(),
+						"gold_num": this.huibi_number
+					}).then(res => {
+						if (res.data.code === 0) {
+							is_success = true;
+						}
+
+						alertMessage(res.data.msg,function(){
+							dialog.close();//关闭弹窗
+						})
+
+					}).catch(err => {
+						//console.log(err)
+					})
+				},
+				hui_sunstract() {
+					if (this.huibi_number > 0){
+						if (parseInt(this.huibi_number) - 50 < 0){
+							this.huibi_number = 0
+						}else{
+							this.huibi_number = parseInt(this.huibi_number) - 50;
+						}
+					}
+				},
+				hui_add() {
+					this.huibi_number = parseInt(this.huibi_number) + 50;
+				}
+			},
+
+		})
+	</script>
+
+</html>

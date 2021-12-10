@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <include layout="@layout/include_topbar"></include>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/dp_10"
+        android:text="订单已完成"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size25"></TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="满意的话请打五星好评哦，谢谢您的支持！"
+        android:textColor="@color/darkgray"
+        android:textSize="@dimen/font_size14"></TextView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/dp_10">
+
+        <CheckBox
+            android:id="@+id/cb_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size3"
+            android:button="@null"
+            android:checked="true"
+            android:drawableLeft="@drawable/cb_star"></CheckBox>
+
+        <CheckBox
+            android:id="@+id/cb_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size3"
+            android:button="@null"
+            android:drawableLeft="@drawable/cb_star"></CheckBox>
+
+        <CheckBox
+            android:id="@+id/cb_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size3"
+            android:button="@null"
+
+            android:drawableLeft="@drawable/cb_star"></CheckBox>
+
+        <CheckBox
+            android:id="@+id/cb_four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size3"
+            android:button="@null"
+
+            android:drawableLeft="@drawable/cb_star"></CheckBox>
+
+        <CheckBox
+            android:id="@+id/cb_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size3"
+            android:button="@null"
+
+            android:drawableLeft="@drawable/cb_star"></CheckBox>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_size5"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="@color/col_eb"></View>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:padding="@dimen/dp_10"
+        android:id="@+id/et_content"
+        android:gravity="top"
+        android:hint="请输入评论内容"
+        android:lines="5"
+        android:background="#f0f0f0"></EditText>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="@dimen/margin_size5"
+        android:layout_weight="1"
+        android:id="@+id/grid_view1"
+        android:numColumns="3"></android.support.v7.widget.RecyclerView>
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/btn_ok"
+        android:layout_margin="@dimen/font_size30"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/bg_tv_circle_half_appmain"
+        android:textSize="@dimen/font_size14"
+        android:textColor="@color/white"
+        android:text="提交评价"></Button>
+</LinearLayout>

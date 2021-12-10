@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp"
+    >
+
+    <Switch
+        android:id="@+id/news_type_item_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:checked="true"
+        android:text="这这这这"
+        android:textColor="#000000"
+        android:theme="@style/MySwitch" />
+</LinearLayout>

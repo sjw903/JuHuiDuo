@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_topbar"></include>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="反馈类型"
+        android:visibility="gone"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size14"
+        android:padding="@dimen/margin_size10"/>
+    <RadioGroup
+        android:id="@+id/rg_sex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/margin_size10"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/cb_sex_man"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:checked="true"
+            android:layout_height="wrap_content"
+            android:button="@drawable/cb_set_set"
+            android:paddingLeft="@dimen/margin_size15"
+            android:text="意见反馈"
+            android:textColor="@color/col_999"
+            android:textSize="@dimen/font_size16" />
+
+        <RadioButton
+            android:id="@+id/cb_sex_woman"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size40"
+            android:button="@drawable/cb_set_set"
+            android:paddingLeft="@dimen/margin_size15"
+            android:text="城市代理申请"
+            android:textColor="@color/col_999"
+            android:textSize="@dimen/font_size14" />
+    </RadioGroup>
+    <EditText
+        android:id="@+id/et_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_size10"
+        android:background="@drawable/et_bg"
+        android:gravity="top"
+        android:hint="请输入您的问题或建议(必填)"
+        android:lines="7"
+        android:padding="@dimen/margin_size5"
+        android:textSize="@dimen/font_size14" />
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_size10"
+        android:background="@drawable/et_bg"
+        android:gravity="top"
+        android:hint="您的邮箱或手机号(必填)"
+        android:lines="1"
+        android:padding="@dimen/margin_size5"
+        android:textSize="@dimen/font_size14" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_size10"
+        android:background="@drawable/et_bg"
+        android:gravity="top"
+        android:hint="您的称呼(选填)"
+        android:lines="1"
+        android:padding="@dimen/margin_size5"
+        android:textSize="@dimen/font_size14" />
+    <Button
+        android:id="@+id/tv_ten"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提交反馈"
+        android:layout_margin="@dimen/margin_size50"
+        android:background="@drawable/bg_btn_red"
+        android:textSize="@dimen/font_size14"
+        android:textColor="@color/white"/>
+</LinearLayout>

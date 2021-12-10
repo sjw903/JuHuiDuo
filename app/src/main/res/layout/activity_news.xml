@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_topbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/margin_size10"
+            android:paddingRight="@dimen/margin_size10"
+            android:paddingTop="@dimen/margin_size20">
+            <!--标题-->
+            <TextView
+                android:id="@+id/titleOne"
+                style="@style/textBigTitleContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                tools:text="2018社保基数" />
+            <!--日期和阅读量-->
+            <TextView
+                android:id="@+id/read_data_v"
+                style="@style/textHindContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size20"
+                tools:text="2018-07-16 | 1750人" />
+
+            <!--摘要-->
+            <TextView
+                android:id="@+id/read_small_title"
+                style="@style/textContent"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/font_size14"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size20"
+                tools:text="sssssssssss" />
+
+            <ImageView
+                android:id="@+id/read_iamge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size20"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
+
+            <!--内容-->
+            <WebView
+                android:id="@+id/read_content"
+                style="@style/textContent"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/font_size14"
+                android:lineSpacingMultiplier="1.1"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_size20"
+                tools:text="sssssssssss" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

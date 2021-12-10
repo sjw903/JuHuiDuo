@@ -1,0 +1,1011 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.android.jdhshop">
+
+    <uses-sdk tools:overrideLibrary="com.bun.miitmdid" />
+
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络访问权限 -->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" /> <!-- 杀死进程权限 -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" /> <!-- 系统的声音服务权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 应用的授权策略权限，例获取手机串码 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- for mta statistics -->
+    <!-- 内外置sd卡写权限 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- wifi权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 允许程序访问有关GSM网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 访问CellID或WiFi热点来获取粗略的位置 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 访问精良位置(如GPS) -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- 未知应用安装权限 -->
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" /> <!-- 特权|签名权限和第三方应用程序不能拥有此权限 -->
+    <uses-permission android:name="android.permission.READ_LOGS" /> <!-- 读取系统底层日志 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 显示系统窗口 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 读外部存储的权限 -->
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" /> <!-- 允许程序扩展或收缩状态栏 -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" /> <!-- 获取设备中的所有的应用 -->
+    <permission
+        android:name="com.android.jdhshop.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" /> <!-- Required -->
+
+    <uses-permission android:name="com.android.jdhshop.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <!-- 如您需要对应设备通知相关的能力，建议集成以下权限（可选）-->
+    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
+    <!-- 华为角标 -->
+    <uses-permission android:name="com.vivo.notification.permission.BADGE_ICON" />
+    <!-- VIVO角标权限 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!--振动器权限，JPUSH支持通知开启振动功能，小米推送必须-->
+
+    <application
+        android:name=".CaiNiaoApplication"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:networkSecurityConfig="@xml/net_fonfig"
+        android:roundIcon="@mipmap/app_icon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="label,allowBackup,android:name">
+        <activity android:name=".activity.ChaojiDaoHangActivity" />
+        <activity android:name=".JuduohuiInsertScreenAdvActivity" />
+        <activity android:name=".advistion.entry.EntryActivity" />
+        <activity android:name=".activity.VipActivity" />
+        <activity
+            android:name=".juduohui.JuduohuiSplashActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 闪屏页 -->
+        <activity
+            android:name=".juduohui.JuduohuiRewardActivity"
+            android:screenOrientation="portrait" /> <!-- 文章发布列表 -->
+        <activity
+            android:name=".juduohui.JuduohuiHomePageActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".juduohui.NewsPubListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 赚钱首页 -->
+        <activity
+            android:name=".juduohui.JuduohuiMainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize">
+
+        </activity>
+        <!-- 赚钱的二级页面 -->
+        <activity
+            android:name=".juduohui.NewsPubActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 新闻详情查看大图页面 -->
+        <activity
+            android:name=".juduohui.ViewBigImage"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 新闻详情页面 -->
+        <activity
+            android:name=".juduohui.NewsInformation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".juduohui.NewsReportActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" /> <!-- 新闻举报页面 -->
+        <activity
+            android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ThemeSplash"
+            android:windowSoftInputMode="adjustPan|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.BridgeActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="jdhshop"
+                    android:path="/"
+                    android:port="666"
+                    android:scheme="juduohui" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".juduohui.NotificationService"
+            android:exported="false" /> <!-- 常驻通知 -->
+        <activity
+            android:name=".activity.JuDuoHuiActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.XianWanActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" /> <!-- 闲玩页面 -->
+        <activity android:name=".activity.AiOpeningaiActivity" /> <!-- 开通群助理页面 -->
+        <activity android:name=".activity.AiWeiXinQunActivity" />
+        <activity android:name=".activity.AiEstablishActivity" />
+        <activity android:name=".activity.AiSetExtensionActivity" />
+
+        <meta-data
+            android:name="JDH_RESOURCE_CODE"
+            android:value="${JDH_RESOURCE_CODE}" />
+        <meta-data
+            android:name="com.android.jdhshop.MyGlideModule"
+            android:value="GlideModule" />
+
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.InComeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.TeamIncomeNewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.SjxxsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.SjxxsPjAxticity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.LookExamplesActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.SjxxsDjjActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.WebViewShiShiActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.SjhdDetailAxticity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.AddSjhdAxticity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.SjhdListAxticity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.SetJurisdictionActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.DjjActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.PddFangYiZhuanQuActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.PacketActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.WebViewActivity3"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.TeamInComeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.JiaoCActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.NewShuanshierActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.PddTheamActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.PddYunYingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.PddXiaoKaPianActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.FIrstWelComeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.TianMaoShuangShiyiActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".merchantactivity.MerRechargeActivity2"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".merchantactivity.MerchantNewDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".fragments.PinPaiFragment"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name="com.king.zxing.CaptureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SysMessageActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.MyScanActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.JinfenActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".suning.SnGoodmsgActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".suning.SuningGoodlistActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".suning.SnSeekActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".suning.SuningHomeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.ChangeShareMuBanActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.AddressActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.ElemeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.BuyGoodsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.EditAddressActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.MallGoodsDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.PayOrderMoneyActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.PayResultActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.ShopMallActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.MallGoodsCartActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.ExpressActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.ShopMallOrderDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.MyShopMallOrderActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.FillNumActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".mall.ApplyDrawBackActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.ShopActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".userupdate.UpdateGroupActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.GuoyedanActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".fragments.KindActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".merchantactivity.ShopaddorderOfflineActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.GaoyongActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="6f1b5d16813404a648c26ac6e3dd902b" />
+
+        <activity
+            android:name=".activity.JiayoulistActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".merchantactivity.CommentActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.JiayoumsgActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.WphDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.WphKindActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.WphSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.DialogActivity3"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialogstyle" />
+        <activity
+            android:name=".activity.DialogActivityZhuXiao"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialogstyle" />
+        <activity
+            android:name=".activity.WebViewActivity4"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.AdActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.DouActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.XuanpinkActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.DouKindActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.TaskBigImgActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.SetAssistantActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.AiSetTimeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.SetHuanYingYuActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.PddActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.SelectImageActivity"
+            android:label="选择图片"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.PreviewImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.ChaoJiActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.WphActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".login.WelActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.DialogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialogstyle" />
+        <activity
+            android:name=".activity.DialogActivity2"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialogstyle" />
+        <activity
+            android:name=".activity.JdSearchRestultActivity"
+            android:screenOrientation="portrait" /> <!-- 新手课堂 -->
+        <activity
+            android:name=".activity.NewClassActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.PHBActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.JdActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.JHSActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".login.BindPhoneActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.SetActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.FeedBackActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.NewShareActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.TqgActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.PromotionDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="hkxtb"
+                    android:path="/target"
+                    android:port="1024"
+                    android:scheme="hkxuri" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.SearchResultActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 复制淘宝 -->
+        <activity
+            android:name=".activity.OpenCopyTaobaoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.ZeroBuyActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 优惠转 -->
+        <activity
+            android:name=".activity.PreferentialTransferActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.SearchNewCommonActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 注册 -->
+        <activity
+            android:name=".login.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 注册 -->
+        <activity
+            android:name=".login.LoginActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:label="WXEntryActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.dmogames.catcathome"
+            android:theme="@android:style/Theme.Translucent" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" /> <!-- 消息中心详情 -->
+        <activity
+            android:name=".activity.NewsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.NewsOnlyContentActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 搜索页面 -->
+        <activity
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 高级搜索 -->
+        <activity
+            android:name=".activity.HighSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 体检 -->
+        <!-- 排行榜 -->
+        <!-- 停缴申请 -->
+        <!-- 社保办理 -->
+        <!-- 发票管理列表 -->
+        <!-- 编辑发票 -->
+        <!-- 省 -->
+        <!-- 市 -->
+        <!-- 区 -->
+        <!-- 借贷服务 -->
+        <!-- 使用教程 -->
+        <!-- 众筹产品 -->
+        <!-- 众筹 -->
+        <!-- 找回密码 -->
+        <activity
+            android:name=".login.RetrievePasswordActvity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 我的资料 -->
+        <activity
+            android:name=".my.MyInformationActivity"
+            android:screenOrientation="portrait" /> <!-- 我的收藏 -->
+        <activity
+            android:name=".my.CollectionActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.PinPaiActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.BaoYouActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.CommissionActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.DailyBonusActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.PddSearchResultActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.CropActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 余额 -->
+        <activity
+            android:name=".juduohui.HomePageSearchActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan|adjustResize" />
+        <activity
+            android:name=".juduohui.AttentionSearchActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan|adjustResize" />
+        <activity
+            android:name=".my.BalanceActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 设置密码 -->
+        <activity
+            android:name=".my.ResetPasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.BrandlistActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.CommissionPhbActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".my.ResetPhoneActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 提现 -->
+        <activity
+            android:name=".my.PutForwardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 我的订单 -->
+        <activity
+            android:name=".my.MyOrderActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 我的订单 -->
+        <activity
+            android:name=".activity.QdActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.WebViewActivity2"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- web页 -->
+        <activity
+            android:name=".activity.WebViewActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".activity.WebViewActivityNotOpenDefaultWeb"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".activity.WebViewActivityWithNotIntent"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".activity.TmallChaoShi"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
+            android:name=".activity.ShopNewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            tools:ignore="DuplicateActivity" />
+        <activity
+            android:name=".activity.PddDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.JdDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AttendRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AttendActivity"
+            android:screenOrientation="portrait" /> <!-- 充值 -->
+        <activity
+            android:name=".my.RechargeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            tools:ignore="DuplicateActivity" /> <!-- 充值 -->
+        <activity
+            android:name=".activity.PointRobbingActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            tools:ignore="DuplicateActivity" /> <!-- 我的消息 -->
+        <activity
+            android:name=".my.MyMessageActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            tools:ignore="DuplicateActivity" />
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            tools:replace="android:configChanges" />
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            tools:replace="android:configChanges" /> <!-- 我的市场 -->
+        <activity
+            android:name=".activity.MyMarketActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            tools:ignore="DuplicateActivity" />
+        <activity
+            android:name=".activity.RecommentActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            tools:ignore="DuplicateActivity" /> <!-- 绑定支付宝 -->
+        <activity
+            android:name=".activity.BindActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 客服 -->
+        <activity
+            android:name=".activity.KfActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity
+            android:name=".activity.PddAdActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 分享推荐 -->
+        <activity
+            android:name=".my.MyShareUrlActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            tools:ignore="DuplicateActivity" />
+        <activity
+            android:name=".juduohui.FansActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".juduohui.AttentionActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+
+        <activity
+            android:name=".my.UserNameEditActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan|adjustResize" />
+
+        <activity
+            android:name=".my.UserSignEditActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan|adjustResize" />
+
+        <activity
+            android:name=".my.UserPhoneEditActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan|adjustResize" />
+        <activity
+            android:name=".my.UserContactEditActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan|adjustResize" />
+
+
+        <!-- 优量汇 -->
+        <provider
+            android:name="com.qq.e.comm.GDTFileProvider"
+            android:authorities="${applicationId}.gdt.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/gdt_file_path" />
+        </provider>
+        <!-- 优量汇 -->
+
+
+        <service android:name=".activity.UpdateService" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.android.jdhshop.update_app.file_provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/update_app_path" />
+        </provider>
+
+        <!-- qq登录 -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1107989076" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="com.taobao.android.hotfix.IDSECRET"
+            android:value="25523945" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.APPSECRET"
+            android:value="5d7fe2557a522bb516b3ea9e033614bd" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.RSASECRET"
+            android:value="MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCfOiEuyu1FcJmuZzczzebLF6BasjbEi+v/LU9kmePgBEHSWtbM0uXfEZpRdRZ1d6a09DoxG/1BDqsasJkGDtXgM0w99bNFff8mI/irq9dmsXDZ8VvtAX2LTH21zCVTg8SZ5PlwnefRb7P530rURh6AgHAOe3Ful7JtD+PCFBmt4QMNe/Jlh14SQTnjd9lJFCdo1g7jygrJXla62SMaDy8hp7dszZ/YmoOhB+/6Ujnl65jPwHdjlMVN2vwx5+j1P7Drj/ik2jf5ViSDG2fyg3XOAEUx9k31IkhnMYLhc1TNhY5ComCa9HXUaxpiOijYPSspz4xfH+rQnAnZWVOuh5X7AgMBAAECggEAaUw73YH9X0qTly5S50NnOS+qr8/jQB94Ngx00Iakl+S40q+YFWPy+I3fi7bu30f9SvWn9goYdQmKReA7kjIFZnsGFIODxpUIQuTO8lh13kfB5Z8jt5ygtZokGDGlDZG6VjuCaeNDBtHkJ35vMeodCcXmVO11mjlfmZhEenhocv+riKa0Y2t4kwNoj8M2HMvAzui9YavVEOrReWPraqZS5cyLqa7X62fa9Znpmzgt6edOOfvaRBLjN4xqZbUKG1AtlXhWOHCF9yjCy2B1DC8k8aaGrXGgs3Y6rDfaTu0vxez7bTLDoRDcYKGma5f7rvV//q9kXrRhOQYETrThFN29IQKBgQDSzHuHpG6HLN77xjjgk8ICOvlsYnILsRZUD5MQ5LBm4Djnl1AwpIHb7KlgRyF0ALzxGVyg8hgndgxtEEH+sUwHlQ5fiqeZAvVEa0+ALuz/UIMx+TIaIMWXbpA/m3Nne3uRs6CzzNU6WypYYfvN8yofiwrL7EVYcFq3sTQW7uYxVQKBgQDBXrAOE3xVVXKGNJ1TxGhYYxWrQbVs9ON2fO7DnAUVojyMXYUstBX4pHyepjVrvtQFSruEOKgeShHii9r7lQDE7LdaA2esXGJgPudhlOxLJ0CupCZiWE1kVX5HmrrHMQcGcgzknQupGEBotOf0dC1NIxuWSRObrUKu9b3kuifqDwKBgB+PZd9FCxdJ7IidgN5+wMk8syM7CgAeH02ul0IsOwzr/RkPWn4t4xNeN22muKd5hNBED8448MzXq7yYdoj/Wna4JlK/m6AZBUedGWYDoJAJKdtNh+bJiUvGzen4CCsyHaoOzrycqj/2bjyVTvHiuifG1XL6iNdY2vwtl7LnSaeRAoGAeISZWcyPO2gsHrUAMUtCdYQb50bm2meutRScg1HkYV1iO2G2NOxwnS13djHFLcgbwMiZIollTqt/hiEAdLijaBjZFcL1hJl3vuC1uT3mH9jxGWe5fKXoZlZahCpNqwRFiqDepEW1FMjGq/vEbblS2ra85OfazrYnz3/dwIa9hcUCgYEAym42LISK88PuPNK+I3uod1mT9U76z/1QJhg+ouT1lkGs+4E9p2TRJT5bFcoeUV2+HZfZ59MZMUyX/S+iOXiYcE01D8FfulbDBPWdcFpRFCjadtILVIbTg2Jtaf++gminzsgmtKnsig6GCTDIMDyjjbdqaWDhZfLXe3HrDTii4UI=" />
+
+        <activity android:name=".merchantactivity.BuyczkActivity" />
+        <activity android:name=".merchantactivity.MerchantlistActivity" />
+        <activity android:name=".merchantactivity.MerchantmsgActivity" />
+        <activity android:name=".merchantactivity.ShopmsgActivity" />
+        <activity
+            android:name=".merchantactivity.MerchanthomeActivity"
+            android:theme="@style/DefaultCityPickerTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".merchantactivity.SjimagelistActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 体检 -->
+        <activity
+            android:name=".merchantactivity.ShoplistmsgmoreActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 体检 -->
+        <activity
+            android:name=".merchantactivity.ShowxkzActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize" /> <!-- 体检 -->
+        <activity android:name=".merchantactivity.ShopaddorderActivity" />
+        <activity android:name=".merchantactivity.MerRechargeActivity" />
+        <activity android:name=".merchantactivity.OrderListActivity" />
+        <activity android:name=".merchantactivity.OrderlistmsgActivity" /> <!-- 排行榜 -->
+        <activity
+            android:name="com.kepler.jd.login.AuthSuccessActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.kepler.jd.sdk.KeplerMidActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="com.kepler.jd.sdk.WebViewActivity"
+            android:screenOrientation="portrait" /> <!-- 穿山甲接入 -->
+        <provider
+            android:name="com.bytedance.sdk.openadsdk.TTFileProvider"
+            android:authorities="${applicationId}.TTFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/cxj_file_paths" />
+        </provider>
+        <provider
+            android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
+            android:authorities="${applicationId}.TTMultiProvider"
+            android:exported="false" /> <!-- 优量汇 -->
+        <activity
+            android:name="com.qq.e.ads.PortraitADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            tools:replace="android:screenOrientation" />
+        <activity
+            android:name="com.qq.e.ads.LandscapeADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape"
+            tools:replace="android:screenOrientation" />
+
+        <provider
+            android:name="com.qq.e.comm.GDTFileProvider"
+            android:authorities="${applicationId}.gdt.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/gdt_file_path" />
+        </provider> <!-- 百度广告联盟 -->
+        <activity
+            android:name="com.baidu.mobads.sdk.api.AppActivity"
+            android:configChanges="screenSize|keyboard|keyboardHidden|orientation"
+            android:theme="@android:style/Theme.NoTitleBar" /> <!-- 如果使用激励视频/全屏视频功能，需要主动在AndroidManifest.xml里面声明MobRewardVideoActivity -->
+        <activity
+            android:name="com.baidu.mobads.sdk.api.MobRewardVideoActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <provider
+            android:name="com.baidu.mobads.sdk.api.BdFileProvider"
+            android:authorities="${applicationId}.bd.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/bd_file_paths" />
+        </provider> <!-- VIVO部分 -->
+        <activity
+            android:name="com.vivo.mobilead.web.VivoADSDKWebView"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name="com.vivo.mobilead.video.RewardVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.vivo.mobilead.unified.reward.RewardVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="com.vivo.mobilead.unified.interstitial.InterstitialVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="landscape" />
+
+        <provider
+            android:name="com.vivo.mobilead.manager.VivoContentProvider"
+            android:authorities="${applicationId}.vivoprovider"
+            android:exported="false" /> <!-- 用于判断 sdk 版本， android:value 指为 sdk 版本号 -->
+        <meta-data
+            android:name="vivo_ad_version_code"
+            android:value="5320" />
+        <!--极光 开始-->
+        <service
+            android:name=".services.JpushCommonService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":pushcore">
+            <intent-filter>
+                <action android:name="cn.jiguang.user.service.action" />
+            </intent-filter>
+        </service>
+        <!-- 该广播需要继承 JPush 提供的 JPushMessageReceiver 类, 并如下新增一个 Intent-Filter -->
+        <receiver
+            android:name=".receivers.JpushCommonReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" />
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+
+                <category android:name="com.android.jdhshop" />
+            </intent-filter>
+        </receiver>
+
+        <!--极光 结束-->
+    </application>
+
+</manifest>

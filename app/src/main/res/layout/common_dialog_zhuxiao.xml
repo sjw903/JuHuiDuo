@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_ll"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lllll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/ss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+            android:lineSpacingMultiplier="1.2"
+            android:padding="@dimen/margin_size15"
+            android:text="@string/dialog_zhuxiao_content"
+            android:textColor="@color/col_666"
+            android:textSize="@dimen/font_size14" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/margin_size5"
+            android:paddingBottom="@dimen/dp_10">
+
+            <TextView
+                android:id="@+id/txt_agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zhuxiao_agree_text"
+                android:textColor="@color/red1"
+                android:textSize="@dimen/sp_14" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/www"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape_ll"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/margin_size5"
+            android:paddingBottom="@dimen/dp_10">
+            <CheckBox
+                android:id="@+id/gouxuanrd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:theme="@style/zhuXiao"
+                android:text="@string/zhuxiao_check_text"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

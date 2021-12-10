@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/pddimage_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_200"
+            android:scaleType="fitXY">
+        </ImageView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_size50"
+            android:fitsSystemWindows="true">
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="@dimen/margin_size50"
+                android:layout_height="match_parent"
+                android:padding="@dimen/margin_size15"></ImageView>
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/img_bg"
+                android:layout_height="match_parent"
+                android:padding="@dimen/margin_size15"></ImageView>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:id="@+id/ll_top"
+                android:visibility="gone"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+                <include layout="@layout/include_seach_new_topbar"
+                    ></include>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/img_search"
+                android:layout_width="@dimen/margin_size50"
+                android:layout_height="match_parent"
+                android:padding="@dimen/margin_size15"></ImageView>
+        </LinearLayout>
+        <com.android.jdhshop.widget.indicator.MagicIndicator
+            android:id="@+id/magic_indicator"
+            android:layout_marginTop="@dimen/margin_size50"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40">
+
+        </com.android.jdhshop.widget.indicator.MagicIndicator>
+        <android.support.v4.view.ViewPager
+            android:layout_marginTop="@dimen/dp_100"
+            android:id="@+id/viewpager"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+</LinearLayout>

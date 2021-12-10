@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/include_topbar" />
+    <RadioGroup
+        android:id="@+id/rg_type"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_size45"
+        android:background="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/rb_my"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:gravity="center"
+            android:background="@drawable/radio_line"
+            android:checked="true"
+            android:paddingBottom="8dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"
+            android:text="淘宝收藏"
+            android:textColor="@drawable/radio_radiogroup_style"
+            android:textSize="@dimen/font_size12" />
+        <RadioButton
+            android:id="@+id/rb_direct"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:paddingLeft="20dp"
+            android:background="@drawable/radio_line"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"
+            android:text="京东收藏"
+            android:textColor="@drawable/radio_radiogroup_style"
+            android:textSize="@dimen/font_size12" />
+        <RadioButton
+            android:id="@+id/rb_next"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:paddingLeft="20dp"
+            android:background="@drawable/radio_line"
+            android:paddingRight="20dp"
+            android:paddingTop="8dp"
+            android:text="拼多多收藏"
+            android:textColor="@drawable/radio_radiogroup_style"
+            android:textSize="@dimen/font_size12" />
+    </RadioGroup>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_size1"
+        android:background="@color/col_eb"></View>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refresh_layout"
+        app:srlPrimaryColor="#444444"
+        app:srlAccentColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/wushuju_image"
+                android:layout_width="130dp"
+                android:layout_marginTop="90dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+
+                />
+            <TextView
+                android:id="@+id/wushuju_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="暂无数据"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:textSize="17dp"
+                android:layout_gravity="center"
+                />
+            <com.android.jdhshop.utils.SlideRecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <com.android.jdhshop.utils.SlideRecyclerView
+                android:id="@+id/recyclerView_jd"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <com.android.jdhshop.utils.SlideRecyclerView
+                android:id="@+id/recyclerView_pdd"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>

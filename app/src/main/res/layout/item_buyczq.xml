@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_marginTop="@dimen/margin_size8"
+    android:layout_marginLeft="@dimen/margin_size8"
+    android:layout_marginRight="@dimen/margin_size8"
+    android:layout_height="150dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/margin_size110">
+
+    <LinearLayout  android:layout_width="@dimen/margin_size110"
+        android:orientation="vertical"
+
+        android:gravity="center"
+        android:id="@+id/itembuyczq_lyall"
+        android:background="@drawable/buybg"
+        android:layout_height="150dp">
+        <TextView
+            android:id="@+id/itembuyczq_one"
+            android:textColor="@color/black"
+            android:text="100抵扣券"
+            android:textSize="@dimen/sp_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="#DEA755"
+                android:text="¥"
+                android:textSize="@dimen/margin_size8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/itembuyczq_two"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#DEA755"
+                android:text="25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/buy_istop"
+        android:background="@drawable/bg_btn_red"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+
+            android:textSize="@dimen/dp_10"
+            android:textColor="@color/white"
+            android:text="推荐"
+            android:paddingTop="@dimen/margin_size2"
+            android:paddingBottom="@dimen/margin_size2"
+            android:paddingLeft="@dimen/margin_size5"
+            android:paddingRight="@dimen/margin_size5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</RelativeLayout>

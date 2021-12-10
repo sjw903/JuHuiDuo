@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--通用的小标签背景 客户类型，客户级别-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--文字内容与边的距离-->
+    <padding android:top="7dp" android:bottom="7dp"
+        android:left="10dp"
+        android:right="10dp"></padding>
+
+    <!--圆角-->
+    <corners android:radius="25dp"></corners>
+
+    <!--背景色-->
+    <solid android:color="@color/white"></solid>
+    <stroke android:width="@dimen/margin_size0" android:color="@color/gray"/>
+
+</shape>

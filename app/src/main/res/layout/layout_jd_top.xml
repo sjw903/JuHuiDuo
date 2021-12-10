@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_root5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/col_eb"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_10">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/go_one"
+            android:layout_width="150dp"
+
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:id="@+id/jdtopp_image1"
+                android:layout_width="160dp"
+                android:layout_height="180dp"
+                android:scaleType="fitXY"
+                 />
+            <ImageView
+                android:id="@+id/jdtop_image2"
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="@dimen/margin_size35"
+                android:layout_marginRight="@dimen/dp_10"
+                 />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/col_eb"></View>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/go_two"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:scaleType="fitXY"
+                 />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/col_eb"></View>
+
+            <ImageView
+                android:id="@+id/go_three"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:scaleType="fitXY"
+
+                 />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp">
+
+        <ImageView
+            android:id="@+id/go_four"
+            android:layout_width="0dp"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+             />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/col_eb"></View>
+
+        <ImageView
+            android:id="@+id/go_five"
+            android:layout_width="0dp"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+            />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/col_eb"></View>
+
+        <ImageView
+            android:id="@+id/go_six"
+            android:layout_width="0dp"
+            android:layout_height="90dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY"
+
+
+             />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/dp_10">
+
+        <ImageView
+            android:id="@+id/go_seven"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:src="@mipmap/jingxuanjia" />
+
+        <ImageView
+            android:id="@+id/go_eight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:src="@mipmap/shuma" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/go_nine"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/meizhuang" />
+
+
+        <ImageView
+            android:id="@+id/go_ten"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/jujia" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/go_eleven"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_120"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/jiadian" />
+        <ImageView
+            android:id="@+id/go_twelve"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_120"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/fuzhuang" />
+        <ImageView
+            android:id="@+id/go_thirteen"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_120"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/chaoliu" />
+    </LinearLayout>
+</LinearLayout>

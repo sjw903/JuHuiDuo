@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<!-- 提现 -->
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/profit.css" />
+		
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<!-- 公用APP配置 -->
+		<script src="js/crypto/crypto-js.js"></script>
+		<script src="js/app.js"></script>
+
+	</head>
+	<body style=" padding-top: 4rem;" class="demo-loadmore-wrap">
+		<template id="app">
+			<mu-container ref="container" class="demo-loadmore-content">
+				<!-- 顶部 -->
+				<div class="common_header" style="box-shadow: none;">
+					<div class="art_left" @click="backPress"><i class="iconfont icon-fanhui1" style="font-size: 1.75rem;"></i></div>
+					<div class="art_title">提现</div>
+					<div class="art_right" style="padding-left: 0; padding-right: 0.1rem;font-size: 1rem;" @click="openRule()">规则</div>
+				</div>
+				<mu-tabs :value.sync="tab_value" inverse color="secondary" text-color="rgba(0, 0, 0, .54)"  full-width @change="tabSwitch">
+					<mu-tab>账户提现</mu-tab>
+					<mu-tab>惠币提现</mu-tab>
+				</mu-tabs>
+<!--				账户提现-->
+				<div class="demo-text" v-if="tab_value === 0">
+					<div class="inner_box proft_coin">
+						<span class="coins">¥ {{amount}}</span>
+						<span class="link" @click="jumpToHistory">提现明细></span>
+					</div>
+				</div>
+<!--				惠币提现-->
+				<div class="demo-text" v-if="tab_value === 1">
+					<div class="inner_box proft_coin">
+						<span class="coins_hb">惠币：{{current_coin}}个</span>
+						<span class="coins">¥ {{current_money}}</span>
+						<span class="link" @click="jumpToHistory">提现明细></span>
+					</div>
+					<span v-show="sum_gold > 0" style="color: #FF0000;" @click="conversion_gold">您的账户还有{{sum_gold}}金币，可兑换成惠币提现呦>>></span>
+				</div>
+				<div class="survey_content">
+
+					<div class="inner_box proft_subline"><span>新人专享</span><span>免手续费</span></div>
+					<div class="inner_box">
+						<ul class="profit_list">
+							<li v-for="(itm,ind) in profit_item_list" :class="(current_channel =='微信' && itm.withdrawal_money*100<wx_min_tx ? 'disable':(current_type === ind && itm.withdrawal_count!=0 ? 'active':''))" @click="chanageActive(ind,itm)">
+								<div :class="itm.withdrawal_count === 0 ? 'list_item disabled' : 'list_item'">
+									<template v-if="itm.id>0"><mu-badge :content="'剩余' +itm.withdrawal_count+'次'"></mu-badge></template>
+									<div class="item_content"><span v-text="itm.withdrawal_money"></span><span>元</span>
+									</div>
+								</div>
+							</li>
+							<li :class="current_type === -1 ? 'active':''" style="width: 100%;">
+								<div class="list_item custom_item"
+									 @click="show_custom_layer=true,custom_profit_value=''">
+									{{ custom_profit_value === '' ? '自定义' : custom_profit_value +'元'}}
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="inner_box proft_subline"><span>提现方式</span></div>
+					<div class="inner_box">
+						<ul class="profit_type">
+							<li :class="current_channel === itm ? 'active':''" v-for="itm in account_type_list"
+								@click="changeProfitType(itm)" :ref="itm">
+								<span class="p1"><i
+										:class="'iconfont ' + (itm === '支付宝' ? 'icon-zhifubao color_zfb':'icon-weixin color_wx')"></i></span>
+								<span class="p2">{{itm}}</span>
+								<span class="p3">
+									<template v-if="itm === '支付宝'">
+										<template v-if="alipay_account === '' || alipay_account === null"><span
+												@click="jumpToBindAlipay()"> 未绑定 <i
+												class="iconfont icon-qianjin color_gray"></i></span></template>
+										<template v-else><span class='color_green'>已绑定</span></template>
+									</template>
+									<template v-if="itm === '微信'">
+										<template v-if="can_wx">
+											<span class='color_green'>已绑定</span>
+										</template>
+										<template v-else>
+											<span @click="jumpToBindAlipay()">未绑定 <i
+													class="iconfont icon-qianjin color_gray"></i></span>
+										</template>
+									</template>
+								</span>
+							</li>
+
+						</ul>
+					</div>
+					<div class="spaceline" style="height: 3rem;"></div>
+				</div>
+				<!-- <span class="survey_line"><span class=""><img src="img/gold_coin.png" class="img_icon"></span>666</span> -->
+				<!-- 正常顶部 -->
+				<div class="bottom_nav">
+					<div class="survey_history_bottom">
+						<mu-button style="padding: 1.4rem 0;" class="profit_button" @click="whitDrawalNow">立即提现</mu-button>
+					</div>
+				</div>
+				<template v-if="show_custom_layer">
+					<div class="custom_profit_layer">
+						<div class="inner_content">
+
+							<div class="title">
+								<div class="t1">提现金额</div>
+								<div class="close_button" @click="custom_profit_value='',show_custom_layer=false"><i
+										class="iconfont icon-guanbi"></i></div>
+							</div>
+							<div class="content"><input type="number" v-model="custom_profit_value"
+														placeholder="请输入自定义提现金额"></div>
+							<div class="button"><button @click="customProfit">确定</button></div>
+						</div>
+					</div>
+				</template>
+			</mu-container>
+		</template>
+	</body>
+
+	<script>
+		var vue = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					current_coin: 0,
+					current_money: 0,
+					account_type_list: [],
+					profit_item_list: [],
+					alipay_account: "",
+					alipay_truename: "",
+					current_channel: '支付宝',
+					current_type: -2,
+					current_item: {},
+					show_custom_layer: false,
+					custom_profit_value: '',
+					can_wx:false,
+					wx_min_tx:0,
+					tab_value: 0,//tab栏控制 0余额 1惠币
+					amount: 0,//可提现金额
+					sum_gold: 0 ,//金币余额
+				}
+			},
+			// 计算后的属性方法
+			computed: {
+
+			},
+			filters: {},
+			// 加载的自动执行，相当于onload = function(){}
+			mounted() {
+				/** 根据屏幕宽度计算偷图尺寸 */
+				this.tab_value = getQueryVariable("tab_value") === false ? 0 : parseInt(getQueryVariable("tab_value"))
+				this.getAppSet();
+				//console.log("这里加页面统计");
+				juduohui.countViewPage();
+			},
+			// 页面内方法
+			methods: {
+				tabSwitch() {
+					this.chanageActive(0,this.profit_item_list[0])
+					this.custom_profit_value = ''
+				},
+				backPress() {
+					backPress();
+				},
+				getAppSet() {
+					axios.defaults.withCredentials = true; //开启后服务器才能拿到cookie
+					axios.defaults.crossDomain = true; //配置axios跨域
+					axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8' //配置默认请求头
+					axios.defaults.baseURL = api_host // 基础网址
+					axios.defaults.responseType = 'json'
+
+					this.getWithdrawalSet()
+					this.userBalanceRecord()
+					this.getAllGolds()
+				},
+				changeProfitType(item){
+					if (this.$refs[item][0].className.indexOf("disabled")!=-1){
+						return
+					}
+					else{
+						
+						if (item == '微信'){
+							//console.log(this.current_item);
+						}
+						
+						this.current_channel = item
+					}
+				},
+				chanageActive(index, item) {
+					if (item.withdrawal_count <= 0) return
+					if (item.withdrawal_money*100 < this.wx_min_tx && this.current_channel == '微信') return
+					
+					this.current_type = index
+					this.current_item = item
+					if (item.withdrawal_money * 100 < this.wx_min_tx) {
+						this.$refs.微信[0].className = "disabled"
+					}
+					else{
+						this.$refs.微信[0].className = this.$refs.微信[0].className.replace("disabled","");
+					}
+				},
+				customProfit() {
+					if (this.custom_profit_value <= 0) {
+						alertMessage("请输入正确的金额");
+						return;
+					}
+					
+					if (this.custom_profit_value < 0.1){
+						alertMessage("提现金额必须大于0.1元的整数")
+						return
+					}
+					
+					if (parseFloat(this.custom_profit_value)>parseFloat(this.current_money) && this.tab_value == 1){
+						alertMessage("输入的提现金额不能大于您拥有的总金额")
+						return
+					}
+
+					if (parseFloat(this.custom_profit_value)>parseFloat(this.amount) && this.tab_value == 0){
+						alertMessage("输入的提现金额不能大于您拥有的总金额")
+						return
+					}
+					//console.log(this.tab_value)
+					this.current_type = -1
+					this.show_custom_layer = false
+					this.current_item = {
+						withdrawal_money: this.custom_profit_value
+					}
+					if (parseInt(this.custom_profit_value * 100) < parseInt(this.wx_min_tx)) {
+						this.$refs.微信[0].className = "disabled"
+					}else{
+						this.$refs.微信[0].className = this.$refs.微信[0].className.replace("disabled","");
+					}
+
+					// if (this.custom_profit_value >)
+				},
+				getWithdrawalSet() {
+					var data = localReadLib.SignData({
+						"type": 2,
+					});
+					axios.post(api_list.withdrawalSet, data).then(res => {
+						//console.log(res.data.data.tx_money_max)
+						if (res.data.code === 0) {
+							this.profit_item_list = res.data.data.list
+							this.account_type_list = res.data.data.account_type_d
+							this.alipay_account = res.data.data.alipay_account
+							this.alipay_truename = res.data.data.truename
+							this.current_coin = res.data.data.balance_hui_b
+							this.current_money = res.data.data.tx_money_max
+							this.can_wx = res.data.data.can_wx
+							this.wx_min_tx = res.data.data.wx_min_tx
+
+							localReadLib.save("my_hui_coins", this.current_coin)
+
+							if (this.profit_item_list.length > 0) {
+								this.current_type = 0
+								this.current_item = this.profit_item_list[0]
+							}
+							
+							this.profit_item_list.push({
+								id:-1,
+								uid:406,
+								withdrawal_money:1,
+								withdrawal_count:9999
+							})
+							this.profit_item_list.push({
+								id:-1,
+								uid:406,
+								withdrawal_money:3,
+								withdrawal_count:9999
+							})
+							this.profit_item_list.push({
+								id:-1,
+								uid:406,
+								withdrawal_money:5,
+								withdrawal_count:9999
+							})
+							this.$nextTick(function () {
+								this.chanageActive(0,this.profit_item_list[0])
+							})
+						} else {
+							//console.log("失败", res)
+						}
+					}).catch(err => {
+						//console.log("错误：" + JSON.stringify(err))
+					})
+				},
+				userBalanceRecord(){
+					let data = {
+						'token': getToken()
+					}
+					let that = this
+					axios.post(api_list.drawStatistics,data).then(res=>{
+						that.amount = res.data.data.amount;
+					})
+				},
+				jumpToHistory(){
+					openNewActivite("./withdraw_history.html")
+				},
+				jumpToBindAlipay() {
+					openNewActivite("./profit_set_alipay.html")
+					juduohui.addEventListen("resume", "this.vue.getWithdrawalSet()")
+				},
+				openRule(){
+					openNewActivite("policy.html?id=70")
+				},
+				whitDrawalNow() {
+
+					if (this.current_channel === '支付宝' && (this.alipay_account === '' || this.alipay_account === null || this.alipay_truename ==='' || this.alipay_truename ===null)) {
+						alertMessage("支付宝账号还未绑定，请先绑定！")
+						return;
+					}
+					
+					if (this.current_item.withdrawal_money === undefined) {
+						alertMessage("请选择提现金额")
+						return
+					}
+
+					if (this.tab_value != 0 && this.tab_value != 1){
+						alertMessage("提现类型错误，请重新打开")
+						return
+					}
+					let type = this.tab_value == 0 ? 1 : 2;
+					///api/UserDrawApply/draw
+					var post_data = localReadLib.SignData({
+						account_type: this.current_channel === '支付宝' ? 1 : 2,
+						account: this.alipay_account,
+						money: this.current_item.withdrawal_money,
+						truename: this.alipay_truename,
+						type:type
+					})
+					
+					axios.post(api_list.draw, post_data).then(res => {
+						//console.log(res)
+						if (res.data.code === 0 ){
+							alertMessage("提现请求提交成功")
+							this.getWithdrawalSet()
+							this.userBalanceRecord()
+						}
+						else{
+							alertMessage(res.data.msg)
+						}
+					}).catch(err => {
+						//console.log(err)
+					})
+				},
+				async getAllGolds() {
+					//console.log('获取剩余金币')
+					await axios.post(api_list.getAllGolds, {
+						"token": getToken()
+					}).then((res) => {
+						if (res.data.code === 0) {
+							this.sum_gold = res.data.gold
+						} else {
+							alertMessage(res.data.msg)
+						}
+					})
+					.catch((err) => {
+						alertMessage(err.message)
+					});
+				},
+				conversion_gold() {
+					openNewActivite('./news_history.html');
+				}
+			},
+
+		})
+	</script>
+
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/include_topbar" />
+    <android.support.v4.view.ViewPager
+        android:layout_marginTop="@dimen/margin_size50"
+        android:id="@+id/big_img_vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_size14"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="@dimen/margin_size30"
+        android:paddingRight="@dimen/margin_size30"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/margin_size50"
+        android:text="保存到本地"
+        android:background="@drawable/bg_txt_red"/>
+</RelativeLayout>

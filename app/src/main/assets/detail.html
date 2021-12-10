@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+	<title></title>
+</head>
+
+<body>
+<p id="title" style="font-size: 18px;color: #333333;"></p>
+<p id="time" style="font-size: 14px;color: gray;"></p>
+<img id="img" width="100%" />
+<p id="content" style="font-size: 15px;color: grey;"></p>
+<script src="./angular.min.js"></script>
+<script src="./jquery.min.js"></script>
+<script src="web_app/js/app.js"></script>
+<script>
+			$.ajax({
+				//几个参数需要注意一下
+				type: "POST", //方法类型
+				dataType: "json", //预期服务器返回的数据类型
+				url: api_host + "/api/Article/getArticleMsg", //url
+				data: {
+					"article_id": localStorage.getItem("id")
+				},
+				success: function(result) {
+					$("#title").html(result.data.article_msg.title);
+					$("#content").html(result.data.article_msg.content);
+					$("#time").html(result.data.article_msg.pubtime);
+					if(result.data.article_msg.bigimg != null && result.data.article_msg.bigimg != ""){
+						let imgsrc = (result.data.article_msg.bigimg.indexOf("http://")!=-1 || result.data.article_msg.bigimg.indexOf("https://")!=-1) ? result.data.article_msg.bigimg : api_host + result.data.article_msg.bigimg;
+						$("#img").attr("src", imgsrc)
+					}
+					else
+					{
+						$("#img").css({"display":"none"});
+					}
+
+				},
+				error: function() {}
+			});
+		</script>
+</body>
+
+</html>

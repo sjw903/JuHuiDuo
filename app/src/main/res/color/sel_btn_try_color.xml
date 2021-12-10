@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--重新加载按钮 颜色状态-->
+
+    <!-- 不选中 -->
+    <item android:state_pressed="false" android:color="@color/col_app"/>
+    <!-- 选中 -->
+    <item android:state_pressed="true" android:color="@color/white"/>
+</selector>

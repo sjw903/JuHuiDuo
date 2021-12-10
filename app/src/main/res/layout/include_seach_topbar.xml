@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bg_head"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/margin_size50"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:drawableLeft="@mipmap/icon_back"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="@dimen/margin_size15"
+        android:textSize="@dimen/font_size14"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/margin_size8"
+        android:layout_marginLeft="@dimen/margin_size20"
+        android:layout_marginRight="@dimen/margin_size10"
+        android:layout_marginTop="@dimen/margin_size8"
+        android:layout_weight="1"
+        android:background="@drawable/bg_round_gray">
+
+        <TextView
+            android:id="@+id/tv_title_content"
+            style="@style/textHindContent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:drawableLeft="@mipmap/nav_btn_73"
+            android:drawablePadding="@dimen/margin_size8"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_size15"
+            android:text="搜索想要的" />
+    </FrameLayout>
+
+
+    <ImageView
+        android:id="@+id/tv_right"
+        android:layout_width="@dimen/margin_size25"
+        android:layout_height="@dimen/margin_size25"
+        android:layout_marginRight="@dimen/margin_size5"
+        android:adjustViewBounds="true"
+        android:gravity="center"
+        android:src="@mipmap/home_xiaoxi" />
+
+</LinearLayout>
+

@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+		<meta http-equiv="Pragma" content="no-cache">
+
+		<!-- import CSS -->
+		<link rel="stylesheet" href="css/common.css">
+		<!-- 公用APP配置 -->
+		<script src="js/app.js"></script>
+		<!-- es6 promise修复组件 -->
+		<script src="js/es6-promise.auto.min.js"></script>
+		<!-- import Vue before Element -->
+		<script src="js/vue.min.js"></script>
+		<script src="js/axios.min.js"></script>
+		<script src="js/muse-ui.js"></script>
+		<!-- import JavaScript -->
+		<!-- <script src="https://unpkg.com/element-ui/lib/index.js"></script> -->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/layer/layer.js"></script>
+		<!-- 图片压缩组件 -->
+		<script src="js/lrz.bundle.js"></script>
+		<!-- 二维码 -->
+		<script src="js/qrcode.js"></script>
+
+	</head>
+	<body class="demo-loadmore-wrap">
+		<template id="app">
+			<mu-container ref="container" style="padding: 0; margin: 0;" class="demo-loadmore-content">
+				<div class="get_hui_points" v-if="show_get_hui_point" @click="closeGetHuiPoint()">
+					<div class="hui_points_box">
+						<div class="hui_points_big_icon"><img src="img/get_hui_coint_t.png"></div>
+						<div class="hui_points_big_text">
+							<span>+{{ads_show_last_jiage}}</span>惠币<br><div style="color: rgb(171, 165, 165);padding: .5rem 0;font-size: .725rem;">注：个别惠币可能会有延迟到账</div>
+						</div>
+						<div class="hui_points_big_button"><img src="img/get_hui_coint_b.png"></div>
+					</div>
+				</div>
+				<div class="go_to_top" @click="goToTop()"><i class="iconfont icon-huidaodingbu"></i></div>
+				<iframe id="yunxiang" :src="yx_cookie_url" @load="getCookies"
+					style="width:100%; height: 200px; display: none;"></iframe>
+				<div class="top_refresh" ref="top_refresh">
+					<div class="reload_icon"><img src="img/reload.png" :style="'transform:rotateZ('+deg+'deg)'" /></div>
+					<div class="reload_text" ref="reload_text">松开刷新</div>
+				</div>
+				<!-- 签到 -->
+				<div id="top_headers">
+					<div class="sign_layer" @click="closeSignBox()" v-show="signStatus">
+						<mu-fade-transition>
+							<div class="sign_box"
+								:style="'width:'+ sign_box_width +'px; height:'+ sign_box_height +'px; margin-left:5%; margin-top: '+ sign_box_top +'px ;'">
+								<div class="sign_close_button"><i class="iconfont icon-guanbi"
+										style="font-size: 1.8rem;" @click="closeSignBox"></i></div>
+								<div class="sign_inner">
+									<div class="sign_t1">连续签到<strong>{{signContinuousDay}}</strong>天</div>
+									<div class="sign_t2"><strong>{{signCoin}}</strong> {{signUnit}}</div>
+									<div class="sign_t3">
+										<button class="mu-button sign_ed_bt"
+											@click="showVideo()">{{sign_ed_button_text}}</button>
+									</div>
+								</div>
+							</div>
+						</mu-fade-transition>
+					</div>
+					<div class="sign_layer" @click="closeSignBox()" v-show="signFailedStatus">
+						<mu-fade-transition>
+							<div class="sign_box"
+								 :style="'width:'+ sign_box_width +'px; height:'+ sign_box_height +'px; margin-left:5%; margin-top: '+ sign_box_top +'px ;'">
+								<div class="sign_close_button"><i class="iconfont icon-guanbi"
+																  style="font-size: 1.8rem;" @click="closeSignBox"></i></div>
+								<div class="sign_inner">
+									<div class="sign_t1">签到失败</div>
+									<div class="sign_t2"><strong>{{signCoin}}</strong> {{signUnit}}</div>
+									<div class="sign_t3">
+										<button class="mu-button sign_ed_bt"
+												@click="showVideo()">{{sign_failed_ed_button_text}}</button>
+									</div>
+								</div>
+							</div>
+						</mu-fade-transition>
+					</div>
+					<!-- 顶部 -->
+					<!-- 正常顶部 -->
+					<div class="sign_header" v-show="normalHeadervisible"
+						:style="'width:'+headerWidth+'px; height:'+headerHeight+'px'">
+						<div class="top_front" style="align-items: stretch;justify-content: space-between;">
+							<!--返回箭头 -->
+							<span class="" @click="backPress"><i class="iconfont icon-fanhui1" style="font-size: 1.35rem;color: #fff;position: relative;left: 2.5%;top: .65rem;"></i></span>
+							<span class="top_title" style="padding: 0;display: flex;font-size: 0">
+								<span class="" @click="shoe_shaped_gold_ingot" style="width: 20%;text-align: center;">
+									<img src="./img/shoe_shaped_gold_ingot.png" style="width: 3rem;height: 3rem;">
+									<button class="shoe_shaped_gold_ingot_button">抢元宝</button>
+								</span>
+								<span class="sign_unit_small" style="width: 60%;display: flex;justify-content: center;align-items: center;padding-bottom: 6%;"><span style="font-size: 2.2rem;">{{allHPoint}}</span>{{signUnit}}</span>
+							</span>
+							<span class="top_button" style="text-align: center;position: relative;bottom: 15%;" v-show="signShowVideoTimeout<=0">
+								<button :class="'sign_button '+ no_sign_button_color" @click="showVideo()">{{sign_button_text}}</button>
+							</span>
+							<span class="top_button" style="text-align: center;position: relative;bottom: 15%;" v-show="signShowVideoTimeout > 0">
+								<button class="sign_button" style="background-image: linear-gradient(#cdb19e,#f3e4d1);color: #666666;">{{signShowVideoTimeout}}秒后继续领取{{signUnit}}</button>
+							</span>
+<!--							红包-->
+							<div style="width: 100%;display: flex;justify-content:center;position: relative;bottom: 19%;">
+								<div style="width: 12%;padding: 0 2%;" v-for="(item, i) in week_sign">
+									<div v-if="item.is_sign == 'Y'" style="height: 2.5rem;width: 100%;"><img src="./img/red_packet_open.png" style="width: 100%;height: 100%;"><div style="text-align: center;font-size: .75rem;" v-html="$options.filters.dateTransition(item.week_day)"></div><div style="text-align: center;position: relative;bottom: 2.6rem;color: rgb(253, 163, 95);font-size: .75rem;">惠币</div><div style="color: #ff0000;text-align: center;position: relative;bottom: 5rem;">{{item.get_hpoint}}</div></div>
+									<div v-if="item.is_sign == 'N'" style="height: 2.5rem;width: 100%;"><img src="./img/red_packet_close.png" style="width: 100%;height: 100%;"><div style="text-align: center;font-size: .75rem;" v-html="$options.filters.dateTransition(item.week_day)"></div><div style="color: rgb(253, 163, 95);text-align: center;position: relative;bottom: 2.8rem;">{{item.get_hpoint}}</div></div>
+								</div>
+							</div>
+						</div>
+						<div class="top_guize_box">
+							<div class="guize_content guize_bg" @click="openGuiZe">
+								<i class="iconfont icon-guize"></i> 规则
+							</div>
+							<div class="kefu_content guize_bg" @click="openKefu">
+								<i class="iconfont icon-wodekefu"></i> 客服
+							</div>
+						</div>
+					</div>
+					<!-- 迷你顶部 -->
+					<div class="sign_header_mini_box" v-show="!normalHeadervisible">
+						<div class="sign_header_mini">
+							<div class="signed_coin_box">
+								<div class="signed_coin">{{allHPoint}}{{signUnit}}</div>
+								<div class="signed_profit_button" @click="profitSubmit">立即提现</div>
+							</div>
+
+						</div>
+						<div class="round_bgs"></div>
+					</div>
+					<div class="spaceline" v-show="normalHeadervisible"></div>
+					<span v-if="makeMoneyList.length > 0">
+						<ul class="top_nav_list" v-for="(item, i) in makeMoneyList" :style="'width:'+item.length * 20 + '%'">
+						<li v-for="(val, key) in item"><img :src="val.icon" @click="jumpIcon(val.path,val.name)">{{val.name}}</li>
+					</ul>
+					</span>
+					<span v-else>
+						<ul class="top_nav_list">
+						<li><img src="./img/top_icon_02.png" @click="openShiWan()">游戏试玩</li>
+						<li><img src="./img/top_icon_03.png" @click="openSurveyTask(1,'软文体验')">软文体验</li>
+						<li><img src="./img/top_icon_04.png" @click="openSurveyTask(2,'程序试玩')">程序试玩</li>
+						<li><img src="./img/top_icon_05.png" @click="openAutoRead()">快速阅读</li>
+						<li><img src="./img/top_icon_09.png" @click="openSurveyTask(6,'惠看视频')">惠看视频</li>
+						</ul>
+						<ul class="top_nav_list" style="width: 80%;">
+							<li><img src="./img/top_icon_06.png" @click="openSurveyTask(3,'投吧体验')">投吧体验</li>
+							<li><img src="./img/top_icon_07.png" @click="openSurveyTask(4,'砍砍比价')">砍砍比价</li>
+							<li><img src="./img/top_icon_08.png" @click="openSurveyTask(5,'你做赏你')">你做赏你</li>
+							<li><img src="./img/toolboxs.png" @click="openToolsBox('./toolsbox.html')">工具箱</li>
+						</ul>
+					</span>
+
+					<div class="autoSurveyTaskLayer" v-if="show_auto_survey_task_layer">
+						<div class="inner_content">
+							<div class="title">快速阅读</div>
+							<div class="close" @click="show_auto_survey_task_layer = false"><i
+									class="iconfont icon-guanbi"></i></div>
+							<div class="content">
+								<div class="qrcode_box" :style="auto_qrcode== false ? 'filter: blur(5px);':''">
+									<img :src="auto_survey_task_qrcode">
+								</div>
+							</div>
+							<div class="content" style="padding: 0 0 1rem;">
+								<span>
+									<mu-checkbox v-model="auto_policy_check"
+										:disabled='auto_policy_check ? true : false' value="eat" color="#fe8a5a"
+										label="我已阅读并同意"></mu-checkbox>
+								</span>
+								<span @click="viewPolice" class="color_orange" style="min-height: 24px;">《聚多惠快速阅读协议》</span>
+							</div>
+							<div class="fun_button" v-if="auto_policy_check">
+								<div class="button fb1"><a href="javascript:;"
+										@click="copyAutoSurveyTaskHref()">复制链接</a></div>
+								<div class="button fb2"><a href="javascript:;"
+										@click="shareAutoSurveyTaskImage()">分享扫码</a></div>
+							</div>
+						</div>
+					</div>
+					<div class="split_bar"></div>
+					<div class="index_task_history">
+						<div class="" @click="openHistory(1)"><i class="iconfont icon-tiaocha"></i> 调查记录</div>
+						<div style="background-color: rgba(100, 100, 100, .5); width: 1px; height: 2rem; "></div>
+						<div class="" @click="openHistory(2)"><i class="iconfont icon-jilu"></i> 资金记录</div>
+					</div>
+					<div class="split_bar"></div>
+					<jdh_adv idt="make_money_index" :cfg="adv_cfg" ref="jdh_adv_t" refm="jdh_adv_t" class="for_bottom"  v-show="advertising_height"></jdh_adv>
+					<template  v-if="can_show_adsvideo">
+						<div class="index_video_banner">
+							<div class="sp1">
+								<span>看视频赚惠币 <div class="hui_beg"><img src="img/hbcoins.png" height="100%"> &nbsp;+最高{{ads_show_video_cfg.hpoint}}惠币</div></span>
+								<span style="color: #999999; margin-top: .3rem; font-size: .7rem;">完整观看视频即可获得随机惠币奖励</span>
+							</div>
+							<div class="sp2">
+								<mu-button :class="'sp_button ' + (adsShowVideoTimeout>0 || ads_show_video_cfg.list == undefined ? 'disabled':'')" round="true"
+										   @click="showAdsVideo()">{{ads_show_video_text}}</mu-button>
+							</div>
+						</div>
+						<div class="split_bar"></div>
+					</template>
+					<template v-if="!is_cps">
+						<div class="" style="display: flex; justify-content: space-between; padding: .8rem">
+							<span class="" style="font-size: 1.4rem; font-weight: bold; color: #000000;">好物推荐</span>
+							<span class=""
+								style="font-size: .925rem; font-weight: normal; color: #999999; padding-top: .525rem;">实时推荐低价好物</span>
+						</div>
+					</template>
+					<mu-divider></mu-divider>
+				</div>
+				<isfollow @is_show="isFollow"></isfollow>
+				<template v-if="is_cps">
+					<iframe id="baidu_cps" :src="cps_url" ref="baiduCPS" @load="baiduCPS" @change="baiduCPS"
+						style="width:100%; border: 0; min-height: 20rem;"></iframe>
+				</template>
+				<template v-else>
+					<mu-load-more @refresh="refresh" :refreshing="refreshing" :loading="loading" @load="load">
+						<mu-list style="padding-bottom: 3rem;" class="products_lists">
+							<template v-for="item in goodsList">
+								<div style="margin: .6rem auto .5rem auto;" class="products_lists_box" gutter>
+
+									<div class="col col-4" @click="openDesc(item)">
+										<img :src=item.picurl width="100%" style="border-radius: 0.625rem">
+									</div>
+									<div class="col col-8 product_descs" @click="openDesc(item)">
+										<span class="t1" style="font-size: 0.8rem;">
+											<mu-badge :content="item.source_text" color="#de4f4b"
+												style="font-size: 0.55rem;"></mu-badge>
+											{{item.source_text}}{{item.goods_name}}
+										</span>
+
+										<span class="t3" style="font-size: 1.4rem; color: #de4f4b; font-weight: bold;">
+											<span class="t2" style="clear: left; width: 100%; display: block;">
+												<mu-badge content="券" color="#de4f4b"></mu-badge>
+												<mu-badge :content="item.price+'元'" color="#de4f4b"
+													style="border-left: 1px dotted #FFFFFF;"></mu-badge>
+											</span>
+											<span class="" style="font-size: 1rem;">¥</span>{{item.price_after}}<span
+												class=""
+												style="color:#999999; margin-left: 1.2rem; text-decoration: line-through; font-weight: 300; font-size: 0.9rem;">原价：¥{{item.price}}</span></span>
+									</div>
+								</div>
+								<mu-divider></mu-divider>
+							</template>
+						</mu-list>
+						<div class="nospace" style="width: 100%; height: 1rem; display: block;"></div>
+					</mu-load-more>
+				</template>
+
+
+				<!-- 					<mu-bottom-nav color="red" style="position: fixed; bottom: 0; left: 0; right: 0;">
+					  <mu-bottom-nav-item title="首页" icon=":iconfont icon-shouye" size="48"></mu-bottom-nav-item>
+					  <mu-bottom-nav-item title="导航" icon=":iconfont icon-caidan"></mu-bottom-nav-item>
+					  <mu-bottom-nav-item title="会员中心" icon=":iconfont icon-huiyuanzhongxin"></mu-bottom-nav-item>
+					  <mu-bottom-nav-item title="赚钱" icon=":iconfont icon-zhuanqian-copy"></mu-bottom-nav-item>
+					  <mu-bottom-nav-item title="我的" icon=":iconfont icon-wode"></mu-bottom-nav-item>
+					</mu-bottom-nav> -->
+
+
+			</mu-container>
+		</template>
+
+	</body>
+
+	<script src="model/isFollow.js" type="text/javascript" async="async"></script>
+	<script>
+		localReadLib.require("jdh_adv.js")
+
+		function getAdInfo(class_name) {
+			var info = JSON.stringify($(class_name).offset()).replace('"', "");
+			info = info.replace("\"", "");
+			return info
+		}
+		// adRenderCallBack(width,height) 广告渲染成功后的宽，高
+		function adRenderCallBack(width, height) {
+			$(".add_bars").css({
+				width: width + "px",
+				height: height + "px"
+			});
+		}
+
+		var vue = new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					can_pull_header: true,
+					normalHeadervisible_ed: true,
+					headerHeight: 0,
+					headerWidth: 320,
+					allHPoint: 0,
+					sign_box_width: 0,
+					sign_box_height: 0,
+					sign_box_top: 0,
+					sign_button_text: "视频签到", // 立即签到的文本
+					sign_ed_button_text: "看视频 奖励翻倍",
+					sign_failed_ed_button_text:'再次签到',//签到失败文案
+					signUnit: "惠币", // 单位
+					signCoin: 0, // 签到奖励的数量
+					signStatus_ed: false, // 签到弹出框是否显示
+					signToday: false, //今日是否签到
+					signContinuousDay: 0, // 连续签到多少天
+					signShowVideoCfg: [],
+					signShowVideo: false, // 是否可以看视频赚钱
+					signShowVideoCoin: 0, //看视频能赚钱多少钱
+					signShowVideoTimeout_ed: 0, //还有多久可以看视频
+					signShowVideoEnd: false, // 视频数量是否已超上限
+					count: 0,
+					loading_ed: false,
+					hasMore: true,
+					appKey_MaYiXingQiu: getMYXQAppID(),
+					goodsList: [],
+					refreshing: false,
+					// loading: false,
+					// 好物推荐还是内容联盟
+					is_cps: false,
+					is_cps_top:0,
+					cps_url: "",
+					page: 1,
+					touch_start_point: [],
+					touch_end_point: [],
+					normalHeaderHeight: 0,
+					miniHeaderHeight: 0,
+					loading_layer: 0,
+					videoOrderNo: "",
+					// 人工自助阅读
+					auto_policy_check: false,
+					auto_qrcode: false,
+					auto_survey_task_url: "",
+					auto_survey_task_qrcode: "",
+					show_auto_survey_task_layer_ed: false, // 是否显示自动阅读层
+					// 顶部刷新
+					last_top: 0,
+					last_status: false, // true 触发刷新，false 不刷新
+					deg: 0,
+					last_obj: null, // 刷新器的obj
+					// 页面刷新使用的timeout_obj
+					refresh_timeout_obj: null,
+					ads_refresh_timeout_obj:null,
+					//
+					adv_info_array: [{
+						"c": "1",
+						"p": "8002505800057583"
+					}, {
+						"c": "2",
+						"p": "946355493"
+					}],
+
+					yx_cookie: "",
+					ads_show_video_timeout_obj: null,
+					ads_show_video_text: "看视频",
+					ads_show_video_timestamp: 0,
+					can_show_adsvideo: false,
+					ads_show_video_cfg: [],
+					ads_show_last_order_number: "",
+					ads_show_last_jiage: 0,
+					show_get_hui_point: false,
+					// 广告配置
+					adv_cfg: [],
+					//
+					yx_cookie_url: yx_host + yx_api.getCookie,
+					value:'2',
+					signFailedStatus: false,//签到失败弹出框
+					makeMoneyList: [],//icon列表
+					week_sign: [],//签到红包显示数据
+					sign_award_hui_b : 0,//签到奖励惠币
+					advertising_height: true,
+					on_resume_state: false,
+					no_sign_button_color: '',
+					is_follow: false,
+				}
+			},
+			// 计算后的属性方法
+			computed: {
+				noMore() {
+					return !this.hasMore
+				},
+				disabled() {
+					return this.loading
+				},
+				show_auto_survey_task_layer: {
+					get() {
+						return this.show_auto_survey_task_layer_ed;
+					},
+					set(newValue) {
+						this.show_auto_survey_task_layer_ed = newValue
+						if (newValue) {
+							localReadLib.setAdvStation(false); // 暂停广告位
+						} else {
+							// setTimeout(() => {
+							localReadLib.setAdvStation(true);
+							// }, 500)
+						}
+					}
+				},
+				signStatus: {
+					get() {
+						return this.signStatus_ed
+					},
+					set(newValue) {
+						this.signStatus_ed = newValue
+						if (newValue) {
+							localReadLib.setAdvStation(false); // 暂停广告位
+						} else {
+							localReadLib.setAdvStation(true);
+						}
+					}
+				},
+				normalHeadervisible: {
+					get() {
+						return this.normalHeadervisible_ed
+					},
+					set(newValue) {
+						this.normalHeadervisible_ed = newValue;
+						this.$nextTick(() => {
+							if (typeof(juduohui) !== "undefined") juduohui.setScrollTop();
+						})
+					}
+				},
+				loading: {
+					get() {
+						return this.loading_ed
+					},
+					set(newValue) {
+						this.loading_ed = newValue
+					}
+				},
+				signShowVideoTimeout: {
+					get() {
+						return this.signShowVideoTimeout_ed
+					},
+					set(newVal) {
+						this.signShowVideoTimeout_ed = newVal
+						let that = this;
+						if (this.signShowVideoTimeout >= 1) {
+							this.refresh_timeout_obj = setTimeout(() => {
+								clearTimeout(that.refresh_timeout_obj)
+								that.signShowVideoTimeout = that.signShowVideoTimeout - 1
+							}, 1000)
+						} else {
+							// 到期可以继续看了
+							if (this.signToday) this.sign_button_text = "看视频 奖励翻倍"
+						}
+					}
+
+				},
+
+				adsShowVideoTimeout: {
+					get() {
+						return this.ads_show_video_timestamp
+					},
+					set(newVal) {
+						this.ads_show_video_timestamp = newVal
+						let that = this;
+						//
+						if (this.ads_show_video_timestamp > 0) {
+							$(".sp_button").addClass("disabled")
+							this.ads_refresh_timeout_obj = setTimeout(() => {
+								clearTimeout(that.ads_refresh_timeout_obj)
+								that.adsShowVideoTimeout = that.ads_show_video_timestamp - 1
+								if (that.adsShowVideoTimeout > 0) {
+									that.ads_show_video_text = that.ads_show_video_timestamp
+								} else {
+									that.ads_show_video_text = "看视频"
+								}
+
+							}, 1000)
+						}
+					}
+
+				},
+			},
+			filters: {
+				dateTransition(time){
+					let date = new Date()
+					let day = date.getDate() > 9 ? date.getDate() : '0'+date.getDate()
+					let today = date.getMonth()+1 +'-'+ day
+					if (today == time){
+						return "<span style='color: #FFFFFF;'>今天</span>"
+					}
+					time = time.replace('-','.');
+					return "<span style='color: rgb(254, 211, 175);'>"+time+"</span>"
+				}
+			},
+			watch: {
+				auto_policy_check() {
+					localReadLib.save("auto_policy_check", true);
+				},
+				signShowVideoEnd() {
+					// 如果 isCanWatch 接口返回 code = 2 则去除监听
+					if (this.signShowVideoEnd) {
+						// window.removeEventListener("touchstart", this.touchstart, true);
+						// window.removeEventListener("touchend", this.touchend, true);
+						this.can_pull_header = false;
+					}
+				}
+			},
+			// 加载的自动执行，相当于onload = function(){}
+			mounted() {
+				this.auto_policy_check = localReadLib.load("auto_policy_check") == null ? false : true;
+				if (localReadLib.load("news_read_type_id") == null)  {localReadLib.save("news_read_type_id",0);}
+				// getAdvertisements("1234","4567","8901",function(res){
+				// 	alert("成功"+res)
+				// },function(er){
+				// 	alert("失败"+er)
+				// });
+				/*
+				page
+				:
+				"&pagesize=10&pageindex=0"
+				params
+				:
+				"&sortname=4&sort=desc"
+				url
+				:
+				"http://api-gw.haojingke.com/index.php/v1/api/jd/getmaterial?apikey=6fab3143f92a739d"
+				*/
+
+				/** 根据屏幕宽度计算偷图尺寸 */
+				let img = new Image();
+				let windowWidth = window.innerWidth;
+				let windowHeight = window.innerHeight;
+				img.src = "img/top_qd_bg.png";
+				let that = this;
+				img.onload = function(res) {
+					let imgWidth = img.naturalWidth;
+					let imgHeight = img.naturalHeight;
+					let imgRatio = imgWidth / imgHeight;
+					img.width = windowWidth;
+					img.height = img.width / imgRatio;
+
+					that.headerWidth = img.width
+					that.headerHeight = img.height
+				};
+
+				let img_sign_box = new Image();
+				img_sign_box.src = "img/sign_layer_bg.png";
+				img_sign_box.onload = function(res) {
+					let imgWidth = img_sign_box.naturalWidth;
+					let imgHeight = img_sign_box.naturalHeight;
+					let imgRatio = imgWidth / imgHeight;
+					img_sign_box.width = windowWidth * 0.9;
+					img_sign_box.height = img_sign_box.width / imgRatio;
+
+					that.sign_box_width = img_sign_box.width
+					that.sign_box_height = img_sign_box.height
+
+					that.sign_box_top = (windowHeight - that.sign_box_height) / 2;
+				}
+
+				this.$nextTick(() => {
+					this.$refs.top_refresh.style.top = "-" + this.$refs.top_refresh.scrollHeight + "px"
+					this.last_top = this.$refs.top_refresh.offsetTop
+
+				})
+
+				this.getAppSet();
+
+
+
+				window.addEventListener('scroll', this.bodyScroll, true);
+				window.addEventListener("touchstart", this.touchstart, true);
+				window.addEventListener("touchmove", this.touchmove, true);
+				window.addEventListener("touchend", this.touchend, true);
+				if (typeof(juduohui) !== "undefined") juduohui.addEventListen("resume", "this.vue.onResume()")
+				if (typeof(juduohui) !== "undefined"){
+					let makeMoneyList = JSON.parse(juduohui.getMakeMoneyList())
+					let key = 0;
+					for (let i = 0; i < makeMoneyList.length ; i++){
+						if (that.makeMoneyList[key] == undefined) that.makeMoneyList[key] = []
+						that.makeMoneyList[key].push(makeMoneyList[i])
+						if (that.makeMoneyList[key].length >= 5) key++
+					}
+				}
+			},
+			// 页面内方法
+			methods: {
+				isFollow(e) {
+					this.is_follow = e;
+					if (this.is_follow == false){
+						localReadLib.setAdvStation(true);
+					}
+				},
+				jumpIcon (path,name) {
+					if (path.indexOf('html') != -1){
+						this.openToolsBox(path)
+						return
+					}
+					if (path == 'openShiWan'){
+						this.openShiWan()
+						return
+					}
+					if (path == 'openAutoRead'){
+						this.openAutoRead()
+						return
+					}
+					let numReg = /^[0-9]*$/
+					let numRe = new RegExp(numReg)
+					if (numRe.test(path)) {//数字
+						this.openSurveyTask(path,name)
+						return
+					}
+				},
+				shoe_shaped_gold_ingot(){
+					//console.log('getIMEI:'+juduohui.getIMEI())
+					//console.log(juduohui.getIMEI())
+					alertMessage('当前功能未开发完毕！');
+				},
+				backPress() {
+					backPress();
+				},
+				openNavigation(){
+					let that = this;
+					if (this.value == '3'){
+						alertMessage("暂未开放",function (){
+							that.value = '2';
+						});
+					}
+				},
+				getLastRewardChannel(config_list){
+
+					var saved_channel = localReadLib.load("last_reward_channel");
+					var channel_cfg = {};
+
+					config_list.sort(function(a,b){
+						return a.channel - b.channel;
+					})
+
+					if (saved_channel == null){
+						var rnd = localReadLib.rndInt(0,config_list.length)
+						saved_channel = config_list[rnd].channel
+						channel_cfg = config_list[rnd];
+					}
+					else{
+						// 获取比他大的channel
+						var next_channel = config_list[0].channel;
+						channel_cfg = config_list[0];
+						for (var i=0;i<config_list.length;i++){
+							if (config_list[i].channel > saved_channel) {
+								next_channel = config_list[i].channel;
+								channel_cfg = config_list[i];
+								break;
+							}
+						}
+
+						saved_channel = next_channel;
+					}
+
+
+					localReadLib.save("last_reward_channel",saved_channel);
+					localReadLib.saveJSON("last_reward_channel_cfg",channel_cfg);
+					return channel_cfg;
+				},
+				getAdvSetting(){
+					//console.log('调用getAdvSetting')
+					if (!getAdIsOpen()) return;
+					localReadLib.getAdvCfg("sign_video,make_money_index,videos_money").then(res => {
+						this.adv_cfg = res;
+					}).then(() => {
+						if (this.adv_cfg == undefined || this.adv_cfg.place_list == undefined) return;
+						let update_videos_money = true;
+						for (var itm in this.adv_cfg.place_list) {
+							if (this.adv_cfg.place_list[itm].identify === "videos_money") {
+								update_videos_money = false;
+								this.ads_show_video_cfg = this.adv_cfg.place_list[itm];
+								break;
+							}
+						}
+						let update_sign_video = true;
+						for (var itm in this.adv_cfg.place_list) {
+							if (this.adv_cfg.place_list[itm].identify === "sign_video") {
+								console.log('获取视频')
+								this.signShowVideoCfg = this.adv_cfg.place_list[itm];
+								update_sign_video = false;
+								break;
+							}
+						}
+						if (update_sign_video){//返回的数据中没有签到视频
+							this.signShowVideoCfg = []
+						}
+						if (update_videos_money){//返回的视频中没有看视频的视频
+							this.ads_show_video_cfg = []
+						}
+						console.log("sign_video:"+JSON.stringify(this.ads_show_video_cfg))
+						this.$forceUpdate()
+						this.canShowVideo();
+						this.canShowAdsVideo();
+					});
+				},
+				goToTop(){
+					this.$el.scrollTop = 0
+				},
+				baiduCPS() {
+					this.is_cps_top = this.$refs.baiduCPS.offsetTop
+					var that = this;
+					this.$refs.baiduCPS.height = this.$refs.baiduCPS.contentDocument.body.clientHeight
+					this.$refs.baiduCPS.contentWindow.addEventListener("scroll", function(event) {
+						that.$refs.baiduCPS.height = that.$refs.baiduCPS.contentDocument.body.clientHeight
+					}, true);
+					this.$refs.baiduCPS.contentWindow.addEventListener("touchstart", function(event) {
+						event.preventDefault();
+						event.stopImmediatePropagation();
+					}, true);
+					// this.$refs.baiduCPS.contentWindow.addEventListener("DOMAttrModified",function(event){
+					// 	//console.log(event)
+					// },true);
+
+						// if (window.MutationObserver || window.webkitMutationObserver) {
+						// 	// chrome
+						// 	var callback = function(mutations) {
+						// 		mutations.forEach(function(mutation) {
+						// 		    this.vue.iframeSrcChanged(mutation.oldValue,mutation.target.src,mutation.target);
+						// 		});
+						// 	};
+						// 	if (window.MutationObserver) {
+						// 		var observer = new MutationObserver(callback);
+						// 	} else {
+						// 		var observer = new webkitMutationObserver(callback);
+						// 	}
+						// 	observer.observe(this.$refs.baiduCPS, {
+						// 		attributes: true,
+						// 		attributeOldValue: true
+						// 	});
+						// } else if (this.$refs.baiduCPS.addEventListener) {
+						// 	// Firefox, Opera and Safari
+						// 	this.$refs.baiduCPS.addEventListener("DOMAttrModified", function(event){ this.vue.iframeSrcChanged(event.prevValue,event.newValue,event.target);}, false);
+						// } else if (this.$refs.baiduCPS.attachEvent) {
+						// 	// Internet Explorer
+						// 	this.$refs.baiduCPS.attachEvent("onpropertychange", function(event){this.vue.iframeSrcChanged(event.prevValue,event.newValue,event.target);});
+						// }
+				},
+				iframeSrcChanged(oldValue,newValue,iframeObj)  {
+					//console.log('旧地址：'+oldValue);
+					//console.log('新地址：'+newValue);
+					this.$el.scrollTop = this.is_cps_top;
+				},
+				closeGetHuiPoint() {
+					this.show_get_hui_point = false;
+					localReadLib.setAdvStation(true);
+					for (var itm in this.$refs) {
+						if (this.$refs[itm].name !== undefined && this.$refs[itm].name === 'jdh_adv') {
+							localReadLib.setAdvStation(this.$refs[itm].getClss(), true);
+						}
+					}
+					juduohui.addEventListen("resume", "this.vue.onResume()")
+
+				},
+				// 看视频
+				async showAdsVideo() {
+					var that = this;
+					if (this.adsShowVideoTimeout > 0) return;
+					if (this.ads_show_video_cfg.list === undefined) return;
+					//console.log(this.ads_show_video_cfg.list)
+					// var v_channel =
+					// juduohui.removeEventListener("resume")
+					/**
+					 *  获取激励视频广告
+					 * 调用此方法前需要判断 this.signShowVideoCfg.list.size()是否大于0，如果为0则为该广告位数次已用完。
+					 * 参数1：广告配置JSONOBJECT
+					 * 参数2：回调方法，参数RESULT为boolean类型为观看视频结果true,成功，false:失败
+					 * @param {Object} result
+					 */
+					getRewardVideoAd(this.ads_show_video_cfg,function(result){
+						//console.log(JSON.stringify(result))
+						localReadLib.setAdvStation(true);
+						/**
+						 * 所有参数为文本类型。如为数字则需要使用 0+""
+						 * alertAddGolds(操作符号,加减的数字,单位,显示的文本)
+						 */
+						 if (result){
+						alertAddGolds("+",this.ads_show_video_cfg.hpoint.toString(),"惠币","恭喜您已获得观看视频奖励",'','');
+						}
+						else{
+						alertMessage('暂无视频，请过段时间再来.');
+						}
+						this.getAllHPoint();
+						this.isSignToday();
+						this.getAdvSetting()
+						juduohui.addEventListen("resume", "this.vue.onResume()")
+					});
+
+					return;
+
+					var cfg = this.getLastRewardChannel(this.ads_show_video_cfg.list); //this.ads_show_video_cfg.list[v_channel];
+					//console.log(JSON.stringify(cfg))
+					var data = {
+						"token": getToken(),
+						"am_id": cfg.am_id,
+						"ap_id": cfg.ap_id,
+						"place_type": cfg.place_type,
+						"item": juduohui.getIMEI()
+					};
+
+					showLoading();
+
+					await axios.post(api_list.setAdvertisementOrder, data).then(result => {
+						//console.log(JSON.stringify(result));
+						that.adsShowVideoTimeout = this.ads_show_video_cfg.interval_num
+						if (result.data.code === 0) {
+							that.ads_show_last_order_number = result.data.orderNo;
+							that.ads_show_last_jiage = this.ads_show_video_cfg.hpoint
+							/*
+							{"extra_data":"NDA2MTYzMTE0OTI3NSgtby1vLSkwNzJjNmM4NjVlM2YwYzQ2NGUxYTJlN2QxMzAxYzVlOSgtby1vLSk0MDY=","onclose":"function(){\n\t\t\t\t\t\t\t\t\t//console.log(JSON.stringify(this))\n\t\t\t\t\t\t\t\t\t//console.log(\"观看视频后的回调：\"+getToken()+\",\"+this.ads_show_last_order_number)\n\t\t\t\t\t\t\t\t\taxios.post(api_list.getHuiPoint,{\"token\":getToken(),\"orderNo\":this.ads_show_last_order_number}).then(res=>{\n\t\t\t\t\t\t\t\t\t\t//console.log(\"观看视频后的回调结果：\")\n\t\t\t\t\t\t\t\t\t\t//console.log(JSON.stringify(res))\n\t\t\t\t\t\t\t\t\t}).catch(err=>{\n\t\t\t\t\t\t\t\t\t\t//console.log(\"观看视频后的回调 - 出错了\");\n\t\t\t\t\t\t\t\t\t})\n\t\t\t\t\t\t\t\t}","channel":4,"ads_class":"","type":1,"order_id":"4061631149275","position_id":"7625888"}
+							*/
+							juduohui.removeEventListener("resume")
+							localReadLib.setAdvStation(true);
+							localReadLib.renderAdvert({
+								type: 1,
+								channel: cfg.channel,
+								position_id: cfg.advertisement_id,
+								ads_class: "",
+								order_id: result.data.orderNo,
+								extra_data: result.data.extra,
+								onclose: function(res) {
+									//console.log("看完视频的回调数据:" + res);
+									res  = JSON.parse(res);
+									if (res.code == 0){
+										// 进行结果回调
+										var postData = {
+											"token": getToken(),
+											"orderNo": this.ads_show_last_order_number
+										}
+
+										if (res.transId != undefined) {
+											postData.transId = res.transId
+										}
+
+										axios.post(api_list.getHuiPoint, postData).then(res_server => {
+											//console.log("getHuiPoint：")
+											//console.log(JSON.stringify(res_server))
+											closeLoading();
+											if (res_server.data.code === 0 ){
+
+												if (this.ads_show_last_jiage !== 0 ){
+													localReadLib.setAdvStation(false);
+													this.show_get_hui_point = true;
+												}
+												else{
+													localReadLib.setAdvStation(true);
+													juduohui.addEventListen("resume", "this.vue.onResume()")
+												}
+												this.getAllHPoint();
+												this.canShowAdsVideo();
+												this.canShowVideo();
+											}
+											else{
+												alertMessage("观看视频失败,错误信息：" + res_server.msg)
+												localReadLib.setAdvStation(true);
+											}
+										}).catch(err => {
+											//console.log("服务器回调请求出错，message:" + JSON.stringify(err));
+										})
+									}
+									else{
+										alertMessage("观看视频失败,错误信息：" + res.msg)
+										localReadLib.setAdvStation(true);
+										juduohui.addEventListen("resume", "this.vue.onResume()")
+										this.onResume();
+										this.adsShowVideoTimeout = 0;
+										//console.log("观看视频失败,错误信息观看视频失败,错误信息")
+										this.showAdsVideo();
+									}
+								}
+							});
+						} else {
+							closeLoading();
+							alertMessage(result.data.msg);
+						}
+					}).catch(err => {
+						closeLoading();
+					})
+				},
+				// 是否可以看激励视频广告
+				async canShowAdsVideo() {
+
+					if (!getAdIsOpen()) {
+						this.can_show_adsvideo = false;
+						return;
+					}
+
+					await axios.post(api_list.isCanWatch, {
+						"token": getToken(),
+						"identify": "videos_money"
+					}).then((res) => {
+						if (res.data.code == 0) {
+							this.can_show_adsvideo = true
+							this.adsShowVideoTimeout = 0
+							this.ads_show_video_text = "看视频"
+							this.$forceUpdate();
+						} else if (res.data.code == 1) {
+							this.can_show_adsvideo = true
+							this.adsShowVideoTimeout = res.data.seconds
+							this.$forceUpdate();
+						} else {
+							this.can_show_adsvideo = false
+							this.ads_show_video_text = "已完成"
+							this.$forceUpdate();
+						}
+					}).catch((err) => {
+						//console.log(err);
+					})
+				},
+				getCookies() {
+					//console.log("从iframe中获取云享COOKIES")
+					try {
+						this.yx_cookie = $("#yunxiang")[0].contentDocument.cookie
+						localReadLib.save("yx_cookie", this.yx_cookie);
+						//console.log(this.yx_cookie)
+					} catch (e) {
+						//console.log(e);
+					}
+				},
+				async onResume() {
+					//console.log("网页内的onResume功能实现")
+					if (this.on_resume_state == false){
+						this.on_resume_state = true;
+						clearTimeout(this.refresh_timeout_obj);
+						showLoading();
+						await localReadLib.removeAllAdv(); // 移除所有广告
+						localReadLib.setAdvStation(false);
+						// this.$refs.ad_bars.style.height = "0px";
+						try{
+							this.$refs.baiduCPS.height = 0;
+						}
+						catch(err){
+							closeLoading()
+						}
+						await this.getAdvSetting();
+						// 读取徽币
+						await this.getAllHPoint();
+						// 刷新签到按钮状态
+						await this.canShowVideo();
+						await this.canShowAdsVideo();
+						this.$refs.jdh_adv_t.loadAdvs();
+						this.$nextTick(() => {
+							localReadLib.removeAllAdv(); // 移除所有广告
+							localReadLib.setAdvStation(true);
+							this.$refs.jdh_adv_t.loadAdvs();
+							this.advertising_height = true
+							//console.log('关闭loading')
+							if (this.show_auto_survey_task_layer == true || this.is_follow == true){
+								localReadLib.setAdvStation(false)
+							}
+							closeLoading();
+							this.on_resume_state = false;
+						})
+					}
+				},
+				profitSubmit() {
+					openNewActivite("./profit.html?tab_value=1")
+				},
+				touchstart(e) {
+					this.touch_start_point = [e.touches[0].screenX, e.touches[0].screenY];
+					var find_load_more = false;
+
+					if (this.last_obj != null) clearInterval(this.last_obj)
+
+					for (var i = 0; i < e.path.length; i++) {
+						// //console.log(e.path[i].className);
+						if (e.path[i].className != undefined && (e.path[i].className.indexOf("mu-load-more") >= 0 || e
+								.path[i].className.indexOf("react-pull-refresh") >= 0)) {
+							find_load_more = true;
+							// //console.log(e.path[i].className);
+							break;
+						}
+					}
+
+
+
+					if (find_load_more) {
+						this.touch_start_point = [];
+					}
+					// //console.log(find_load_more);
+
+				},
+				touchend(e) {
+					if (this.touch_start_point[1] - e.changedTouches[0].screenY < -100 && this.can_pull_header) {
+						this.normalHeadervisible = true;
+					}
+
+					var timeout_c = 0;
+					if (this.last_status) {
+						this.onResume()
+						timeout_c = 500
+					}
+
+					var that = this;
+					this.last_status = false;
+					setTimeout(() => {
+						that.last_obj = setInterval(() => {
+							if (that.$refs.top_refresh.offsetTop >= 0 - that.$refs.top_refresh
+								.scrollHeight) {
+								that.$refs.top_refresh.style.top = (that.$refs.top_refresh.offsetTop -
+									35) + "px"
+								that.deg = 360 - Math.abs(Math.abs(that.$refs.top_refresh.offsetTop -
+									5))
+							} else {
+								clearInterval(that.last_obj)
+								that.last_obj = null
+							}
+						}, 3);
+					}, timeout_c);
+
+				},
+				touchmove(e) {
+
+					/* 头部下拉刷新页面 */
+					if (this.touch_start_point !== [] && (this.normalHeadervisible || !this.can_pull_header)) {
+						var move_length = (this.last_top + (e.changedTouches[0].screenY - this.touch_start_point[1]))
+						var move_max_height = 0
+						if (move_length >= move_max_height) {
+							move_length = move_max_height
+							this.last_status = true
+							this.$refs.reload_text.innerText = '松开刷新'
+						} else {
+							this.$refs.reload_text.innerText = '下拉刷新'
+							this.last_status = false
+						}
+
+						this.$refs.top_refresh.style.top = move_length + "px"
+						// this.$refs.top_refresh_img.style.transform.rotate = "rotate(7deg)"
+						this.deg = 360 - Math.abs(move_length)
+						// this.$refs.top_refresh_img.style.WebkitTransform = "rotate("+ Math.abs(move_length) +"deg);"
+					}
+					/* 结束 */
+				},
+				bodyScroll(e) {
+					var scrollTop = e.target.scrollTop;
+					if (scrollTop > 150 && this.normalHeadervisible != false) {
+						this.normalHeadervisible = false;
+					}
+
+					if (scrollTop > 500) {
+						if($(".go_to_top:hidden").length>0){
+							$(".go_to_top").show(235);
+						}
+					}
+					else{
+						if($(".go_to_top:visible").length>0){
+							$(".go_to_top").hide(235);
+						}
+					}
+
+					if (typeof(juduohui) !== "undefined") juduohui.setScrollTop(); // 触发页面滚动的广告定位
+				},
+				openGuiZe() {
+					//console.log("打开规则!");
+					openNewActivite("./policy.html?id=68");
+
+				},
+				openKefu() {
+					// //console.log("打开客服");
+					// juduohui.removeAds();
+					// location.reload();
+					// alertMessage("打开客服!")
+					openNewActivite(getKefuUrl())
+				},
+				openDesc(product_item) {
+					// android.openDesc(product_id);
+					//console.log(JSON.stringify(product_item));
+					showLoading("正在打开商品详情...")
+					if (typeof(juduohui) != "undefined") juduohui.showGoodsDetail(JSON.stringify(product_item))
+				},
+				openShiWan() {
+					//console.log(124335456654654)
+					if (typeof(juduohui) != "undefined") juduohui.openXianWan();
+				},
+				scanQrCodeResult(res){
+					//console.log(" 扫码结果： " +res);
+				},
+				openHistory(toType) {
+					// location.href = "./survey_history.html"
+					if (toType === 1) {
+						openNewActivite("./survey_history.html")
+					} else {
+						openNewActivite("./profit_history.html")
+					}
+				},
+				closeSignBox() {
+					//console.log("关闭签到");
+					this.signStatus = false;
+					if (!getAdIsOpen()) {
+						this.normalHeadervisible = false
+					}
+				},
+				async signIn(ordernum) {
+					//console.log("signIn()signIn()signIn()")
+					//console.log('调用签到接OK哦签到')
+					closeLoading();
+					//签到
+					if (!this.signToday){
+						let that = this;
+						showLoading();
+						await axios.post(api_list.signIn, {
+							"token": getToken(),
+							"ordernum":ordernum
+						}).then((res) => {
+							closeLoading();
+							//console.log('签到接口返回:'+JSON.stringify(res))
+							if (res.data.code === 0) {
+								that.signContinuousDay = that.signContinuousDay + 1;
+								that.signToday = true, that.signStatus = true, that.signCoin = res.data.hpoint, that.sign_button_text = "看视频 奖励翻倍"
+							} else {
+								closeLoading();
+								alertMessage(res.data.msg);
+							}
+						}).catch((err) => {
+							//console.log("签到失败", err)
+							closeLoading();
+							alertMessage("签到失败");
+							return;
+						})
+					}
+					// 看视频
+					else{
+						alertMessage('已签到，请勿重签到')
+						return
+					}
+				},
+				refresh() {
+					this.refreshing = true;
+					this.$refs.container.scrollTop = 0;
+					this.goodsList = [];
+					this.page = 0;
+					this.loadGoodsMore();
+					setTimeout(() => {
+						this.refreshing = false;
+					}, 2000)
+				},
+				load() {
+					//console.log(this.loading);
+					this.page++;
+					this.loadGoodsMore(this.page);
+					this.loading = true;
+					// setTimeout(() => {
+					// 	this.loading = false;
+					// }, 2000)
+				},
+				async getAppSet() {
+					commonAppSetting()
+					await this.getAdvSetting();
+					await this.getAllHPoint()
+					await this.getIsCPS()
+					await this.openAutoSurveyTask();
+					await this.readCommonAdvCfg();
+					await this.isSignToday()
+					var that = this;
+					setTimeout(function () {
+						that.canShowVideo();
+					},500)
+
+				},
+				async readCommonAdvCfg() {
+					if (!getAdIsOpen()) {
+						this.sign_ed_button_text = "关闭"
+						//console.log("全面关闭广告");
+					}
+
+				},
+				async getIsCPS() {
+					//console.log("getIsCPS")
+					var that = this;
+					await axios.post(api_list.getTjgwConfig, {
+						"token": getToken()
+					}).then(res => {
+						if (res.data.code === 0) {
+							//console.log(res)
+							if (res.data.good_gif_url != "") {
+
+								that.is_cps = true;
+								that.cps_url = res.data.good_gif_url;
+								try {
+									juduohui.addEventListen("back", "aoiejfoawejfoi")
+								} catch (e) {
+									//console.log(e)
+								}
+							} else {
+								that.loadGoodsMore(that.page);
+							}
+						}
+					}).catch(err => {
+						//console.log(err)
+					})
+				},
+				async getAllHPoint() {
+					let that = this
+					await axios.post(api_list.getAllHPoint, {
+						token: getToken()
+					}).then(res => {
+						that.allHPoint = res.data.balance_hui_b
+					}).catch(err => {})
+
+				},
+				// 看激励视频
+				async showVideo() {
+					//console.log("showVideo()showVideo()showVideo()showVideo()")
+					for (var itm in this.$refs) {
+						if (this.$refs[itm].name !== undefined && this.$refs[itm].name === 'jdh_adv') {
+							localReadLib.setAdvStation(this.$refs[itm].getClss(),false);
+						}
+					}
+					//console.log(this.signShowVideoCfg)
+					var that = this;
+					if (this.signShowVideoTimeout > 0) return;
+					if (this.signShowVideoCfg.list === undefined) return;
+					if (this.signShowVideoCfg.list.length <= 0) return;
+					if (this.no_sign_button_color == 'no_sign_button_color') return;
+					//console.log(this.signShowVideoCfg.list)
+
+					// juduohui.removeEventListener("resume")
+
+					/**
+					 *  获取激励视频广告
+					 * 调用此方法前需要判断 this.signShowVideoCfg.list.size()是否大于0，如果为0则为该广告位数次已用完。
+					 * 参数1：广告配置JSONOBJECT
+					 * 参数2：回调方法，参数RESULT为boolean类型为观看视频结果true,成功，false:失败
+					 * @param {Object} result
+					 */
+					getRewardVideoAd(this.signShowVideoCfg,function(result){
+						//console.log(JSON.stringify(result))
+						localReadLib.setAdvStation(true);
+						/**
+						 * 所有参数为文本类型。如为数字则需要使用 0+""
+						 * alertAddGolds(操作符号,加减的数字,单位,显示的文本)
+						 */
+
+						if (result){
+							if (this.signToday){
+								alertAddGolds("+",this.signShowVideoCfg.hpoint.toString(),"惠币","恭喜您已获得观看视频奖励",'','');
+							}else{
+								let func = function () {
+									this.getAllHPoint();
+									this.canShowVideo();
+									this.canShowAdsVideo();
+									this.isSignToday();
+									this.showVideo();
+									juduohui.addEventListen("resume", "this.vue.onResume()")
+								}
+								alertAddGolds("+",this.sign_award_hui_b.toString(),"惠币","恭喜您已获得观看视频奖励",'看视频翻倍领取',func);
+							}
+						}else{
+							// alertAddGolds("+",'0',"惠币","您的视频未观看完成",'','');
+							alertMessage('暂无视频，请过段时间再来.');
+						}
+
+						this.getAllHPoint();
+						this.isSignToday();
+						this.getAdvSetting()
+						juduohui.addEventListen("resume", "this.vue.onResume()")
+					});
+
+					return;
+					showLoading();
+					// var current_channel = this.getLastRewardChannel(this.signShowVideoCfg.list);
+					var cfg = this.getLastRewardChannel(this.signShowVideoCfg.list); //this.signShowVideoCfg.list[current_channel];// this.signShowVideoCfg.list[localReadLib.rndInt(0, this.signShowVideoCfg.list.length)];
+					//console.log(JSON.stringify(cfg))
+					var data = {
+						"token": getToken(),
+						"am_id": cfg.am_id,
+						"ap_id": cfg.ap_id,
+						"place_type": cfg.place_type,
+						"item": juduohui.getIMEI()
+					};
+
+					await axios.post(api_list.setAdvertisementOrder, data).then(result => {
+						//console.log('获取翻倍视频返回信息')
+						//console.log(JSON.stringify(result));
+						if (result.data.code === 0) {
+							that.ads_show_last_order_number = result.data.orderNo;
+							that.ads_show_last_jiage = that.signShowVideoCfg.hpoint
+							/*
+							{"extra_data":"NDA2MTYzMTE0OTI3NSgtby1vLSkwNzJjNmM4NjVlM2YwYzQ2NGUxYTJlN2QxMzAxYzVlOSgtby1vLSk0MDY=","onclose":"function(){\n\t\t\t\t\t\t\t\t\t//console.log(JSON.stringify(this))\n\t\t\t\t\t\t\t\t\t//console.log(\"观看视频后的回调：\"+getToken()+\",\"+this.ads_show_last_order_number)\n\t\t\t\t\t\t\t\t\taxios.post(api_list.getHuiPoint,{\"token\":getToken(),\"orderNo\":this.ads_show_last_order_number}).then(res=>{\n\t\t\t\t\t\t\t\t\t\t//console.log(\"观看视频后的回调结果：\")\n\t\t\t\t\t\t\t\t\t\t//console.log(JSON.stringify(res))\n\t\t\t\t\t\t\t\t\t}).catch(err=>{\n\t\t\t\t\t\t\t\t\t\t//console.log(\"观看视频后的回调 - 出错了\");\n\t\t\t\t\t\t\t\t\t})\n\t\t\t\t\t\t\t\t}","channel":4,"ads_class":"","type":1,"order_id":"4061631149275","position_id":"7625888"}
+							*/
+							// 先停止掉onresume监听，关闭获取弹窗处再开启
+							juduohui.removeEventListener("resume")
+							localReadLib.setAdvStation(true);
+							localReadLib.renderAdvert({
+								type: 1,
+								channel: cfg.channel,
+								position_id: cfg.advertisement_id,
+								ads_class: "",
+								order_id: result.data.orderNo,
+								extra_data: result.data.extra,
+								onclose: function(res) {
+									localReadLib.setAdvStation(false);
+									res = JSON.parse(res);
+									if (res.code === 0){
+										// 进行结果回调
+										let signToday =  this.signToday//是否已签到，控制是否显示翻倍奖励弹窗，调用签到接口成功签到时会改这个值，在这里先记录一下
+										if (!this.signToday){
+											this.signIn(this.ads_show_last_order_number);//签到
+										}
+
+										var post_data = {
+											"token": getToken(),
+											"orderNo": this.ads_show_last_order_number
+										};
+
+										if (res.transId != undefined) {
+											post_data.transId = res.transId
+										}
+
+										axios.post(api_list.getHuiPoint, post_data ).then(res_server => {
+											//console.log("getHuiPoint："+JSON.stringify(res_server))
+											if (res_server.data.code === 0 ){
+
+												if (this.ads_show_last_jiage !== 0 ){
+													localReadLib.setAdvStation(false);
+													if (signToday){
+														//console.log(this.signToday)
+														this.show_get_hui_point = true;
+													}
+												}
+												else{
+													localReadLib.setAdvStation(true);
+													juduohui.addEventListen("resume", "this.vue.onResume()")
+												}
+												closeLoading();
+												this.getAllHPoint();
+												this.canShowVideo();
+												this.canShowAdsVideo();
+												this.isSignToday();
+
+											}
+											else{
+												closeLoading();
+												// alertMessage("观看视频失败,错误信息：" + res_server.msg)
+												localReadLib.setAdvStation(true);
+												closeLoading();
+											}
+										}).catch(err => {
+											closeLoading();
+											//console.log("服务器回调请求出错，message:" + JSON.stringify(err));
+										})
+									}
+									else{
+										closeLoading();
+										alertMessage("观看视频失败,错误信息：" + res.msg)
+										localReadLib.setAdvStation(true);
+										juduohui.addEventListen("resume", "this.vue.onResume()")
+										this.onResume();
+										this.signShowVideoTimeout = 0;
+										this.showVideo();
+									}
+								}
+							});
+
+							// juduohui.getRewardVideoAd(cfg.channel,cfg.advertisement_id,result.data.orderNo,result.data.extra,function(){
+							// 	axios.post(api_list.getHuiPoint,{"token":getToken(),"orderNo":this.ads_show_last_order_number}).then(res=>{
+							// 		//console.log("观看视频后的回调：")
+							// 		//console.log(JSON.stringify(res))
+							// 	}).catch(err=>{
+							// 		//console.log("观看视频后的回调 - 出错了");
+							// 	})
+							// });
+						} else {
+							closeLoading();
+							alertMessage(result.data.msg);
+						}
+					}).catch(err => {
+						closeLoading();
+					})
+
+					// 原始签到视频逻辑
+					// let that = this;
+					// if (this.signToday && this.signShowVideo) {
+					// 	// 看视频
+					// 	if (this.signShowVideoCfg.list === undefined){
+					// 		alertMessage("读取广告位信息失败")
+					// 		return;
+					// 	}
+
+					// 	var cfg = this.signShowVideoCfg.list[localReadLib.rndInt(0,this.signShowVideoCfg.list.length)];
+
+					// 	this.signShowVideoCoin = cfg.hpoint;
+
+					// 	var data = {
+					// 		"token":getToken(),
+					// 		"am_id": cfg.am_id,
+					// 		"ap_id": cfg.ap_id,
+					// 		"place_type": cfg.place_type
+					// 	};
+
+					// 	var getChannelID = localReadLib.rndInt(1,3);
+
+					// 	await axios.post(api_list.getAdvertisement, {
+					// 		"token": getToken(),
+					// 		"type": 1,
+					// 		"channel": getChannelID, // 1 优量汇,2 穿山甲
+					// 	}).then(res => {
+					// 		//console.log("视频请求返回参数："+JSON.stringify(res))
+					// 		if (16 === res.data.code) {
+					// 			alertMessage(res.data.msg);
+					// 			return;
+					// 		}
+					// 		if (135 === res.data.code) {
+					// 			//console.log("阅读视频间隔时间未到达");
+					// 			return;
+					// 		}
+					// 		//console.log("获取到的广告位信息")
+					// 		//console.log(JSON.stringify(res))
+					// 		let orderNo = res.data.data.orderNo
+					// 		let advertisement_id = res.data.data.advertisement_id
+					// 		let channel = res.data.data.channel
+					// 		let extra = res.data.extra
+
+					// 		that.videoOrderNo = orderNo
+					// 		/**
+					// 		 * 请求激励视频 广告
+					// 		 */
+
+					// 		//juduohui.getRewardVideoAd(advertisement_id,orderNo,extra);
+					// 		// rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称，code：错误码，msg：错误信息
+					// 		juduohui.removeEventListener("resume")
+					// 		getRewardVideoAd(channel, advertisement_id, orderNo, extra, function(res) {
+					// 			if (res.rewardVerify === true) {
+					// 				// 看视频成功，加钱,这里应该使用 当前页的this.vue
+					// 			} else {
+					// 				// 看视频无效，根据错误码进行回显示和处理逻辑
+					// 				alertMessage("观看视频失败,错误信息：" + res.msg)
+					// 			}
+					// 			this.viewVideoEnd();
+					// 		})
+
+					// 	}).catch(err => {
+					// 		//console.log("失败信息" + JSON.stringify(err))
+					// 	})
+					// }
+				},
+				async viewVideoEnd() {
+					//console.log("进行viewVideoEnd")
+					await axios.post(api_list.getHuiPoint, {
+						"token": getToken(),
+						"orderNo": this.videoOrderNo,
+					}).then((res) => {
+						//console.log("进行viewVideoEnd" + JSON.stringify(res))
+						if (res.data.msg !== undefined && res.data.msg !== "") alertMessage(res.data.msg);
+					}).catch((err) => {
+						//console.log(JSON.stringify(err))
+					})
+					await this.getAllHPoint();
+					await this.canShowVideo();
+
+					this.ads_show_last_jiage = this.signShowVideoCoin;
+					this.show_get_hui_point = true;
+
+					juduohui.addEventListen("resume", "this.vue.onResume()")
+					/*
+					await axios.post(api_list.getAdvertisement, {
+						"token": getToken()
+					}).then((res) => {
+						//console.log("获取到的广告位信息" + JSON.stringify(res))
+					}).catch((err) => {
+						//console.log("失败信息", err)
+					})
+					*/
+				},
+				// 是否可以看视频
+				async canShowVideo() {
+					//console.log('调用canShowVideo')
+					let that = this;
+					if (this.signToday && getAdIsOpen()) {
+						await axios.post(api_list.isCanWatch, {
+							"token": getToken()
+						}).then((res) => {
+							//console.log("canShowVideo()"+ JSON.stringify(res))
+							//console.log(res)
+							if (res.data.code == 0) {
+								//console.log(that.sign_button_text)
+								that.signShowVideo = true
+								that.signShowVideoTimeout = 0
+								// that.signCoin = res.data.point_h
+								that.no_sign_button_color = '';
+								that.sign_button_text = "看视频翻倍领取"
+							} else if (res.data.code == 1) {
+								//console.log('更新signShowVideoTimeout')
+								//console.log(res.data.seconds)
+								that.signShowVideo = true
+								that.signShowVideoTimeout = res.data.seconds
+							} else {
+								that.normalHeadervisible = false, that.signShowVideoEnd = true
+							}
+							this.$forceUpdate();
+						}).catch((err) => {
+							//console.log(err);
+						})
+					}
+
+					if (this.signToday && !getAdIsOpen()) {
+						this.sign_button_text = "明天继续签到赚惠币"
+						this.no_sign_button_color = 'no_sign_button_color'
+					}
+					if (this.signShowVideoCfg.length <= 0){
+						this.sign_button_text = "明天继续签到赚惠币"
+						this.no_sign_button_color = 'no_sign_button_color'
+					}
+				},
+				async isSignToday() {
+					let that = this;
+					await axios.post(api_list.getContinuousDay, {
+						"token": getToken()
+					}).then((res) => {
+						//console.log("isSignToday()" + JSON.stringify(res));
+						//console.log(res)
+						if (res.data.data.is_sign == "N") {
+							// 正常显示还没签到
+							that.signToday = false;
+							// that.signCoin = res.data.data.point_h
+						} else {
+							that.signToday = true;
+							if (!getAdIsOpen()){
+								this.sign_button_text = "明天继续签到赚惠币"
+								this.no_sign_button_color = 'no_sign_button_color'
+							}
+						}
+						that.signContinuousDay = res.data.data.continuous_day
+						that.week_sign = res.data.week_sign
+						that.sign_award_hui_b = res.data.data.balance_hui_b;
+					}).catch((err) => {
+						//console.log(JSON.stringify(err))
+					});
+				},
+				async openSurveyTask(task_type_id, display_msg) {
+					//console.log("暂停广告");
+					layer.closeAll();
+
+					showLoading("正在领取" + display_msg)
+
+					var task_type_con = [];
+
+					var data = {
+						"token": getToken(),
+						"task_type": task_type_id,
+					}
+					await axios.post(api_list.getSurveyTask, data).then(res => {
+						if (res.data.code === 0) {
+							localStorage.setItem("current_task_result", JSON.stringify(res))
+							closeLoading();
+							openNewActivite("./survey_task.html?type_id=" + task_type_id);
+							localReadLib.setAdvStation(true);
+
+							//console.log(JSON.stringify(res))
+
+						} else {
+							closeLoading();
+							// 100 去接云享
+							if (res.data.code == 100) {
+								for (var it = 0; it < res.data.data.length; it++) {
+									task_type_con.push({
+										"xb": res.data.data[it].xb_type_id,
+										"yx": res.data.data[it].yx_type_id,
+										"earnings_ratio": res.data.data[it].earnings_ratio,
+										"xb_type_name": res.data.data[it].xb_type_name,
+									})
+								}
+								this.openYxSurveyTask(task_type_con, task_type_id);
+							} else {
+								alertMessage(res.data.msg)
+								localReadLib.setAdvStation(true);
+							}
+
+						}
+					}).catch(err => {
+						// closeLoading();
+					})
+				},
+				async openYxSurveyTask(task_type_con, label_id) {
+
+					//console.log(JSON.stringify(task_type_con))
+					//console.log("YX_COOKIES:" + this.yx_cookie)
+					// cookie 换 token
+					var remote_task_id = 0;
+					var yx_task_type = 0;
+					var xb_task_type = 0;
+					var earnings_ratio = 0;
+					var task_msg = {};
+					await axios.get(yx_host + yx_api.getCookie).then(res => {
+
+					}).catch(err => {
+						//console.log(err)
+					})
+
+					task_msg = localReadLib.loadJSON("task_msg", {});
+					for (var i = 0; i < task_type_con.length; i++) {
+						var has_error = false;
+						var banned_user = false;
+						//console.log("去拉取云享的" + task_type_con[i].yx + "的任务列表")
+						// 携带上边的COOKIES取列表
+						await axios.get(yx_host + "/H5_Handler.ashx?M=" + Math.random() + "&cmd=loadtasks&pageindex=1&pagesize=10&ptypeid=" + task_type_con[i].yx, {
+								responseType: "text",
+							}).then(res => {
+								if (res.data.Table[0].success){
+									if (res.data.Table1.length <= 0) {
+										has_error = true;
+									} else {
+										// //console.log(res, res.data.Table1[0].f_task_title)
+										//取0到返回记录总条数的随机数。
+										var task_index = localReadLib.rndInt(0, res.data.Table1.length-1)
+										remote_task_id = res.data.Table1[task_index].f_task_id
+									}
+								}else{
+									has_error = true;
+									banned_user = true;
+								}
+
+						}).catch(err => {
+							//console.log(JSON.stringify(err))
+						})
+
+						//console.log(has_error)
+						if (has_error) {
+							if (i+1 >= task_type_con.length){
+								//云享没有任务时将信息返给后台，下次接小宝任务
+								var add_post_task_not_fond = {
+									"token": getToken(),
+									"receive_res": 0,
+								}
+								await axios.post(api_list.addYxTaskRecord, add_post_task_not_fond).then(res => {
+									// //console.log("没有云享任务返回", JSON.stringify(res));
+								}).then(err => {
+									//console.log(err);
+								})
+								if (banned_user){
+									alertMessage("您好，由于违规操作，调查券展示量已被限流，可联系客服咨询原因!");
+								}else{
+									alertMessage("暂无可领调查券，请稍后重新尝试领取。");
+								}
+								return;
+							}
+							continue;
+						}
+
+						// 签署同意协议
+						await axios.get( yx_host +"/H5_Handler.ashx?M=" + Math
+							.random() + "&cmd=signcomment&state=Y", {
+								responseType: "text"
+							}).then(res => {
+							//console.log("签署同意协议",res,res.data.success)
+							if (!res.data.success) {
+								has_error = true;
+								//console.log(has_error)
+								return;
+							}
+
+						}).then(err => {
+
+						})
+
+						//console.log(has_error)
+						if (has_error ) {
+							if (i+1 >= task_type_con.length){
+								//云享没有任务时将信息返给后台，下次接小宝任务
+								var add_post_task_not_fond = {
+									"token": getToken(),
+									"receive_res": 0,
+								}
+								await axios.post(api_list.addYxTaskRecord, add_post_task_not_fond).then(res => {
+									// //console.log("没有云享任务返回", JSON.stringify(res));
+								}).then(err => {
+									//console.log(err);
+								})
+								alertMessage("暂无可领调查券，请稍后重新尝试领取。");
+								return;
+							}
+							continue;
+						}
+
+						// 接任务
+						await axios.get( yx_host + "/H5_Handler.ashx?M=" + Math
+							.random() + "&cmd=insertmembertask&taskid=" + remote_task_id, {
+								responseType: "text"
+							}).then(res => {
+
+							if (!res.data.success) {
+								has_error = true
+								//console.log(has_error)
+								if (i+1 >= task_type_con.length){
+									//云享没有任务时将信息返给后台，下次接小宝任务
+									var add_post_task_not_fond = {
+										"token": getToken(),
+										"receive_res": 0,
+									}
+									axios.post(api_list.addYxTaskRecord, add_post_task_not_fond).then(res => {
+										// //console.log("没有云享任务返回", JSON.stringify(res));
+									}).then(err => {
+										//console.log(err);
+									})
+									alertMessage("暂无可领调查券，请稍后重新尝试领取。");
+									return;
+								}
+								return;
+							} else {
+								// //console.log("接任务",remote_task_id,JSON.stringify(res.data))
+								task_msg = res;
+								yx_task_type = task_type_con[i].yx
+								xb_task_type = task_type_con[i].xb
+								earnings_ratio = task_type_con[i].earnings_ratio
+
+							}
+
+							/**
+							 * Table 假如还有任务没有提交则会回去 Table[0].f_info = ""
+							 * Table1 应该是任务相关信息
+							 * Table2 步骤信息
+							 * Table3 未知
+							 */
+						}).then(err => {
+
+						})
+						if (has_error) return;
+
+						if (remote_task_id != 0) break;
+					}
+
+
+					// localReadLib.saveJSON("task_msg",task_msg);
+					task_msg.task_type = "yx"
+					task_msg.yx_type = yx_task_type
+					task_msg.xb_type = xb_task_type
+					task_msg.ratio = earnings_ratio
+					/* 新加段 */
+					task_msg.data.data = {
+						"complete_task_price": Math.floor(task_msg.data.Table1[0].f_task_dotaskprise * 1000 * (task_msg
+								.ratio / 100)),
+						"a_trial": 20,
+						"name": task_type_con[i].xb_type_name,
+						"id": task_msg.data.Table1[0].f_task_id,
+						"task_url": task_msg.data.Table1[0].f_task_url,
+						"complete_num": task_msg.data.Table1[0].f_task_finishcount,
+						"title": task_msg.data.Table1[0].f_task_title,
+						"demo_img_url": [],
+						"demo_img_title": [],
+						"task_rule": "",
+						"yx_task_timeout": task_msg.data.Table1[0].f_member_task_timeouttime,
+						"task_type": "yx",
+						"yx_cookie": this.yx_cookie,
+						"task_type_id":task_type_con[i].xb,
+						'step': []
+					}
+					for (var yx_i = 0; yx_i < task_msg.data.Table2.length; yx_i++) {
+						if (task_msg.data.Table2[yx_i].f_task_step_type === "上传图片凭证") {
+							task_msg.data.data.demo_img_url.push(task_msg.data.Table2[yx_i].f_task_step_content);
+							task_msg.data.data.demo_img_title.push(task_msg.data.Table2[yx_i].f_task_step_remark);
+						} else if (task_msg.data.Table2[yx_i].f_task_step_type === "打开链接") {
+							var process = {
+								'url': task_msg.data.Table2[yx_i].f_task_step_content,
+								'type': task_msg.data.Table2[yx_i].f_task_step_showtype,
+								'remark': '打开链接',
+							}
+							task_msg.data.data.step.push(process);
+						} else if (task_msg.data.Table2[yx_i].f_task_step_type === "图文说明") {
+							var process = {
+								'url': task_msg.data.Table2[yx_i].f_task_step_content,
+								'type': task_msg.data.Table2[yx_i].f_task_step_showtype,
+								'remark': task_msg.data.Table2[yx_i].f_task_step_remark,
+							}
+							task_msg.data.data.step.push(process);
+						} else if (task_msg.data.Table2[yx_i].f_task_step_type === "复制内容"){
+							var process = {
+								'url': task_msg.data.Table2[yx_i].f_task_step_content,
+								'type': task_msg.data.Table2[yx_i].f_task_step_showtype,
+								'remark': task_msg.data.Table2[yx_i].f_task_step_remark,
+							}
+							task_msg.data.data.step.push(process);
+						}
+					}
+					var add_post_task = {
+						"token": getToken(),
+						"receive_res": 1,
+						"yx_task_id": task_msg.data.Table1[0].f_task_id,
+						"task_type_id": task_msg.xb_type,
+						"task_img": task_msg.data.data.demo_img_url,
+						"task_price": Math.floor(task_msg.data.Table1[0].f_task_dotaskprise * 1000 * (task_msg.ratio /
+							100)),
+						"timeout_time": task_msg.data.Table1[0].f_member_task_timeouttime,
+						"yx_cookie": this.yx_cookie,
+						"task_price_hui": localReadLib.encrypt(Math.floor(task_msg.data.Table1[0].f_task_dotaskprise *
+							1000 * (task_msg.ratio / 100))),
+						"title": task_msg.data.Table1[0].f_task_title,
+						"task_url": task_msg.data.Table1[0].f_task_url == ''?task_msg.data.Table2[0].f_task_step_content:task_msg.data.Table1[0].f_task_url,
+					}
+
+					await axios.post(api_list.addYxTaskRecord, add_post_task).then(res => {
+						// //console.log("api_list.addYxTaskRecord", JSON.stringify(res));
+					}).then(err => {
+						//console.log(err);
+					})
+					/* 新加段结束 */
+					localReadLib.save("current_task_result", JSON.stringify(task_msg))
+
+					openNewActivite("./survey_task.html?type_id=" + label_id);
+				},
+				openAutoSurveyTask() {
+					var data = {
+						token: getToken(),
+					}
+					var that = this;
+					axios.post(api_list.getAutoReadUrl, data).then(res => {
+						if (res.data.code === 0) {
+							// log("成功" + res.data.url)
+							that.auto_survey_task_url = res.data.url;
+							this.auto_survey_task_qrcode = checkImageExt(res.data.url);
+						}
+					}).then(err => {
+						// //console.log(err)
+					})
+
+				},
+				viewPolice() {
+					openNewActivite("./policy.html?id=72");
+				},
+				copyAutoSurveyTaskHref() {
+					this.auto_qrcode = true;
+					$("body").append(
+						"<div id='copyTempNodeDiv' style='width:1px;height:1px;overflow:hidden;'><input type='text' id='copyTempNode' value='" +
+						this.auto_survey_task_url + "'></div>");
+					$("#copyTempNode").select();
+					document.execCommand("copy");
+					$("#copyTempNodeDiv").detach();
+					try {
+						juduohui.showToast("复制成功");
+					} catch (e) {
+						layer.alert("复制成功");
+					}
+				},
+				shareAutoSurveyTaskImage() {
+					this.auto_qrcode = true;
+					juduohui.ShareImgToWeiXin(this.auto_survey_task_qrcode, 0);
+				},
+				//
+				callBack(res) {
+					var tmp_obj = JSON.parse(window.atob(res));
+					for (item in tmp_obj.data.data) {
+						tmp_obj.data.data[item].source = 'jd';
+						tmp_obj.data.data[item].source_text = '京东';
+						this.goodsList.push(tmp_obj.data.data[item]);
+					}
+
+					setTimeout(() => {
+						this.loading = false;
+					}, 2000);
+
+				},
+				// 阅读
+				openNews() {
+					openNewActivite("news_read.html")
+				},
+				// 读取更多的商品
+				async loadGoodsMore(page) {
+
+					var common_host = "http://api-gw.haojingke.com/index.php/v1/api/";
+					// 京粉精选商品
+					// 1-好券商品,2-超级大卖场,10-9.9专区,22-热销爆品,23-为你推荐,24-数码家电,25-超市,26-母婴玩具,27-家具日用,28-美妆穿搭,29-医药保健,30-图书文具,31-今日必推,32-品牌好货,33-秒杀商品,34-拼购商品,109-新品首发,110-自营,125-首购商品,129-高佣榜单,130-视频商品
+					var product_url_lib = [{
+							"url": "jd/getmaterial",
+							"platform": "jd",
+							"plattext": "京东",
+							"has_page": true,
+							"page": "pageindex",
+							"pagesize": "pagesize",
+							"params": ["", "activityid=10000", "activityid=10001", "sortname=4&sort=desc",
+								"sortname=5&sort=desc"
+							]
+						},
+						{
+							"url": "jd/getgoodshot",
+							"platform": "jd",
+							"plattext": "京东",
+							"has_page": true,
+							"page": "pageindex",
+							"pagesize": "pagesize",
+							"eliteId": [1, 2, 3, 4]
+						},
+						{
+							"url": "jd/getjingfen",
+							"platform": "jd",
+							"plattext": "京东",
+							"has_page": true,
+							"page": "pageindex",
+							"pagesize": "pagesize",
+							"eliteId": [1, 2, 10, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 109,
+								110, 125, 129, 130
+							]
+						},
+						{
+							"url": "pdd/getthemegoods",
+							"platform": "pdd",
+							"plattext": "拼多多",
+							"has_page": true,
+							"page": "pageindex",
+							"pagesize": "pagesize",
+							"params": ["theme_id=7595"]
+						},
+						{
+							"url": "pdd/getrecommendgoods",
+							"platform": "pdd",
+							"plattext": "拼多多",
+							"has_page": true,
+							"page": "page",
+							"pagesize": "limit",
+							"offset": true,
+							"params": ["channel_type=0", "channel_type=1", "channel_type=2"]
+						},
+					]
+
+					var url_index = localReadLib.rndInt(0, product_url_lib.length);
+					var url_obj = product_url_lib[url_index]
+					var current_page = 0; // current_page 默认值
+					var pagesize = 10;
+					var url = common_host + url_obj.url + "?apikey=" + getMYXQAppID();
+					var url_params = ""; // 请求参数
+					var url_page_param = "&" + url_obj.pagesize + "=" + pagesize + "&" + url_obj.page + "=" +
+						current_page; // 请求分页
+					var find_index = -1;
+
+					if (url_obj.offset) {
+						url_page_param = url_page_param + "&offset=" + current_page * pagesize
+					}
+
+					if (url_obj.params !== undefined) {
+						url_params = "&" + url_obj.params[localReadLib.rndInt(0, url_obj.params.length)];
+					} else {
+						url_params = "&eliteId=" + url_obj.eliteId[localReadLib.rndInt(0, url_obj.eliteId
+							.length)];
+					}
+
+					var product_history_list = localReadLib.loadJSON("product_history_list", []);
+
+					var itm_obj = {
+						"url": url,
+						"params": url_params,
+						"page": url_page_param
+					}
+
+					var find_result = false;
+
+					product_history_list.filter(function(itm, ind) {
+						if (itm.params == itm_obj.params && itm.url == itm_obj.url) {
+							// 从page里边取出来page=?变更成新的
+							find_index = ind
+							find_result = true
+							var old_page_number = getQueryVariable(url_obj.page, itm.page);
+							current_page = parseInt(old_page_number) + 1;
+							product_history_list[ind].page = itm.page.replace(url_obj.page + "=" +
+								old_page_number, url_obj.page + "=" + current_page)
+							if (url_obj.offset) {
+								var old_offset = getQueryVariable("offset", product_history_list[ind]
+									.page)
+								product_history_list[ind].page = product_history_list[ind].page.replace(
+									"offset=" + old_offset, "offset=" + (parseInt(old_offset) +
+										parseInt(pagesize)))
+								url_page_param = product_history_list[ind].page //
+							}
+						}
+					})
+
+
+					if (!find_result) product_history_list.push(itm_obj)
+					localReadLib.saveJSON("product_history_list", product_history_list)
+
+					this.loading = true;
+
+					await axios.post(url + url_page_param + url_params, {}).then(res => {
+						// //console.log("加载京东产品 - 结束");
+						var option_object = url_obj.platform == "jd" ? res.data.data.data : res.data.data
+							.goods_list
+						for (item in option_object) {
+							option_object[item].source = url_obj.platform;
+							option_object[item].source_text = url_obj.plattext;
+							this.goodsList.push(option_object[item]);
+						}
+
+						// 防止一直往后翻页出现没商品的状态
+						if ((current_page + 1) * pagesize >= (res.data.data.total)) {
+							if (find_result && find_index != -1) {
+								product_history_list = product_history_list.slice(find_index, 1)
+								localReadLib.saveJSON("product_history_list", product_history_list)
+							}
+						}
+
+						this.loading = false;
+					}).catch(error => {
+						if (typeof(juduohui) != "undefined") juduohui.ajax(url + url_page_param +
+							url_params, "get", "", "this.vue.callBack")
+					})
+				},
+				openToolsBox(url) {
+					//console.log("点击" + new Date().getTime())
+					openNewActivite(url)
+				},
+				openAutoRead() {
+					localReadLib.setAdvStation(false)
+					this.show_auto_survey_task_layer = true;
+				},
+				closeBase() {
+					//console.log(this.advertising_height)
+					//console.log('调用页面内的函数')
+					localReadLib.removeAllAdv(); // 移除所有广告
+					localReadLib.setAdvStation(false);
+					this.advertising_height = false
+				},
+				refreshAdvertising() {//jdh_adv.js文件调用
+					localReadLib.removeAllAdv(); // 移除所有广告
+					this.$refs.jdh_adv_t.loadAdvs();
+				}
+			},
+
+		})
+	</script>
+
+</html>

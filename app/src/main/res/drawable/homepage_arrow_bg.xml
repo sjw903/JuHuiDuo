@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <stroke android:color="@color/light1_gray"
+        android:width="@dimen/margin_size1"></stroke>
+    <solid android:color="@color/light1_gray"/>
+    <!--APP主题色-->
+    <padding android:right="@dimen/margin_size10"
+        android:left="@dimen/margin_size10"
+        android:top="@dimen/margin_size5"
+        android:bottom="@dimen/margin_size5"></padding>
+</shape>

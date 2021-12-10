@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FA412C"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/margin_size50"
+        android:fitsSystemWindows="true">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_size15"
+             />
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/margin_size15"
+                android:text="今日排行榜"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size16"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_size15"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_temp"
+         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/img_two"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:elevation="@dimen/margin_size5"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size15"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:layout_width="@dimen/margin_size50"
+                android:layout_height="@dimen/margin_size69">
+
+                <ImageView
+                    android:id="@+id/yinkuang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ranking_sec"
+                    android:elevation="@dimen/margin_size5"
+                     />
+
+                <com.android.jdhshop.widget.CircleImageView
+                    android:id="@+id/img_head_one"
+                    android:layout_width="@dimen/margin_size45"
+                    android:layout_height="@dimen/margin_size45"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="@dimen/margin_size5"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/img_two"
+        android:layout_marginBottom="@dimen/margin_size25"
+        android:elevation="@dimen/margin_size5"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:layout_width="@dimen/margin_size69"
+                android:layout_height="@dimen/margin_size80">
+
+                <ImageView
+                    android:id="@+id/jinkuang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ranking_fir"
+                    android:elevation="@dimen/margin_size5"
+                     />
+
+                <com.android.jdhshop.widget.CircleImageView
+                    android:id="@+id/img_head_two"
+                    android:layout_width="@dimen/margin_size45"
+                    android:layout_height="@dimen/margin_size45"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="@dimen/margin_size5"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_three"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/img_two"
+        android:elevation="@dimen/margin_size5"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_size50"
+            android:layout_marginRight="@dimen/margin_size20"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <RelativeLayout
+                android:layout_width="@dimen/margin_size50"
+                android:layout_height="@dimen/margin_size69">
+
+                <ImageView
+                    android:id="@+id/huangt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ranking_thr"
+                    android:elevation="@dimen/margin_size5"
+                    />
+
+                <com.android.jdhshop.widget.CircleImageView
+                    android:id="@+id/img_head_three"
+                    android:layout_width="@dimen/margin_size50"
+                    android:layout_height="@dimen/margin_size45"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerInParent="true"
+                     />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_tip"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_size80"
+        android:layout_below="@id/ll_three"
+        android:layout_marginTop="-20dp"
+        android:elevation="@dimen/margin_size50"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_size20"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_name_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLength="5"
+                android:maxLines="1"
+                android:text="name1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size14" />
+
+            <TextView
+                android:id="@+id/txt_money_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_ranking_money"
+                android:drawablePadding="@dimen/margin_size5"
+                android:gravity="center_vertical"
+                android:text="388"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_name_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLength="5"
+
+                android:maxLines="1"
+                android:text="name1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size14" />
+
+            <TextView
+                android:id="@+id/txt_money_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_ranking_money"
+                android:drawablePadding="@dimen/margin_size5"
+                android:gravity="center_vertical"
+                android:text="388"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/margin_size15"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/dp_10">
+
+            <TextView
+                android:id="@+id/txt_name_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLength="5"
+
+                android:maxLines="1"
+                android:text="name1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size14" />
+
+            <TextView
+                android:id="@+id/txt_money_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_ranking_money"
+                android:drawablePadding="@dimen/margin_size5"
+                android:gravity="center_vertical"
+                android:text="388"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size16" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_one"
+        android:layout_marginTop="-35dp"
+        android:src="@drawable/icon_temp2"
+        android:scaleType="centerCrop"
+         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_three"
+        android:layout_marginTop="-80dp"
+
+        android:elevation="@dimen/margin_size50"
+        android:padding="@dimen/margin_size20">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="今日收益"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/font_size16" />
+
+            <TextView
+                android:id="@+id/txt_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="388"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <com.android.jdhshop.widget.CircleImageView
+                android:id="@+id/img_head"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                 />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的排行"
+                android:textColor="@color/orange"
+                android:textSize="@dimen/font_size16" />
+
+            <TextView
+                android:id="@+id/txt_ph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size16" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_tip"
+        android:layout_marginLeft="@dimen/margin_size50"
+        android:layout_marginTop="-30dp"
+        android:elevation="@dimen/dp_100"
+        android:text="2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dp_40"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_tip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-50dp"
+        android:elevation="@dimen/dp_100"
+        android:text="1"
+        android:textColor="@color/white"
+        android:textSize="@dimen/margin_size60"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll_tip"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-12dp"
+        android:layout_marginRight="55dp"
+        android:elevation="@dimen/dp_100"
+        android:text="3"
+        android:textColor="@color/white"
+        android:textSize="@dimen/margin_size30"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/img_three"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_size88"
+        android:layout_below="@id/img_one"
+        android:layout_marginTop="@dimen/margin_size60"
+        android:elevation="@dimen/margin_size5"
+        android:src="@drawable/bg_ranking_min"
+         />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/img_three"
+        android:background="@drawable/shape_ll4"></android.support.v7.widget.RecyclerView>
+</RelativeLayout>

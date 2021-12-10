@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/img_wenan"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_150"
+        android:src="@mipmap/zero_wenan"/>
+    <ImageView
+        android:id="@+id/img_top"
+        android:layout_below="@id/img_wenan"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="-40dp"
+        android:layout_height="@dimen/dp_200"
+        android:src="@mipmap/zero_shangpin"/>
+    <ImageView
+        android:layout_below="@id/img_top"
+        android:layout_width="match_parent"
+        android:layout_marginTop="-60dp"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/zero_kuang"/>
+    <ImageView
+        android:layout_below="@id/img_top"
+        android:layout_width="match_parent"
+        android:layout_marginTop="-60dp"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/zero_zhuangshi"/>
+</RelativeLayout>
