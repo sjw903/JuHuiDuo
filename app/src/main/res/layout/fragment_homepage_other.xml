@@ -7,73 +7,25 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap|enterAlways">
 
             <ImageView
                 android:id="@+id/img_bg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="300dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/title_bar_head"
                 app:layout_collapseMode="parallax" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                style="@style/AppTheme.Toolbar"
-                android:padding="6dp"
-                app:layout_collapseMode="pin">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/iv_back"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/icon_homepage_back" />
-
-                    <ImageView
-                        android:id="@+id/iv_card_share"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_toLeftOf="@+id/iv_search"
-                        android:src="@mipmap/icon_card" />
-
-                    <ImageView
-                        android:id="@+id/iv_search"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_toLeftOf="@+id/iv_more"
-                        android:src="@mipmap/icon_homepage_search" />
-
-                    <ImageView
-                        android:id="@+id/iv_more"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:src="@mipmap/icon_homepage_more" />
-                </RelativeLayout>
-
-            </android.support.v7.widget.Toolbar>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="?actionBarSize"
                 android:orientation="vertical"
                 app:layout_collapseMode="parallax">
 
@@ -232,31 +184,66 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="@style/AppTheme.Toolbar"
+                android:padding="6dp"
+                app:layout_collapseMode="pin">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_back"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/icon_homepage_back" />
+
+                    <ImageView
+                        android:id="@+id/iv_card_share"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/iv_search"
+                        android:src="@mipmap/icon_card" />
+
+                    <ImageView
+                        android:id="@+id/iv_search"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/iv_more"
+                        android:src="@mipmap/icon_homepage_search" />
+
+                    <ImageView
+                        android:id="@+id/iv_more"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@mipmap/icon_homepage_more" />
+                </RelativeLayout>
+
+            </android.support.v7.widget.Toolbar>
+
         </android.support.design.widget.CollapsingToolbarLayout>
+
+        <com.android.jdhshop.widget.indicator.MagicIndicator
+            android:id="@+id/tab_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#ffffff" />
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tab_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <com.android.jdhshop.widget.indicator.MagicIndicator
-                android:id="@+id/tab_bar"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="#ffffff" />
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/tab_body"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>
