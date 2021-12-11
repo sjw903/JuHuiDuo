@@ -12,7 +12,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap|enterAlways">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlways">
 
             <ImageView
                 android:id="@+id/img_bg"

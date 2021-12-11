@@ -137,7 +137,6 @@ public class HomePageFragmentNews extends BaseLazyFragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.setFocusableInTouchMode(false);
         recyclerView.setFocusable(false);
-        recyclerView.setNestedScrollingEnabled(false);
         cb_header.setOnCheckedChangeListener((buttonView, isChecked) -> {
             news.clear();
             refresh_layout.setEnableLoadMore(true);
@@ -164,23 +163,6 @@ public class HomePageFragmentNews extends BaseLazyFragment {
             current_page = current_page + 1;
             getNewsPubList();
         });
-    }
-
-    @Override
-    public void setArguments(Bundle args) {
-        super.setArguments(args);
-        // Log.d(TAG, "setArguments: " + args);
-        if (recyclerView != null) {
-            if ("yes".equals(args.getString("scroll"))) {
-                recyclerView.setFocusableInTouchMode(true);
-                recyclerView.setFocusable(true);
-                recyclerView.setNestedScrollingEnabled(true);
-            } else {
-                recyclerView.setFocusableInTouchMode(false);
-                recyclerView.setFocusable(false);
-                recyclerView.setNestedScrollingEnabled(false);
-            }
-        }
     }
 
     // 获取广告配置
@@ -220,7 +202,7 @@ public class HomePageFragmentNews extends BaseLazyFragment {
 
     @Override
     protected void lazyload() {
-        getAdvConfig();
+        getNewsPubList();
     }
 
     private void getNewsPubList() {
